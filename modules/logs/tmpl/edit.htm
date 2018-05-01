@@ -1,0 +1,76 @@
+<!-- BEGIN: icone -->
+	<img src="{path_module}/img/icn48_titre.png" alt="" border=0 />
+<!-- END: icone -->
+
+<!-- BEGIN: infos -->
+<!-- END: infos -->
+
+
+<!-- BEGIN: corps -->
+
+<div id="dialog-form" title="Ajouter un vol" class="formulaire">
+  <p class="validateTips">Les temps peuvent être écrit sous la forme HHMM, HH:MM, HHhMM ou MM</p>
+ 
+  <form id="logs" method="post" action="index.php" enctype="multipart/form-data">
+	<INPUT type="hidden" name="checktime" value="{form_checktime}">
+	<input type="hidden" name="mod" value="logs">
+	<input type="hidden" name="rub" value="search">
+	<input type="hidden" name="lid" value="{form_lid}">
+	<input type="hidden" name="fonc" value="ajouter">
+    <fieldset>
+		<p>
+			<label for="form_dte_flight">Date</label>
+			<input type="date" name="form_dte_flight" id="form_dte_flight"  value="{form_dte_flight}">
+		</p>
+		<p>
+			<label for="form_callsign">Immatriculation</label>
+			<input type="text" name="form_callsign" id="form_callsign" value="{form_callsign}">
+		</p>
+		<p>
+			<label for="form_type">Type</label>
+			<select name="form_type" id="form_type"><option value="P">P</option><option value="EP">EP</option></select>
+		</p>
+		<p>
+			<label for="form_comment">Commentaire</label>
+			<input type="text" name="form_comment" id="form_comment" value="{form_comment}" maxlength="50">
+		</p>
+		<p>
+			<label for="form_time_dc_day">DC Jour</label>
+			<input type="text" name="form_time_dc_day" id="form_time_dc_day" value="{form_time_dc_day}" maxlength="5">
+		</p>
+		<p>
+			<label for="form_time_cdb_day">CDB Jour</label>
+			<input type="text" name="form_time_cdb_day" id="form_time_cdb_day" value="{form_time_cdb_day}" maxlength="5">
+		</p>
+		<p>  
+			<label for="form_time_dc_night">DC Nuit</label>
+			<input type="text" name="form_time_dc_night" id="form_time_dc_night" value="{form_time_dc_night}" maxlength="5">
+		</p>
+		<p>   
+			<label for="form_time_cdb_night">CDB Nuit</label>
+			<input type="text" name="form_time_cdb_night" id="form_time_cdb_night" value="{form_time_cdb_night}" maxlength="5">
+		</p>
+		<p>
+			<label for="form_time_simu">Simulateur</label>
+			<input type="text" name="form_time_simu" id="form_time_simu" value="{form_time_simu}" maxlength="5">
+		</p>
+		<p>
+			<label for="form_nb_ifr">Approche IFR</label>
+			<input type="number" name="form_nb_ifr"  value="{form_nb_ifr}" maxlength="3">
+		</p>
+		<p>
+			<label for="form_nb_att">Nb Atterrissage</label>
+			<input type="number" name="form_nb_att" value="{form_nb_att}" maxlength="3">
+		</p>
+		<p>
+			<label for="form_nb_amerr">Nb Amerrissage</label>
+			<input type="number" name="form_nb_amerr" value="{form_nb_amerr}" maxlength="3"">
+		</p>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" name="fonc" value="Enregistrer">
+    </fieldset>
+  </form>
+</div>
+
+
+<!-- END: corps -->

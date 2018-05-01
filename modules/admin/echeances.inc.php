@@ -38,16 +38,7 @@
 		$sql->Edit("echeance",$MyOpt["tbl"]."_echeancetype",$id,array("actif"=>"non"));		
 	}
 
-// ---- Liste des postes
-	$query = "SELECT * FROM ".$MyOpt["tbl"]."_mouvement WHERE actif='oui' ORDER BY ordre,description";
-	$sql->Query($query);
-	$tabposte=array();
-	for($i=0; $i<$sql->rows; $i++)
-	{ 
-		$sql->GetRow($i);
-		$tabposte[$sql->data["id"]]=$sql->data;
-	}
-	
+
 // ---- Affiche les types d'échéance
 	$query="SELECT * FROM ".$MyOpt["tbl"]."_echeancetype ORDER BY description";
 	$sql->Query($query);

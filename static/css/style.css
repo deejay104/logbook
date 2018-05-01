@@ -64,7 +64,7 @@ input[type=number] { border: 1px solid #888888; line-height: 16px; padding: 2px 
 input[type=date] { border: 1px solid #888888; line-height: 16px; padding: 2px 5px 2px 5px; width:155px; }
 input[type=submit] { height: 36px; padding:5px 15px 5px 15px;  background:#dddddd; border: 1px solid #888e91; cursor:pointer; border-radius: 5px; }
 input[type=submit]:hover { background:#cccccc; }
-input[type=radio] { -webkit-appearance: radio; }
+input[type=radio] { -webkit-appearance: radio; vertical-align: sub; }
 input[type=file] { height:30px; background-color: #ffffff; border: 0px; }
 input[type=checkbox] { border: 0px; line-height: 16px; padding: 0px; -webkit-appearance: checkbox; width: 20px; height: 20px; background: #ffffff; }
 input[type=checkbox]:checked { background: #dddddd; border-color: #000000; }
@@ -81,8 +81,8 @@ img { color: #FFFFFF; border: 0px; }
 
 
 /* **** Block principaux **** */
-#main-content { position: relative; left: 0%; width: 100%; }
-#main-sidebar { display: none; float: left; height: 100%; position: fixed; background-color: #888e91; color: white; }
+#main-content { width: 100%; height: 100%; }
+#main-sidebar { display: none; height: 100%; position: fixed; background-color: #888e91; color: white; }
 #responsive-navigation { position: relative; width: 100%; display: block; z-index: 9999; }
 
 /* **** Style Responsive **** */
@@ -96,12 +96,12 @@ img { color: #FFFFFF; border: 0px; }
 	.formulaire input[type=checkbox] { width:20px!important; }
 	.formulaire input[type=radio] { width:20px!important; }
     #main-content { padding-left: 240px!important;  }
-    #main-sidebar { width: 240px!important; }
+    #main-sidebar { width: 240px!important; z-index: 9000; }
 }
 @media (min-width: 1024px) and (min-device-width: 1024px) {
     #responsive-navigation { display: none; }
-    #main-content { width: 100%; padding-left: 200px;  }
-    #main-sidebar { top: 0px; display: block; width: 200px; }
+    #main-content { padding-left: 200px;  }
+    #main-sidebar { display: block; width: 200px;  z-index: 9000; }
 }
 @media print {
     #responsive-navigation { display: none; }
@@ -124,7 +124,7 @@ img { color: #FFFFFF; border: 0px; }
 .responsive-menu { display: none; background-color: #888e91; border: 0px; line-height: 30px; padding: 1px; margin:0px; }
 .responsive-menulink a { width: 200px;  color: white; display: inline-block;  padding: 0px 0px 0px 10px; -webkit-transition: all 150ms ease-in; -moz-transition: all 150ms ease-in; -o-transition: all 150ms ease-in; transition: all 150ms ease-in; }
 .responsive-menulink a:hover { background-color: #585e61; }
-.responsive-extend { width:100%;  background-color: #888e91; text-align: center; margin:0px; }
+.responsive-extend { width:100%;  background-color: #38a9e3; text-align: center; margin:0px; }
 
 /* **** Haut de page **** */
 
@@ -143,7 +143,7 @@ img { color: #FFFFFF; border: 0px; }
 .pagetitle a:hover { background-color: #38a9e3; border-radius: 8px; border: 1px solid #1799c3; color: #ffffff;  }
 .pagetitle img { vertical-align:middle; margin-right: 5px; }
 
-.pagemenu { background-color: #dddddd; height: 40px; width: 100%; padding-top:0px; }
+.pagemenu { background-color: #dddddd; height: 20px; width: 100%; padding-top:0px; margin-bottom: 30px;  margin-top: -10px; }
 
 .pageTitleSelected { background-color: #38a9e3!important; border: 1px solid #076983!important; color: #ffffff!important; box-shadow: 2px 2px #1799c3; }
 
@@ -157,8 +157,8 @@ img { color: #FFFFFF; border: 0px; }
 	padding-top: 10px;
 	padding-bottom: 50px;
 	line-height:20px;
+}
 
-	}
 body>.main { /* hack necessary for correct display of the height with IE and Mozilla */
 	height: auto;
 	}
@@ -173,7 +173,8 @@ body>.main { /* hack necessary for correct display of the height with IE and Moz
 	background-color: #F5F5F5;
 	width: 100%;
 	height: 24px;
-	}
+	z-index: 9999;
+}
 
 .lastmod { /* last modified information */
 	float: right;
@@ -480,6 +481,10 @@ body>.main { /* hack necessary for correct display of the height with IE and Moz
 .tableauBorderLeft { border-left: 1px solid black; width:1 px; }
 .tableauBas { }
 .tableauBas td { background-color: #dddddd; border-top: 1px solid black; height: 20px; font-weight: bold; }
+
+.tableauBook { border: 1px solid #cccccc; }
+.tableauBook td,th { border: 1px solid #cccccc; text-align:center; }
+.tableauBook a { display: inline-block; width:100%}
 
 /* **** Comptes **** */
 .soldeCompte { padding-top: 5px; border: 1px solid #000000; border-radius: 4px; display: inline-block; position:relative; width:350px; height: 30px; text-align: center;}

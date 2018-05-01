@@ -28,7 +28,6 @@ class user_class{
 		$this->tbl=$MyOpt["tbl"];
 
 		$this->uid=$uid;
-		$this->idcpt=$uid;
 		$this->sql=$sql;
 		$this->me=$me;
 		$this->prenom="";
@@ -45,6 +44,13 @@ class user_class{
 		$this->data["initiales"]="";
 		$this->data["password"]="";
 		$this->data["mail"]="";
+
+		$this->data["time_dc_day"]=0;
+		$this->data["time_cdb_day"]=0;
+		$this->data["time_dc_night"]=0;
+		$this->data["time_cdb_night"]=0;
+		$this->data["time_simu"]=0;
+
 		$this->data["commentaire"]="";
 		$this->data["droits"]="";
 		$this->data["actif"]="oui";
@@ -79,7 +85,7 @@ class user_class{
 		if ($setdata)
 		  { $query = "SELECT * FROM ".$this->tbl."_utilisateurs WHERE id='$uid'"; }
 		else
-		  { $query = "SELECT id,prenom,nom,actif,virtuel,type,mail,idcpt,zone,dte_naissance,uid_maj,dte_maj,droits FROM ".$this->tbl."_utilisateurs WHERE id='$uid'"; }
+		  { $query = "SELECT id,prenom,nom,actif,virtuel,mail,uid_maj,dte_maj,droits FROM ".$this->tbl."_utilisateurs WHERE id='$uid'"; }
 		$res = $sql->QueryRow($query);
 		if (!is_array($res))
 		  {
@@ -106,7 +112,7 @@ class user_class{
 			}
 
 			// Charge les droits
-			$query = "SELECT groupe FROM ".$this->tbl."_droits WHERE uid='$uid' ORDER BY groupe";
+			$query = "SELECT id,groupe FROM ".$this->tbl."_droits WHERE uid='$uid' ORDER BY groupe";
 			$sql->Query($query);
 			$this->data["droits"]="";
 			$s="";
@@ -114,7 +120,7 @@ class user_class{
 			for($i=0; $i<$sql->rows; $i++)
 			{ 
 				$sql->GetRow($i);
-				$this->groupe[$sql->data["groupe"]]=true;
+				$this->groupe[$sql->data["groupe"]]=$sql->data["id"];
 				$this->data["droits"].=$s.$sql->data["groupe"];
 				$s=",";
 			}
@@ -188,41 +194,6 @@ class user_class{
 			  }
 		  }
 	}
-
-	# Charge la liste d'enfants
-	function LoadEnfants()
-	{
-		$sql=$this->sql;
-		if ($this->data["pere"]>0)
-		  { $this->data["pere"]=new user_class($this->data["pere"],$sql,false,false); }
-		else
-		  { $this->data["pere"]=array(); }
-		if ($this->data["mere"]>0)
-		  { $this->data["mere"]=new user_class($this->data["mere"],$sql,false,false); }
-		else
-		  { $this->data["mere"]=array(); }
-
-
-		$query = "SELECT id FROM ".$this->tbl."_utilisateurs WHERE (pere='".$this->uid."' OR mere='".$this->uid."') AND actif='oui'";
-		$sql->Query($query);
-
-		$this->data["enfant"]=array();
-		for($i=0; $i<$sql->rows; $i++)
-		{ 
-			$sql->GetRow($i);
-			$this->data["enfant"][$i]["id"]=$sql->data["id"];
-		}
-
-		if (is_array($this->data["enfant"]))
-		{
-			foreach($this->data["enfant"] as $i=>$val)
-			{
-				$this->data["enfant"][$i]["usr"]=new user_class($val["id"],$sql,false,false);
-			}
-		}
-		  
-	}
-
 
 	# Charge les lachés avions
 	function CheckLache($ress){
@@ -335,97 +306,30 @@ class user_class{
 
 		// Défini les droits de modification des utilisateurs
 		$mycond=$this->me;	// Le user a le droit de modifier toutes ses données
-
-		// Si on a le droit de modif on autorise
-		if (GetDroit("ModifUser"))
-		  { $mycond=true; }
-
+	
 		// Test les exceptions
 		if ($key=="prenom")
-		  {
-			if (!GetDroit("ModifUser"))
+		{
+			if (!GetDroit("ModifUserAll"))
 			  { $mycond=false; }
-		  }
+		}
 		else if ($key=="nom")
-		  {
-			if (!GetDroit("ModifUser"))
+		{
+			if (!GetDroit("ModifUserAll"))
 			  { $mycond=false; }
-		  }
-		else if ($key=="zone")
-		  {
-			if (!GetDroit("ModifUser"))
+		}
+		else if ($key=="droits")
+		{
+			if (!GetDroit("ModifUserDroits"))
 			  { $mycond=false; }
-		  }
-		else if ($key=="dte_medicale")
-		  {
-			if (GetDroit("ModifUserDteMedicale"))
+		}
+		else if ($key=="dte_creat")
+		{
+			if (GetDroit("ModifUserAll"))
  		  	  { $mycond=true; }
 			else
  		  	  { $mycond=false; }
- 		  }
-		else if ($key=="dte_licence")
-		  {
-			if (GetDroit("ModifUserDteLicence"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
- 		  }
-		else if ($key=="dte_inscription")
-		  {
-			if (GetDroit("ModifUserDteInscription"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
- 		  }
-		else if ($key=="lache")
-		  {
-				if (GetDroit("ModifUserLache"))
- 		  	  { $mycond=true; }
-				else
- 		  	  { $mycond=false; }
- 		  }
-		else if ($key=="decouvert")
-		  {
-			if (GetDroit("ModifUserDecouvert"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
-		  }
-		else if ($key=="idcpt")
-		  {
-			if (GetDroit("ModifUserIdCpt"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
- 		  }
-		else if ($key=="tarif")
-		  {
-			if (GetDroit("ModifUserTarif"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
-		  }
-		else if ($key=="type")
-		  {
-			if (GetDroit("ModifUserType"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
-		  }
-		else if ($key=="pere")
-		  {
-			if (GetDroit("ModifParents"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
-		  }
-		else if ($key=="mere")
-		  {
-			if (GetDroit("ModifParents"))
- 		  	  { $mycond=true; }
-			else
- 		  	  { $mycond=false; }
-		  }
+ 		}
 
 		// Si l'utilisateur a le droit de tout modifier alors on force
 		if (GetDroit("ModifUserAll"))
@@ -439,41 +343,6 @@ class user_class{
 		  {
 			if ($key=="commentaire")
 		  	  { $ret="<TEXTAREA id='".$key."'  name=\"".$formname."[$key]\" rows=5>$ret</TEXTAREA>"; }
-			else if ($key=="allergie_commentaire")
-		  	  { $ret="<TEXTAREA id='".$key."'   name=\"".$formname."[$key]\" rows=5>$ret</TEXTAREA>"; }
-			else if ($key=="remarque_sante")
-		  	  { $ret="<TEXTAREA id='".$key."'   name=\"".$formname."[$key]\" rows=5>$ret</TEXTAREA>"; }
-			else if ($key=="type")
-		  	  {
-		  	  	$ret ="<SELECT id='".$key."'  name=\"".$formname."[$key]\">";
-
-				foreach($tabType as $typeid=>$typetxt)
-				  {
-		  	  		$ret.="<OPTION value=\"".$typeid."\" ".(($txt==$typeid)?"selected":"").">".$typetxt."</OPTION>";
-				  }
-
-		  	  	$ret.="</SELECT>";
-		  	  }
-			else if ($key=="sexe")
-		  	  {
-		  	  	$ret ="<SELECT id='".$key."'  name=\"".$formname."[$key]\">";
-		  	  	$ret.="<OPTION value=\"M\" ".(($txt=="M")?"selected":"").">Masculin</OPTION>";
-		  	  	$ret.="<OPTION value=\"F\" ".(($txt=="F")?"selected":"").">Féminin</OPTION>";
-		  	  	$ret.="</SELECT>";
-		  	  }
-			else if ($key=="zone")
-		  	  {
-		  	  	$ret ="<SELECT id='".$key."'  name=\"".$formname."[$key]\">";
-
-				if ( (isset($MyOpt["tabZone"])) && (is_array($MyOpt["tabZone"])) )
-				{
-					foreach($tabZone as $typeid=>$typetxt)
-					  {
-			  	  		$ret.="<OPTION value=\"".$typeid."\" ".(($txt==$typeid)?"selected":"").">".$typetxt."</OPTION>";
-					  }
-				}
-		  	  	$ret.="</SELECT>";
-		  	  }
 			else if ($key=="aff_rapide")
 		  	  {
 		  	  	$ret ="<SELECT id='".$key."'  name=\"".$formname."[$key]\">";
@@ -502,156 +371,49 @@ class user_class{
 		  	  	$ret.="<OPTION value=\"occupe\" ".(($txt=="occupe")?"selected":"").">Occupé</OPTION>";
 		  	  	$ret.="</SELECT>";
 		  	  }
- 			else if ($key=="lache")
-		  	  {
+ 			else if ($key=="droits")
+		  	{
 				$ret="";
-		  	  	foreach($this->data[$key] as $avion)
-		  	  	  {
-		  	  		$ret.="<input type='checkbox' name='form_lache[".$avion["idavion"]."]' ".(($avion["idlache"]>0) ? "checked" : "")." value='".(($avion["idlache"]>0) ? $avion["idlache"] : "N")."' /> ".$avion["avion"]->immatriculation."<br />";
-		  	  	  }
-			  }
- 			else if ($key=="pere")
-		    {
-					$sql=$this->sql;
-					$ret=AffListeMembres($sql,$this->uid,$formname."[".$key."]","","M","std","non");
-			  }			
-			else if ($key=="mere")
-		    {
-					$sql=$this->sql;
-					$ret=AffListeMembres($sql,$this->uid,$formname."[".$key."]","","F","std","non");
-			  }			
-			else if ($key=="enfant")
-		  	 {
-					$ret="";
-					if (is_array($this->data[$key]))
-					  {
-				  	  	foreach($this->data[$key] as $enfant)
-				  	  	  {
-				  	  		if ($enfant["id"]>0)
-				  	  		  { $ret.="<a href=\"index.php?mod=membres&rub=detail&id=".$enfant["id"]."\">".$enfant["usr"]->fullname."</a><br />"; }
-				  	  	  }
-					  }
-					if ($ret=="") { $ret="Aucun"; }
-			  }			
-			else if ($key=="idcpt")
-		    {
-		    	$ret ="<select id='".$key."'  name=\"".$formname."[$key]\">";
-		    	$ret.="<option value=\"".$this->uid."\" ".(($txt==$this->uid)?"selected":"").">$this->fullname</option>";
-					if (is_array($this->data["enfant"]))
-					  {
-				  	  	foreach($this->data["enfant"] as $enfant)
-				  	  	  {
-				  	  		if ($enfant["id"]>0)
-				  	  		  {
-						  	  	$ret.="<option value=\"".$enfant["id"]."\" ".(($txt==$enfant["id"])?"selected":"").">".$enfant["usr"]->fullname."</option>";
-				  	  		  }
-				  	  	  }
-					  }
-					$ret.="</select>";
-			  }			
-			else if ($key=="codepostal")
-			  { $ret="<INPUT id='".$key."'  name=\"".$formname."[$key]\" id=\"$key\" value=\"$ret\" ".(($type!="") ? "type=\"".$type."\"" : "")." style='width: 100px;'>"; }
+				$sql=$this->sql;
+				$query="SELECT id,groupe, description FROM ".$this->tbl."_groupe ORDER BY description";
+				$sql->Query($query);
+		
+				for($i=0; $i<$sql->rows; $i++)
+				{ 
+					$sql->GetRow($i);
+		  	  		$ret.="<input type='checkbox' name='form_droits[".$sql->data["groupe"]."]' ".(($this->groupe[$sql->data["groupe"]]>0) ? "checked" : "")." value='".$sql->data["groupe"]."' /> ".$sql->data["description"]." (".$sql->data["groupe"].")<br />";
+				}
+
+				if (GetDroit("SYS"))
+				{
+					$ret.="<input type='checkbox' name='form_droits[SYS]' ".(($this->groupe["SYS"]>0) ? "checked" : "")." value='SYS' /> Super Administrateur (SYS)<br />";
+				}
+			}
 			else
 			  { $ret="<INPUT id='".$key."'  name=\"".$formname."[$key]\" id=\"$key\" value=\"$ret\" ".(($type!="") ? "type=\"".$type."\"" : "").">"; }
 		  }
 		else if ($typeaff=="val")
-		  {
-				if ($key=="commentaire")
-			  	  { $ret=nl2br(htmlentities($ret,ENT_HTML5,"ISO-8859-1")); }
-	
-				else if ($key=="mail")
-			  	  { $ret=strtolower($ret); }
-				else if (($key=="dte_naissance") || ($key=="dte_licence") || ($key=="dte_medicale") || ($key=="dte_inscription"))
-			  	  {
-			  	  	if ($txt=="0000-00-00")
-			 			{ $ret="-"; }
-			  	  }
-				else if ($key=="lache")
-			  	{
-					$ret="";
-			  	 	foreach($this->data[$key] as $avion)
-			  	 	{
-			  	  		if ($avion["idlache"]>0)
-			  			  	{ $ret.=$avion["avion"]->immatriculation."<br />"; }
-			  	  	}
-					if ($ret=="") { $ret="Aucun"; }
-				}
-				else if ($key=="pere")
-			  	{
-					$t=$this->data[$key];
-					$ret=$t->fullname;
-				}
-				else if ($key=="mere")
-			  	{
-			  	 	$t=$this->data[$key];
-					$ret=$t->fullname;
-				}
-		  }
+		{
+			if ($key=="commentaire")
+			  { $ret=nl2br(htmlentities($ret,ENT_HTML5,"ISO-8859-1")); }
+
+			else if ($key=="mail")
+			  { $ret=strtolower($ret); }
+			else if ($key=="dte_creat")
+			{
+				if ($txt=="0000-00-00")
+					{ $ret="-"; }
+			}
+		}
 		else
 		{
 			if ($key=="commentaire")
 			{ $ret=nl2br(htmlentities($ret,ENT_HTML5,"ISO-8859-1"));  }
 			else if ($key=="mail")
 			{ $ret="<A href=\"mailto:".strtolower($ret)."\">".strtolower($ret)."</A>"; }
-			else if (($key=="dte_licence") || ($key=="dte_medicale"))
-			{
-				$ret=AffDate($ret);
-			}
-			else if ($key=="dte_naissance")
-			{
-				$ret=sql2date($ret)." (".(date("Y")-date("Y",strtotime($ret))-1)." ans)";
-			}
-			else if ($key=="dte_inscription")
+			else if ($key=="dte_creat")
 			{
 				$ret=sql2date($ret);
-			}
-			else if ($key=="lache")
-			{
-				$ret="";
-				foreach($this->data[$key] as $avion)
-				{
-					if ($avion["idlache"]>0)
-					{ $ret.=$avion["avion"]->immatriculation." <font size=1><i>(par ".$avion["usr"]->prenom." ".$avion["usr"]->nom.")</i></font><br />"; }
-				}
-				if ($ret=="") { $ret="Aucun"; }
-			}
-			else if ($key=="enfant")
-			{
-				$ret="";
-				if (is_array($this->data[$key]))
-				  {
-					foreach($this->data[$key] as $enfant)
-					  {
-						if ($enfant["id"]>0)
-						  { $ret.="<a href=\"index.php?mod=membres&rub=detail&id=".$enfant["id"]."\">".$enfant["usr"]->fullname."</a><br />"; }
-					  }
-				  }
-				if ($ret=="") { $ret="Aucun"; }
-			}			
-			else if ($key=="idcpt")
-			{
-				if ($txt==$this->uid)
-				{
-					$ret=$this->fullname;
-				}
-				else if (is_array($this->data["enfant"]))
-				{
-					foreach($this->data["enfant"] as $enfant)
-					{
-						if ($enfant["id"]==$txt)
-						{ $ret="<a href=\"index.php?mod=membres&rub=detail&id=".$enfant["id"]."\">".$enfant["usr"]->fullname."</a>"; }
-					}
-				}
-			}
-			else if ($key=="pere")
-			{
-				$t=$this->data[$key];
-				$ret="<a href=\"index.php?mod=membres&rub=detail&id=".$this->uid."\">".$t->fullname."</a>";
-			}
-			else if ($key=="mere")
-			{
-				$t=$this->data[$key];
-				$ret="<a href=\"index.php?mod=membres&rub=detail&id=".$this->uid."\">".$t->fullname."</a>";
 			}
 			else if ( ($key=="fullname") && ($this->actif=="off"))
 			{
@@ -703,10 +465,12 @@ class user_class{
 				for($i=0; $i<$sql->rows; $i++)
 				{ 
 					$sql->GetRow($i);
-					$ret.=(($sql->data["description"]!="") ? $sql->data["description"]." (".$sql->data["groupe"].")" : $sql->data["groupe"])."<br/>";
+					if (($sql->data["groupe"]!="SYS") || GetDroit("SYS"))
+					{
+						$ret.=(($sql->data["description"]!="") ? $sql->data["description"]." (".$sql->data["groupe"].")" : $sql->data["groupe"])."<br/>";
+					}
 				}
 			}
-//				$ret="<span  id='".$key."'>".$ret."</span>";
 		}
 	
 		return $ret;
@@ -912,36 +676,6 @@ class user_class{
 		  }
 	}
 
-	function AffSolde(){
-		global $MyOpt;
-		$sql=$this->sql;
-		$query = "SELECT SUM(".$this->tbl."_compte.montant) AS total FROM ".$this->tbl."_compte WHERE ".$this->tbl."_compte.uid='$this->idcpt'";
-		$res=$sql->QueryRow($query);
-
-		$solde=(($res["total"]=="") ? AffMontant(0) : (($res["total"]<0) ? "<FONT color=red><B>".AffMontant($res["total"])."</B></FONT>" : AffMontant($res["total"])));
-
-		return "<a href=\"index.php?mod=comptes&id=$this->idcpt\">$solde</a>";
-	}
-
-	function CalcSoldeFacture(){
-		$sql=$this->sql;
-		$query = "SELECT SUM(".$this->tbl."_compte.montant) AS total FROM ".$this->tbl."_compte WHERE uid='$this->idcpt' AND facture='NOFAC'";
-		$res=$sql->QueryRow($query);
-
-		$solde=((is_numeric($res["total"])) ? $res["total"] : "0");
-
-		return $solde;
-	}
-
-	function CalcSolde(){
-		$sql=$this->sql;
-		$query = "SELECT SUM(".$this->tbl."_compte.montant) AS total FROM ".$this->tbl."_compte WHERE ".$this->tbl."_compte.uid='$this->idcpt'";
-		$res=$sql->QueryRow($query);
-
-		$solde=((is_numeric($res["total"])) ? $res["total"] : "0");
-
-		return $solde;
-	}
 
 	function CalcAge($dte){
 		global $uid;
@@ -986,7 +720,6 @@ class user_class{
 		$sql=$this->sql;
 
 		$this->uid=$sql->Edit("user",$this->tbl."_utilisateurs",$this->uid,array("uid_maj"=>$uid, "dte_maj"=>now()));		
-		$this->data["idcpt"]=$this->uid;
 		
 		return $this->uid;
 	}
@@ -1083,13 +816,6 @@ class user_class{
 	  	  { $vv=strtoupper($v); }
 	  	else if ($k=="sexe")
 	  	  { $vv=strtoupper($v); }
-	  	else if ($k=="idcpt")
-	  	  { 
-	  	  	if ($v==0)
-	  	  	  { $vv=$this->uid; }
-	  	  	else
-	  	  	  { $vv=$v; }
-	  	  }
 	  	else
 	  	  { $vv=strtolower($v); }
 
@@ -1116,20 +842,78 @@ class user_class{
 		$td["uid_maj"]=$uid;
 		$td["dte_maj"]=now();
 		$sql->Edit("user",$this->tbl."_utilisateurs",$this->uid,$td);
-
-		$this->RazGroupe();
-
-		$trole=preg_split("/,/",$this->data["droits"]);
-		$this->data["droits"]="";
-		$s="";
-		foreach ($trole AS $grp)
-		{
-			$this->data["droits"].=$s.$this->AddGroupe($grp);
-			$s=",";
-		}
 	}
 
-	function AddGroupe($grp) {
+	function SaveDroits($tabDroits)
+	{
+		global $uid;
+
+		$sql=$this->sql;
+
+		// Charge les enregistrements
+		$query = "SELECT * FROM ".$this->tbl."_groupe";
+		$sql->Query($query);
+		$tabgrp=array();
+		for($i=0; $i<$sql->rows; $i++)
+		{ 
+			$sql->GetRow($i);
+			if (($sql->data["groupe"]!="SYS") || (GetDroit("SYS")))
+			{
+				$tabgrp[$sql->data["groupe"]]["bd"]=$sql->data["id"];
+				$tabgrp[$sql->data["groupe"]]["new"]=0;
+				$tabgrp[$sql->data["groupe"]]["old"]=0;
+			}
+		}
+		
+		// Charge les nouvelles valeurs
+		if (is_array($tabDroits))
+		{
+			foreach($tabDroits as $g=>$d)
+			{
+				if (($g!="SYS") || (GetDroit("SYS")))
+				{
+					$tabgrp[$g]["new"]=1;
+				}
+			}
+		}
+  
+
+		// Charge les anciennnes
+		if (is_array($this->groupe))
+		{
+			foreach($this->groupe as $g=>$id)
+			{
+				if (($g!="SYS") || (GetDroit("SYS")))
+				{
+					$tabgrp[$g]["old"]=$id;
+				}
+			}
+		}
+		
+		// Vérifie la différence
+		foreach($tabgrp as $grp=>$v)
+		{
+			if (($v["new"]==1) && ($v["old"]>0))
+			{
+				// On ne fait rien
+			}
+			else if (($v["new"]==0) && ($v["old"]>0))
+			{
+				// Suppression du groupe
+				$this->DelGroupe($grp);
+			}
+			else if (($v["new"]==1) && ($v["old"]==0))
+			{
+				// Ajout du groupe
+				$this->AddGroupe($grp);
+			}
+		}
+		
+		return "";
+	}
+	
+	function AddGroupe($grp)
+	{
 		global $uid;
 		$sql=$this->sql;
 		$grp=trim($grp);
@@ -1139,28 +923,26 @@ class user_class{
 			$query ="INSERT INTO ".$this->tbl."_droits (`groupe` ,`uid` ,`uid_creat` ,`dte_creat`) ";
 			$query.="VALUES ('".trim($grp)."' , '".$this->uid."', '$uid', '".now()."')";
 			$sql->Insert($query);
-		}
-		else
-		{
-			$grp="";
-		}
-		return $grp;
+		}		  
 	}
 
-	function DelGroupe($grp) {
+	function DelGroupe($grp)
+	{
 		$sql=$this->sql;
 		$query="DELETE FROM ".$this->tbl."_droits WHERE uid='$this->uid' AND groupe='$grp'";
 		$sql->Delete($query);
 	}
 
-	function RazGroupe() {
+	function RazGroupe()
+	{
 		$sql=$this->sql;
 		$query="DELETE FROM ".$this->tbl."_droits WHERE uid='$this->uid'";
 		$sql->Delete($query);
 	}
 
 
-	function UpdateResa(){
+	function UpdateResa()
+	{
 		global $uid;
 		$sql=$this->sql;
 
@@ -1206,11 +988,18 @@ class user_class{
 		}
 	}
 
-	function SaveDonnees()
+	function SaveDonnees($tabDonnees)
 	{ 
 		global $uid;
 		$sql=$this->sql;
-		
+
+		$this->LoadDonneesComp();
+
+		foreach($tabDonnees as $did=>$d)
+		{
+			$this->donnees[$did]["valeur"]=$d;
+		}
+			
 		foreach($this->donnees as $did=>$d)
 		{
 			$td=array("valeur"=>$d["valeur"], "uid"=>$this->uid, "did"=>$did);
@@ -1218,7 +1007,8 @@ class user_class{
 		}
 	}
 
-	function Desactive(){
+	function Desactive()
+	{
 		global $gl_uid;
 		$sql=$this->sql;
 		$this->actif="off";
@@ -1229,7 +1019,8 @@ class user_class{
 		$sql->Update($query);
 	}
 
-	function Active(){
+	function Active()
+	{
 		global $gl_uid;
 		$sql=$this->sql;
 		$this->actif="oui";

@@ -18,8 +18,6 @@
 		<th width="20">&nbsp;</th>
 		<th width="260">Description</th>
 		<th width="120">Réservation</th>
-		<th width="410"Poste</th>
-		<th width="90">Cout</th>
 		<th width="60">Droit</th>
 		<th width="60">Multi</th>
 		<th width="60">Notif</th>
@@ -38,17 +36,6 @@
 			<option value="instructeur" {select_resa_instructeur}>Instructeur</option>
 			<option value="obligatoire" {select_resa_obligatoire}>Obligatoire</option>
 			</select>
-		</td>
-		<td>
-			<select name="form_poste[{form_id}]">
-			<option value="0">Aucun</option>
-	<!-- BEGIN: lst_poste -->
-			<option value="{form_posteid}" {select_poste}>{form_poste}</option>
-	<!-- END: lst_poste -->
-			</select>
-		</td>
-		<td>
-			<INPUT type="text" name="form_cout[{form_id}]" style="width:80px;" value="{form_cout}">
 		</td>
 		<td>
 			<INPUT type="text" name="form_droit[{form_id}]" style="width:50px;" value="{form_droit}" maxlength="3">
@@ -85,17 +72,7 @@
 			<option value="obligatoire">Obligatoire</option>
 			</select>
 		</td>
-		<td>
-			<select name="form_poste[0]">
-			<option value="0">Aucun</option>
-	<!-- BEGIN: lst_poste -->
-			<option value="{form_posteid}" {select_poste}>{form_poste}</option>
-	<!-- END: lst_poste -->
-			</select>
-		</td>
-		<td>
-			<INPUT type="text" name="form_cout[0]" style="width:80px;" value="0">
-		</td>
+
 		<td>
 			<INPUT type="text" name="form_droit[0]" style="width:50px;" value="" maxlength="3">
 		</td>

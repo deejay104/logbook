@@ -28,22 +28,6 @@
 	{
 		$tmpl_menu->parse("infos.echeances");
 	}
-	if (GetDroit("AccesConfigComptes"))
-	{
-		$tmpl_menu->parse("infos.comptes");
-	}
-	if (GetDroit("AccesConfigPostes"))
-	{
-		$tmpl_menu->parse("infos.postes");
-	}
-	if (GetDroit("AccesConfigTarifs"))
-	{
-		$tmpl_menu->parse("infos.tarifs");
-	}
-	if (GetDroit("AccesConfigPrevisions"))
-	{
-		$tmpl_menu->parse("infos.previsions");
-	}
 	if (GetDroit("AccesConfigDonneesUser"))
 	{
 		$tmpl_menu->parse("infos.utildonnees");

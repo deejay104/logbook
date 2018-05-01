@@ -1,0 +1,226 @@
+<!-- BEGIN: icone -->
+	<img src="{path_module}/img/icn48_titre.png" alt="" border=0 />
+<!-- END: icone -->
+
+<!-- BEGIN: infos -->
+{aff_menu}
+<!-- END: infos -->
+
+
+<!-- BEGIN: corps -->
+
+
+<script>
+  $( function() {
+    var dialog, form,
+ 
+    // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+    timeRegex = /^(([0-9])+)?([:h])?([0-9])+$/i,
+
+	form_time_dc_day = $( "#form_time_dc_day" ),
+	form_time_cdb_day = $("#form_time_cdb_day"),
+	form_time_dc_night = $( "#form_time_dc_night" ),
+	form_time_cdb_night = $("#form_time_cdb_night"),
+	form_time_simu = $("#form_time_simu"),
+	allFields = $( [] ).add( form_time_dc_day ).add( form_time_cdb_day ).add( form_time_dc_night ).add( form_time_cdb_night ).add( form_time_simu ),
+
+	tips = $( ".validateTips" );
+ 
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+		setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function checkRegexp( o, regexp, n ) {
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function addFlight() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+/* 
+      valid = valid && checkLength( name, "username", 3, 16 );
+      valid = valid && checkLength( email, "email", 6, 80 );
+      valid = valid && checkLength( password, "password", 5, 16 );
+ 
+      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+      valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+      valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+ */
+ 
+      valid = valid && checkRegexp( form_time_dc_day, timeRegex, "Le temps doit être écrit de la forme HH:MM ou MM" );
+      valid = valid && checkRegexp( form_time_cdb_day, timeRegex, "Le temps doit être écrit de la forme HH:MM ou MM" );
+      valid = valid && checkRegexp( form_time_dc_night, timeRegex, "Le temps doit être écrit de la forme HH:MM ou MM" );
+      valid = valid && checkRegexp( form_time_cdb_night, timeRegex, "Le temps doit être écrit de la forme HH:MM ou MM" );
+      valid = valid && checkRegexp( form_time_simu, timeRegex, "Le temps doit être écrit de la forme HH:MM ou MM" );
+
+      if ( valid ) {
+/*
+	  $( "#users tbody" ).append( "<tr>" +
+          "<td>" + name.val() + "</td>" +
+          "<td>" + email.val() + "</td>" +
+          "<td>" + password.val() + "</td>" +
+        "</tr>" );
+		*/
+		
+		document.getElementById("logs").submit();
+
+        dialog.dialog( "close" );
+      }
+      return valid;
+    }
+ 
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 300,
+      width: 1200,
+	  top: 10,
+      modal: true,
+      buttons: {
+        "Ajouter": addFlight,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+ 
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addFlight();
+    });
+ 
+	$( "#ajouter" ).on( "click", function() {
+      dialog.dialog( "open" );
+    });
+  } );
+</script>
+
+<div id="dialog-form" title="Ajouter un vol" class="formulaire">
+  <p class="validateTips">Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM</p>
+ 
+  <form id="logs" method="post" action="index.php" enctype="multipart/form-data">
+	<INPUT type="hidden" name="checktime" value="{form_checktime}">
+	<input type="hidden" name="mod" value="logs">
+	<input type="hidden" name="rub" value="search">
+	<input type="hidden" name="fonc" value="Enregistrer">
+    <table>
+	<tr>
+	<th width='130'>
+		Date
+	</td>
+	<th width='80'>
+		Immat
+	</td>
+	<th width='80'>
+		Fonction
+	</td>
+	<th width='250'>
+		Commentaire
+	</td>
+	<th width='80'>
+		DC Jour
+	</td>
+	<th width='80'>
+		CDB Jour
+	</td>
+	<th width='80'>
+		DC Nuit
+	</td>
+	<th width='80'>
+		CDB Nuit
+	</td>
+	<th width='80'>
+		Simulateur
+	</td>
+	<th width='60'>
+		APP IFR
+	</td>
+	<th width='60'>
+		NB ATT
+	</td>
+	<th width='60'>
+		NB AMERR
+	</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="date" name="form_dte_flight" id="form_dte_flight"  value="{form_dte_flight}">
+		</td>
+		<td>
+			<input type="text" name="form_callsign" id="form_callsign" value="" style='width:75px!important;'>
+		</td>
+		<td>
+			<select name="form_type" id="form_type" style='width:60px!important;'><option value="P">P</option><option value="EP">EP</option></select>
+		</td>
+		<td>
+			<input type="text" name="form_comment" id="form_comment" value="" maxlength="50" style='width:245px!important;'>
+		</td>
+		<td>
+			<input type="text" name="form_time_dc_day" id="form_time_dc_day" value="0" maxlength="5" style='width:70px!important;'>
+		</td>
+		<td>
+			<input type="text" name="form_time_cdb_day" id="form_time_cdb_day" value="0" maxlength="5" style='width:70px!important;'>
+		</td>
+		<td>
+			<input type="text" name="form_time_dc_night" id="form_time_dc_night" value="0" maxlength="5" style='width:70px!important;'>
+		</td>
+		<td>
+			<input type="text" name="form_time_cdb_night" id="form_time_cdb_night" value="0" maxlength="5" style='width:70px!important;'>
+		</td>
+		<td>
+			<input type="text" name="form_time_simu" id="form_time_simu" value="0" maxlength="5" style='width:70px!important;'>
+		</td>
+		<td>
+			<input type="number" name="form_nb_ifr"  value="0" maxlength="3" style='width:55px!important;'>
+		</td>
+		<td>
+			<input type="number" name="form_nb_att" value="1" maxlength="3" style='width:55px!important;'>
+		</td>
+		<td>
+			<input type="number" name="form_nb_amerr" value="0" maxlength="3" style='width:55px!important;'>
+		</td>
+	</tr>
+	</table>	
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" name="fonc" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+
+
+<form id="tab" method="post" action="index.php" enctype="multipart/form-data">
+	<INPUT type="hidden" name="checktime" value="{form_checktime}">
+	<input type="hidden" name="mod" value="logs">
+	<input type="hidden" name="rub" value="search">
+	<input type="hidden" name="fonc" value="Search">
+{aff_tableau}
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+</form>
+
+<!-- END: corps -->

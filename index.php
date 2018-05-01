@@ -140,7 +140,6 @@
 
 // ---- Charge les class
 	require ("class/user.inc.php");
-	require ("class/ressources.inc.php");
 
 // ---- Se connecte à la base MySQL
 	require ("class/mysql.inc.php");

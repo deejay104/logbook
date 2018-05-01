@@ -79,40 +79,30 @@
 					{form_initiales}
 				</p>
 				<p>
-					<label for="sexe">Sexe :</label>
-					{form_sexe}
-				</p>
-				<p>
-					<label for="tel_fixe">Tel domicile :</label>
-					{form_tel_fixe}
-				</p>
-				<p>
-					<label for="tel_portable">Tel portable :</label>
-					{form_tel_portable}
-				</p>
-				<p>
-					<label for="tel_bureau">Tel bureau :</label>
-					{form_tel_bureau}
-				</p>
-				<p>
 					<label for="mail">Mail :</label>
 					{form_mail}
 				</p>
+
+<div class="formulaireTitre">Cumuls initiaux</div>
 				<p>
-					<label for="adresse1">Adresse :</label>
-					{form_adresse1}
+					<label>DC Jour :</label>
+					{form_time_dc_day}
 				</p>
 				<p>
-					<label for="adresse2"></label>
-					{form_adresse2}
+					<label>CDB Jour :</label>
+					{form_time_cdb_day}
 				</p>
 				<p>
-					<label for="codepostal">Code Postal :</label>
-					{form_codepostal}
+					<label>DC Nuit :</label>
+					{form_time_dc_night}
 				</p>
 				<p>
-					<label for="ville">Ville :</label>
-					{form_ville}
+					<label>CDB Nuit :</label>
+					{form_time_cdb_night}
+				</p>
+				<p>
+					<label>Simulateur :</label>
+					{form_time_simu}
 				</p>
 
 			</div>
@@ -155,44 +145,12 @@
 
 	<div class="formulaireTitre">Options</div>
 	<div class="formulaire">
-		<!-- BEGIN: type -->
-		<p>
-			<label for="type">Type</label>
-			{form_type}
-		</p>
-		<!-- END: type -->
 		<!-- BEGIN: virtuel -->
 		<p>
 			<label for="type">Utilisateur système</label>
 			{form_virtuel}
 		</p>
 		<!-- END: virtuel -->
-		<!-- BEGIN: mod_creche_zone -->
-		<p>
-		<label for="zone">Zone :</label>
-		{form_zone}
-		</p>
-		<!-- END: mod_creche_zone -->
-		<!-- BEGIN: aff_parents -->
-		<p>
-			<label for="pere">Père</label>
-			{form_pere}
-		</p>
-		<p>
-			<label for="mere">Mère</label>
-			{form_mere}
-		</p>
-		<!-- END: aff_parents -->
-		<!-- BEGIN: aff_enfants -->
-		<p>
-			<label for="enfant">Enfant(s)</label>
-			<span>{form_enfant}</span>
-		</p>
-		<!-- END: aff_enfants -->
-		<p>
-			<label for="idcpt">Compte de saisie</label>
-			{form_idcpt}
-		</p>
 		
 		<p>
 			<label>Notifications par mail</label>
@@ -205,40 +163,10 @@
 		</p>
 		<!-- END: disponibilite -->
 		<p>
-			<label for="dte_naissance">Date de naissance</label>
-			{form_dte_naissance}
-		</p>
-		<p>
-			<label for="dte_inscription">Date d'inscription</label>
-			{form_dte_inscription}
+			<label for="dte_inscription">Date de création</label>
+			{form_dte_creat}
 		</p>
 		
-		<p>
-			<label for="poids">Poids (en {unitPoids})</label>
-			{form_poids}
-		</p>
-
-		<!-- BEGIN: mod_aviation_lache -->
-		<p>
-			<label for="lache">Laché avions</label>
-			<span>{form_lache}</span>
-		</p>
-		<!-- END: mod_aviation_lache -->
-		
-		<!-- BEGIN: decouvert -->
-		<p>
-			<label for="decouvert">Découvert autorisé</label>
-			{form_decouvert}
-		</p>
-		<!-- END: decouvert -->
-
-		<!-- BEGIN: tarif -->
-		<p>
-			<label for="tarif">Tarif instructeur</label>
-			{form_tarif}
-		</p>
-		<!-- END: tarif -->
-
 		<!-- BEGIN: droits -->
 		<p>
 			<label for="droits">Droits</label>

@@ -6,7 +6,6 @@
 //   Variables  :
 // ---------------------------------------------------------------------------------------------
 /*
-    SoceIt v2.10
     Copyright (C) 2016 Matthieu Isorez
 
     This program is free software; you can redistribute it and/or modify
@@ -22,10 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    ($Author: miniroot $)
-    ($Date: 2016-02-14 23:17:30 +0100 (dim., 14 fÃ©vr. 2016) $)
-    ($Revision: 445 $)
 */
 ?>
 
@@ -97,19 +92,6 @@
 
 // ---- Informations personnelles
 
-	if (GetModule("aviation"))
-	{
-		// Compte
-		$tmpl_x->assign("solde", $myuser->AffSolde());
-	
-	 	$tmpl_x->assign("dte_licence", $myuser->aff("dte_licence"));
-		$tmpl_x->assign("dte_medicale", $myuser->aff("dte_medicale"));
-		$tmpl_x->assign("dte_medicale", $myuser->aff("dte_medicale"));
-		$tmpl_x->assign("nb_vols", $myuser->NombreVols("3"));
-	
-		$tmpl_x->parse("corps.mod_aviation_detail");		
-	}
-
 // ---- Affiche les échéances
 		$lstdte=ListEcheance($sql,$gl_uid);
 		  	
@@ -133,58 +115,22 @@
 	$tmpl_x->assign("color_nonlus",($res["nb"]>0) ? "red" : "black");
 
 
-// ---- Prochaine manips
-
-	$query = "SELECT * FROM ".$MyOpt["tbl"]."_manips WHERE dte_manip>'".now()."' ORDER BY dte_manip LIMIT 1";
-	$res = $sql->QueryRow($query);
-
-	if ($res["id"]>0)
-	{
-	  	$res["creat"]=new user_class($res["uid_creat"],$sql,false,false);
-
-			$tmpl_x->assign("manip_id", $res["id"]);
-			$tmpl_x->assign("manip_titre", $res["titre"]);
-			$tmpl_x->assign("manip_date", sql2date($res["dte_manip"]));
-			$tmpl_x->assign("manip_creat",$res["creat"]->Aff("prenom")." ".$res["creat"]->Aff("nom"));
-		
-			$msg= preg_replace("/<\/?SCRIPT[^>]*>/i","",nl2br($res["comment"]))."<br />";
-			//$msg.= "<p align=right><a href=\"manips.php?rub=detail&id=".$res["id"]."\">-Voir les participants-</a></p>";
-		
-			$tmpl_x->assign("manip_txt", $msg);	
-
-			$tmpl_x->parse("corps.aff_manips");
-	}
-
-// ---- Prochaine réservation
-	if ( ($MyOpt["menu"]["reservations"]=="x") || ($MyOpt["menu"]["reservations"]==""))
-	{
-		$debjour=($MyOpt["debjour"]!="") ? $MyOpt["debjour"] : "6";
-		$finjour=($MyOpt["finjour"]!="") ? $MyOpt["finjour"] : "22";
-
-		$tmpl_x->assign("form_jour",date("Y-m-d"));
-		$tmpl_x->assign("defaultView","agendaDay");
-		$tmpl_x->assign("form_debjour",$debjour);
-		$tmpl_x->assign("form_finjour",$finjour);
-
-		$tmpl_x->parse("corps.aff_reservation");
-	}
-
 // ---- Derniers documents
 
 	if ($id>0)
-	  {
-			$query="SELECT titre,message FROM `".$MyOpt["tbl"]."_actualites` WHERE id='$id'";
-			$res = $sql->QueryRow($query);
-			$tmpl_x->assign("news_title", $res["titre"]);
-			$tmpl_x->assign("news_message", $res["message"]);
-			$tmpl_x->assign("new_color", "000000");	
-		}
+	{
+		$query="SELECT titre,message FROM `".$MyOpt["tbl"]."_actualites` WHERE id='$id'";
+		$res = $sql->QueryRow($query);
+		$tmpl_x->assign("news_title", $res["titre"]);
+		$tmpl_x->assign("news_message", $res["message"]);
+		$tmpl_x->assign("new_color", "000000");	
+	}
 	else
-	  {
-			$tmpl_x->assign("news_title", "Nouvelle actualité");
-			$tmpl_x->assign("news_message", $txtnewmsg);
-			$tmpl_x->assign("new_color", "bbbbbb");	
-	  }
+	{
+		$tmpl_x->assign("news_title", "Nouvelle actualité");
+		$tmpl_x->assign("news_message", $txtnewmsg);
+		$tmpl_x->assign("new_color", "bbbbbb");	
+	}
 
 	$tmpl_x->assign("news_title_clear", "Nouvelle actualité");
 	$tmpl_x->assign("news_message_clear", $txtnewmsg);

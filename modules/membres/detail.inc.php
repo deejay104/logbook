@@ -134,26 +134,16 @@
 		}
 	}
 
-	// Sauvegarde le lache
-	if (($fonc=="Enregistrer") && ($id>0) && (GetDroit("ModifUserLache")))
+	// Sauvegarde les droits
+	if (($fonc=="Enregistrer") && ($id>0) && (GetDroit("ModifUserDroits")) && (is_array($form_droits)))
 	{
-		$msg_erreur.=$usr->SaveLache($form_lache,$uid);
+		$msg_erreur.=$usr->SaveDroits($form_droits);
 
 	}
-
 	// Sauvegarde les données utilisateurs
-	if (($fonc=="Enregistrer") && ($id>0) && (GetDroit("ModifUserDonnees")))
+	if (($fonc=="Enregistrer") && ($id>0) && (GetDroit("ModifUserDonnees")) && (is_array($form_donnees)))
 	{
-		$usr->LoadDonneesComp();
-
-		if (is_array($form_donnees))
-		{
-			foreach($form_donnees as $did=>$d)
-			{
-				$usr->donnees[$did]["valeur"]=$d;
-			}
-			$msg_erreur.=$usr->SaveDonnees();
-		}
+		$msg_erreur.=$usr->SaveDonnees($form_donnees);
 	}
 
 // ---- Supprimer l'utilisateur
@@ -188,11 +178,6 @@
 	if ((is_numeric($id)) && ($id>0))
 	  {
 		$usr = new user_class($id,$sql,((GetMyId($id)) ? true : false));
-		if (GetModule("aviation"))
-		  { $usr->LoadLache(); }
-		// if (GetModule("creche"))
-		  // { $usr->LoadEnfants(); }
-		$usr->LoadEnfants();
 		$usr->LoadDonneesComp();
 
 		$usrmaj = new user_class($usr->uidmaj,$sql);
@@ -242,7 +227,7 @@
 	if ((GetDroit("SupprimeUser")) && ($usr->actif=="off"))
 	  { $tmpl_x->parse("infos.suppression"); }
 
-  	if ((GetDroit("ModifDisponibilite")) && ($usr->type=="instructeur"))
+  	if (GetDroit("ModifDisponibilite"))
 	  { $tmpl_x->parse("infos.disponibilite"); }
 
 // ---- Affiche toutes les donnees
@@ -266,36 +251,15 @@
 
 	$tmpl_x->parse("corps.type");
 
-	if (((GetDroit("ModifUserDecouvert")) || (GetMyId($id))) && (GetModule("compta")))
-	  { $tmpl_x->parse("corps.decouvert"); }
-
-	if ((((GetDroit("ModifUserTarif")) || (GetMyId($id))) && (GetModule("compta"))) && (GetModule("aviation")))
-	  { $tmpl_x->parse("corps.tarif"); }
 
 	if (GetDroit("ModifUserDroits"))
 	  { $tmpl_x->parse("corps.droits"); }
 
-  	if (GetModule("aviation"))
-	  {
-	  	$tmpl_x->parse("corps.mod_aviation_lache");
-	  }
-
-  	if (count($usr->data["enfant"])>0)
-	{
-	  	$tmpl_x->parse("corps.aff_enfants");
-	}
-  	if ( (count($usr->data["pere"])>0) || (count($usr->data["mere"])>0) )
-	{
-	  	$tmpl_x->parse("corps.aff_parents");
-	}
   	if ( GetDroit("ADM") )
 	{
 	  	$tmpl_x->parse("corps.virtuel");
 	}
-  	if ( $usr->type=="instructeur" )
-	{
-	  	$tmpl_x->parse("corps.disponibilite");
-	}
+  	$tmpl_x->parse("corps.disponibilite");
 
   	if ((is_numeric($id)) && ($id>0))
 	  { 
@@ -322,28 +286,6 @@
 			$tmpl_x->assign("aff_avatar","static/images/none.gif");
 		}	
 
-
-		if (GetModule("aviation"))
-		  {
-			// ---- Affiche les infos 
-			// Nb d'heure de vol
-			$tmpl_x->assign("nbheurevol", $usr->AffNbHeuresVol()."&nbsp;");
-	
-			// Total d'heures année courante
-			$tmpl_x->assign("nbheuresan", $usr->AffNbHeuresAn());
-	
-			// ---- Total d'heures 12 derniers mois
-			$tmpl_x->assign("nbheuresderan", $usr->AffNbHeuresProrogation());
-	
-			// ---- Solde du compte
-			$tmpl_x->assign("solde", $usr->AffSolde());
-		  }
-
-		// ---- Affiche solde et nb heures de vol
-		if ((GetMyId($id)) || GetDroit("AffUserComptes"))
-		  { $tmpl_x->parse("corps.aff_soldecompte"); }
-		if (((GetMyId($id)) || GetDroit("AffUserHeures")) && (GetModule("aviation")))
-		  { $tmpl_x->parse("corps.mod_aviation_detail"); }
 
 		// ---- Affiche les documents
 		$lstdoc=ListDocument($sql,$id,"document");

@@ -1,15 +1,7 @@
 <?
-// ---------------------------------------------------------------------------------------------
-//   Liste des membres
-//     ($Author: miniroot $)
-//     ($Date: 2016-04-22 20:48:24 +0200 (ven., 22 avr. 2016) $)
-//     ($Revision: 456 $)
-// ---------------------------------------------------------------------------------------------
-//   Variables  : 
-// ---------------------------------------------------------------------------------------------
 /*
-    SoceIt v2.0
-    Copyright (C) 2007 Matthieu Isorez
+    LogBook
+    Copyright (C) 2018 Matthieu Isorez
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -118,10 +110,6 @@
 			$tabTitre["nom"]["width"]=($theme!="phone") ? 200 : 180;
 			$tabTitre["mail"]["aff"]="Mail";
 			$tabTitre["mail"]["width"]=280;
-			$tabTitre["telephone"]["aff"]="Téléphone";
-			$tabTitre["telephone"]["width"]=140;
-			$tabTitre["type"]["aff"]="Type";
-			$tabTitre["type"]["width"]=120;
 
 			$tabValeur=array();
 			foreach($lstusr as $i=>$id)
@@ -133,10 +121,6 @@
 				$tabValeur[$i]["nom"]["aff"]=$usr->aff("nom");
 				$tabValeur[$i]["mail"]["val"]=$usr->mail;
 				$tabValeur[$i]["mail"]["aff"]=$usr->aff("mail");
-				$tabValeur[$i]["telephone"]["val"]=$usr->AffTel();
-				$tabValeur[$i]["telephone"]["aff"]=$usr->AffTel();
-				$tabValeur[$i]["type"]["val"]=$usr->type;
-				$tabValeur[$i]["type"]["aff"]=$usr->aff("type");
 			  }
 
 			if ((!isset($order)) || ($order=="")) { $order="nom"; }
