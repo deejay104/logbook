@@ -27,11 +27,11 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once("modules/".$mod."/menu.inc.php");
+	require_once($appfolder."/modules/".$mod."/menu.inc.php");
 	$tmpl_x->assign("aff_menu",$aff_menu);
 	
 // ---- Get my id	
-	$id=$myuser->uid;
+	$id=$myuser->id;
 
 // ---- Save Flight
 	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
@@ -50,8 +50,8 @@
 			$t=array(
 				"uid" => $id,
 				"dte_flight" => $_REQUEST["form_dte_flight"],
-				"callsign" => trim($_REQUEST["form_callsign"]),
-				"type" => trim($_REQUEST["form_type"]),
+				"callsign" => trim(strtoupper($_REQUEST["form_callsign"])),
+				"type" => trim(strtoupper($_REQUEST["form_type"])),
 				"comment" => $_REQUEST["form_comment"],
 				"time_dc_day" => CalcTemps($_REQUEST["form_time_dc_day"]),
 				"time_cdb_day" => CalcTemps($_REQUEST["form_time_cdb_day"]),
@@ -69,23 +69,6 @@
 		}
 	}
 
-function CalcTemps($tps)
-{
-	if (preg_match("/^([0-9][0-9]):([0-9][0-9])$/",$tps,$m))
-	{
-		$t=$m[1]*60+$m[2];
-	}
-	else if (preg_match("/^([0-9][0-9])h([0-9][0-9])$/",$tps,$m))
-	{
-		$t=$m[1]*60+$m[2];
-	}
-	else if (is_numeric($tps))
-	{
-		$t=$tps;
-	}
-	
-	return $t;
-}
 	
 // ---- Delete flight
 	if (($_REQUEST["fonc"]=="delete") && (is_numeric($_REQUEST["lid"])))
@@ -213,7 +196,7 @@ $id=5;
 		$tabValeur[$i]["dte_flight"]["val"]=CompleteTxt($i,"20","0");
 		$tabValeur[$i]["dte_flight"]["aff"]=date("d/m/Y",strtotime($sql->data["dte_flight"]));
 		$tabValeur[$i]["callsign"]["val"]=$sql->data["callsign"];
-		$tabValeur[$i]["callsign"]["aff"]=$sql->data["callsign"];
+		$tabValeur[$i]["callsign"]["aff"]=strtoupper($sql->data["callsign"]);
 		$tabValeur[$i]["type"]["val"]=$sql->data["type"];
 		$tabValeur[$i]["type"]["aff"]=$sql->data["type"];
 		$tabValeur[$i]["type"]["align"]="center";
@@ -247,7 +230,7 @@ $id=5;
 		$tabValeur[$i]["nb_amerr"]["align"]="center";
 		$tabValeur[$i]["delete"]["val"]="x";
 		$tabValeur[$i]["delete"]["aff"]="<a class='imgDelete' href='index.php?mod=logs&rub=edit&lid=".$sql->data["id"]."'><img src='$module/$mod/img/icn16_editer.png'></a>";
-		$tabValeur[$i]["delete"]["aff"].="<a href='index.php?mod=logs&fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."' class='imgDelete'><img src='$module/$mod/img/icn16_supprimer.png'></a>";
+		$tabValeur[$i]["delete"]["aff"].="<a href='index.php?mod=logs&rub=search&fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."' class='imgDelete'><img src='$module/$mod/img/icn16_supprimer.png'></a>";
 	}
 
 

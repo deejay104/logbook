@@ -26,11 +26,11 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once("modules/".$mod."/menu.inc.php");
+	require_once($appfolder."/modules/".$mod."/menu.inc.php");
 	$tmpl_x->assign("aff_menu",$aff_menu);
 
 // ---- Get my id	
-	$id=$myuser->uid;
+	$id=$myuser->id;
 
 
 // ---- Initialize variables

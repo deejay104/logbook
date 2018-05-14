@@ -26,11 +26,13 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once("modules/".$mod."/menu.inc.php");
+	require_once($appfolder."/modules/".$mod."/menu.inc.php");
 	$tmpl_x->assign("aff_menu",$aff_menu);
 
+	$tmpl_x->assign("dte_deb",$dte_deb);
+	
 // ---- Get my id	
-	$id=$myuser->uid;
+	$id=$myuser->id;
 
 
 // ---- Initialize variables
@@ -40,6 +42,16 @@ $id=5;
 }
 
 // ---- Totaux
+
+	if (isset($dte_deb))
+	{
+		$ddeb=date2sql($dte_deb);
+	}
+	else
+	{
+		$ddeb=(date("Y")-1)."-".date("m-d");
+	}
+
 	$q="SELECT
 		SUM(time_dc_day) AS dc_day,
 		SUM(time_cdb_day) AS cdb_day,
@@ -50,7 +62,7 @@ $id=5;
 		SUM(nb_att) AS nb_att,
 		SUM(nb_amerr) AS nb_amerr
 		FROM ".$MyOpt["tbl"]."_flight
-		WHERE uid=$id AND dte_flight>'".(date("Y")-1)."-".date("m-d")."'";
+		WHERE uid=$id AND dte_flight>'".$ddeb."'";
 	$res=$sql->QueryRow($q);
 
 		
@@ -91,7 +103,7 @@ $id=5;
 		SUM(nb_att) AS nb_att,
 		SUM(nb_amerr) AS nb_amerr
 		FROM ".$MyOpt["tbl"]."_flight
-		WHERE uid=$id AND dte_flight>'".(date("Y")-1)."-".date("m-d")."' GROUP BY DATE_FORMAT(dte_flight,'%Y-%m')";
+		WHERE uid=$id AND dte_flight>='".$ddeb."' GROUP BY DATE_FORMAT(dte_flight,'%Y-%m')";
 	$sql->Query($q);
 	$tabValeur=array();
 

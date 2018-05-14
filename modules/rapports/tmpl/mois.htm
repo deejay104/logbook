@@ -9,6 +9,13 @@
 
 <!-- BEGIN: corps -->
 
+<form>
+	<input type="hidden" name="mod" value="rapports">
+	<input type="hidden" name="rub" value="mois">
+
+Date de début (incluse) : <input id="dte_deb" name="dte_deb" value="{dte_deb}" type="date" OnChange="document.location='index.php?mod=rapports&rub=mois&dte_deb='+document.getElementById('dte_deb').value;"><br />
+</form>
+
 {aff_tableau}
 
 

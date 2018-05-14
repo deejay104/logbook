@@ -26,11 +26,14 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once("modules/".$mod."/menu.inc.php");
+	require_once($appfolder."/modules/".$mod."/menu.inc.php");
 	$tmpl_x->assign("aff_menu",$aff_menu);
 
 // ---- Get my id	
-	$id=$myuser->uid;
+	$id=$myuser->id;
+
+	require_once ($appfolder."/class/user.inc.php");
+	$usr = new user_class($id,$sql,true);
 
 	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 
@@ -39,19 +42,26 @@
 	$res=$sql->QueryRow($query);
 	$nbtot=$res["nb"];
 
+	if (!isset($p))
+	{
+		$p=-1;
+	}
+	
 	$ii=1;
+	$pp=0;
 	for ($i=0;$i<$nbtot;$i=$i+14)
 	{
 		$tmpl_x->assign("aff_deb",$i);
 		$tmpl_x->assign("aff_page",($i==$p) ? "[".$ii."]" : $ii);
+		$pp=$i;
 		$ii++;
 		$tmpl_x->parse("corps.lst_page");
 	}
 	
 // ---- Load flights
-	if (!isset($p))
+	if ($p==-1)
 	{
-		$p=0;
+		$p=$pp;
 	}
 
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id ORDER BY dte_flight,id LIMIT $p,1";
@@ -61,11 +71,11 @@
 	$res=$sql->QueryRow($query);
 
 	$tabTotal=array();
-	$tabTotal["time_dc_day"]=$myuser->data["time_dc_day"]+$res["tot_dc_day"];
-	$tabTotal["time_cdb_day"]=$myuser->data["time_cdb_day"]+$res["tot_cdb_day"];
-	$tabTotal["time_dc_night"]=$myuser->data["time_dc_night"]+$res["tot_dc_night"];
-	$tabTotal["time_cdb_night"]=$myuser->data["time_cdb_night"]+$res["tot_cdb_night"];
-	$tabTotal["time_simu"]=$myuser->data["time_simu"]+$res["tot_simu"];
+	$tabTotal["time_dc_day"]=$usr->data["time_dc_day"]+$res["tot_dc_day"];
+	$tabTotal["time_cdb_day"]=$usr->data["time_cdb_day"]+$res["tot_cdb_day"];
+	$tabTotal["time_dc_night"]=$usr->data["time_dc_night"]+$res["tot_dc_night"];
+	$tabTotal["time_cdb_night"]=$usr->data["time_cdb_night"]+$res["tot_cdb_night"];
+	$tabTotal["time_simu"]=$usr->data["time_simu"]+$res["tot_simu"];
 
 	$tmpl_x->assign("report_dc_day",($tabTotal["time_dc_day"]>0) ? AffTemps($tabTotal["time_dc_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_cdb_day",($tabTotal["time_cdb_day"]>0) ? AffTemps($tabTotal["time_cdb_day"],"no") : "&nbsp;");
@@ -81,8 +91,8 @@
 		$sql->GetRow($i);
 		$tmpl_x->assign("aff_id",$sql->data["id"]);
 		$tmpl_x->assign("aff_date",sql2date($sql->data["dte_flight"]));
-		$tmpl_x->assign("aff_callsign",$sql->data["callsign"]);
-		$tmpl_x->assign("aff_type",$sql->data["type"]);
+		$tmpl_x->assign("aff_callsign",strtoupper($sql->data["callsign"]));
+		$tmpl_x->assign("aff_type",strtoupper($sql->data["type"]));
 		$tmpl_x->assign("aff_comment",($sql->data["comment"]!="") ? $sql->data["comment"] : "&nbsp;" );
 		$tmpl_x->assign("aff_time_dc_day",($sql->data["time_dc_day"]>0) ? AffTemps($sql->data["time_dc_day"],"no") : "&nbsp;");
 		$tmpl_x->assign("aff_time_cdb_day",($sql->data["time_cdb_day"]>0) ? AffTemps($sql->data["time_cdb_day"],"no") : "&nbsp;");

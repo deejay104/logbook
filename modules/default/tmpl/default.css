@@ -1,0 +1,8 @@
+<!-- BEGIN: main -->
+
+.tableauBook { border: 1px solid #cccccc; }
+.tableauBook td { border: 1px solid #cccccc; text-align:center; }
+.tableauBook th { border: 1px solid #cccccc; text-align:center; }
+.tableauBook a { display: inline-block; width:100%}
+
+<!-- END: main -->

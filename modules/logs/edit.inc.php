@@ -49,7 +49,7 @@
 
 	$tmpl_x->assign("form_lid",$lid);
 	$tmpl_x->assign("form_dte_flight",$res["dte_flight"]);
-	$tmpl_x->assign("form_callsign",$res["callsign"]);
+	$tmpl_x->assign("form_callsign",strtoupper($res["callsign"]));
 	$tmpl_x->assign("form_comment",$res["comment"]);
 	$tmpl_x->assign("form_time_dc_day",$res["time_dc_day"]);
 	$tmpl_x->assign("form_time_cdb_day",$res["time_cdb_day"]);
