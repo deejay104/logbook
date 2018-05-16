@@ -70,28 +70,32 @@ $id=5;
 
 	$tabTitre=array();
 	$tabTitre["dte"]["aff"]="Date";
-	$tabTitre["dte"]["sub"]="";
+	$tabTitre["dte"]["bottom"]="Total";
 	$tabTitre["dte"]["width"]=80;
 	$tabTitre["line1"]["aff"]="<line>";
 	$tabTitre["dc_day"]["aff"]="DC Jour";
-	$tabTitre["dc_day"]["sub"]=AffTemps($res["dc_day"],"no");
+	$tabTitre["dc_day"]["bottom"]=AffTemps($res["dc_day"],"no");
 	$tabTitre["dc_day"]["width"]=80;
 	$tabTitre["cdb_day"]["aff"]="CDB Jour";
-	$tabTitre["cdb_day"]["sub"]=AffTemps($res["cdb_day"],"no");
+	$tabTitre["cdb_day"]["bottom"]=AffTemps($res["cdb_day"],"no");
 	$tabTitre["cdb_day"]["width"]=80;
 	$tabTitre["dc_night"]["aff"]="DC Nuit";
-	$tabTitre["dc_night"]["sub"]=AffTemps($res["dc_night"],"no");
+	$tabTitre["dc_night"]["bottom"]=AffTemps($res["dc_night"],"no");
 	$tabTitre["dc_night"]["width"]=80;
 	$tabTitre["cdb_night"]["aff"]="CDB Nuit";
-	$tabTitre["cdb_night"]["sub"]=AffTemps($res["cdb_night"],"no");
+	$tabTitre["cdb_night"]["bottom"]=AffTemps($res["cdb_night"],"no");
 	$tabTitre["cdb_night"]["width"]=80;
 	$tabTitre["simu"]["aff"]="Simu";
-	$tabTitre["simu"]["sub"]=AffTemps($res["simu"],"no");
+	$tabTitre["simu"]["bottom"]=AffTemps($res["simu"],"no");
 	$tabTitre["simu"]["width"]=80;
 	$tabTitre["line2"]["aff"]="<line>";
 	$tabTitre["total"]["aff"]="Total";
-	$tabTitre["total"]["sub"]=AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
+	$tabTitre["total"]["bottom"]=AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
 	$tabTitre["total"]["width"]=80;
+	$tabTitre["line3"]["aff"]="<line>";
+	$tabTitre["nb_att"]["aff"]="Atterrissage";
+	$tabTitre["nb_att"]["bottom"]=$res["nb_att"];
+	$tabTitre["nb_att"]["width"]=80;
 
 	$q="SELECT DATE_FORMAT(dte_flight,'%Y-%m') AS dte,
 		SUM(time_dc_day) AS dc_day,
@@ -132,7 +136,11 @@ $id=5;
 		$tabValeur[$i]["total"]["val"]=$sql->data["dc_day"]+$sql->data["cdb_day"]+$sql->data["dc_night"]+$sql->data["cdb_night"]+$sql->data["simu"];
 		$tabValeur[$i]["total"]["aff"]=AffTemps($sql->data["dc_day"]+$sql->data["cdb_day"]+$sql->data["dc_night"]+$sql->data["cdb_night"]+$sql->data["simu"],"no");
 		$tabValeur[$i]["total"]["align"]="center";
-	  }
+		$tabValeur[$i]["line3"]["val"]="<line>";
+		$tabValeur[$i]["nb_att"]["val"]=$sql->data["nb_att"];
+		$tabValeur[$i]["nb_att"]["aff"]=$sql->data["nb_att"];
+		$tabValeur[$i]["nb_att"]["align"]="center";
+	}
 
 	if ((!isset($order)) || ($order=="")) { $order="nom"; }
 	if ((!isset($trie)) || ($trie=="")) { $trie="d"; }
