@@ -132,12 +132,15 @@ $id=5;
 	$tabTitre=array();
 	$tabTitre["dte_flight"]["aff"]="Date";
 	$tabTitre["dte_flight"]["width"]=130;
+if ($theme!="phone") {
 	$tabTitre["callsign"]["aff"]="Immat";
 	$tabTitre["callsign"]["width"]=80;
 	$tabTitre["type"]["aff"]="Fonction";
 	$tabTitre["type"]["width"]=80;
+}
 	$tabTitre["comment"]["aff"]="Nature du vol";
 	$tabTitre["comment"]["width"]=250;
+if ($theme!="phone") {
 	$tabTitre["line1"]["aff"]="<line>";
 	$tabTitre["line1"]["width"]=1;
 	$tabTitre["time_dc_day"]["aff"]="DC Jour<br />".AffTemps($res['time_dc_day'],"no");
@@ -158,6 +161,7 @@ $id=5;
 	$tabTitre["nb_att"]["width"]=60;
 	$tabTitre["nb_amerr"]["aff"]="Nb AMERR";
 	$tabTitre["nb_amerr"]["width"]=60;
+}
 	$tabTitre["delete"]["aff"]=" ";
 	$tabTitre["delete"]["width"]=50;
 

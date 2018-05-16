@@ -12,8 +12,8 @@
 
 	
 // ---- Phone
-	// $tabMenuPhone["membres"]["icone"]=$corefolder."/static/modules/membres/img/icn48_membres.png";
-	// $tabMenuPhone["membres"]["nom"]="";
-	// $tabMenuPhone["membres"]["droit"]="AccesMembres";
-	// $tabMenuPhone["membres"]["url"]="mod=membres";
+	$tabMenuPhone["logs"]["icone"]="static/modules/logs/img/icn48_titre.png";
+	$tabMenuPhone["logs"]["nom"]="";
+	$tabMenuPhone["logs"]["droit"]="AccesVols";
+	$tabMenuPhone["logs"]["url"]="mod=logs&rub=search";
 ?>

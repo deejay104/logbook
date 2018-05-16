@@ -11,7 +11,7 @@
 	$tmpl_menu->assign("class_".$rub,"class='pageTitleSelected'");
 
 // ----
-	if ($rub=="index")
+	if (($rub=="index") || ($theme=="phone"))
 	{
 		$tmpl_menu->parse("infos.gotoedit");
 	}
