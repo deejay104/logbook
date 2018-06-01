@@ -1,10 +1,10 @@
 <?
 // ---------------------------------------------------------------------------------------------
-//   DÃ©finitions des roles
+//   Définitions des roles
 // ---------------------------------------------------------------------------------------------
 
 // ---- Liste des roles disponibles
-$tabRoles["AccesVols"]="AccÃ¨s aux logs des vols";
-$tabRoles["AccesRapports"]="AccÃ¨s aux rapports";
+$tabRoles["AccesVols"]="Accès aux logs des vols";
+$tabRoles["AccesRapports"]="Accès aux rapports";
 
 ?>
