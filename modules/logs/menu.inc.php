@@ -10,6 +10,8 @@
 // ---- Sélectionne le menu courant
 	$tmpl_menu->assign("class_".$rub,"class='pageTitleSelected'");
 
+	$tmpl_menu->assign("form_rub",$rub);
+	
 // ----
 	if (($rub=="index") || ($theme=="phone"))
 	{

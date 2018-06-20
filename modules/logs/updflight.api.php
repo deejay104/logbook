@@ -22,14 +22,7 @@
 	}
 	$var=$_GET["var"];
 
-	if (!isset($_GET["val"]))
-	{
-		$res["result"]=utf8_encode("NOK");
-		$res["error"]=utf8_encode("val not provided");
-		echo json_encode($res);
-	  	exit;
-	}
-	$val=$_GET["val"];
+	$val=checkVar("val","varchar");
 
 	$res["result"]=utf8_encode("NOK");
 	$res["var"]=$var;
@@ -38,21 +31,17 @@
 
 	if ( ($var=="time_dc_day") || ($var=="time_cdb_day") || ($var=="time_dc_night") || ($var=="time_cdb_night") || ($var=="time_simu") )
 	{
-		if (trim($val)=="")
+		if ( (trim(utf8_decode($val))=="") || (utf8_decode($val)=="?"))
 		{
 			$val=0;
 		}
-		$val=preg_replace("/[ ]+/","+",substr($val,0,10));
-		$val=preg_replace("/[^0-9]*j/","*1440",$val);
-		$val=preg_replace("/[^0-9]*h/","*60",$val);
-		$val=preg_replace("/[^0-9]*:/","*60",$val);
-		$val=preg_replace("/[^0-9]*m/","",$val);
-		eval("\$sched=".$val.";");
-		
-		$q="UPDATE ".$MyOpt["tbl"]."_flight SET ".$var."='".$sched."' WHERE id='".$id."'";
+		$tps=CalcTemps($val);
+
+		$q="UPDATE ".$MyOpt["tbl"]."_flight SET ".$var."='".$tps."' WHERE id='".$id."'";
 		$sql->Update($q);
+		
 		$res["result"]=utf8_encode("OK");
-		$res["value"]=utf8_encode(AffTemps($sched,"no"));
+		$res["value"]=utf8_encode(AffTemps($tps,"no"));
 	}
 	else if ($var=="comment")
 	{

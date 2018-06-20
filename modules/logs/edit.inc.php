@@ -23,43 +23,21 @@
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("edit.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
-
-
-// ---- Get my id	
-	$id=$myuser->uid;
-
-
 	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 
+	require($appfolder."/class/vol.inc.php");
+
+// ---- Get my id	
+	$id=$gl_uid;
+
 // ---- Load data
-	if (!is_numeric($_REQUEST["lid"]))
-	{
-		$lid=0;
-	}
-	else
-	{
-		$lid=$_REQUEST["lid"];
-	}
+	$lid=checkVar("lid","numeric");
+	$fl=new flight_class($lid,$sql);
+	$fl->Render("form","form");
 
-	if ($lid>0)
-	{
-		$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE id=$lid";
-		$res=$sql->QueryRow($query);
-	}
-
-	$tmpl_x->assign("form_lid",$lid);
-	$tmpl_x->assign("form_dte_flight",$res["dte_flight"]);
-	$tmpl_x->assign("form_callsign",strtoupper($res["callsign"]));
-	$tmpl_x->assign("form_comment",$res["comment"]);
-	$tmpl_x->assign("form_time_dc_day",$res["time_dc_day"]);
-	$tmpl_x->assign("form_time_cdb_day",$res["time_cdb_day"]);
-	$tmpl_x->assign("form_time_dc_night",$res["time_dc_night"]);
-	$tmpl_x->assign("form_time_cdb_night",$res["time_cdb_night"]);
-	$tmpl_x->assign("form_time_simu",$res["time_simu"]);
-	$tmpl_x->assign("form_nb_ifr",$res["nb_ifr"]);
-	$tmpl_x->assign("form_nb_att",$res["nb_att"]);
-	$tmpl_x->assign("form_nb_amerr",$res["nb_amerr"]);
-	
+// ---- Affiche les variables
+	$prev=checkVar("prev","varchar");
+	$tmpl_x->assign("form_rub",$prev);
 
 // ---- Affecte les variables d'affichage
 	$tmpl_x->parse("icone");

@@ -148,8 +148,12 @@ $id=5;
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie));
 
 
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
+	$tmpl_x->assign("tot_heures",AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no"));
+	$tmpl_x->assign("tot_cdb",AffTemps($res["cdb_day"]+$res["cdb_night"],"no"));
+	$tmpl_x->assign("date_deb",sql2date($ddeb));
+	$tmpl_x->assign("tot_att",$res["nb_att"]);
 
+	
 	
 // ---- Affecte les variables d'affichage
 	$tmpl_x->parse("icone");

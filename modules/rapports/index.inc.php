@@ -122,7 +122,7 @@ $id=5;
 		$tabValeur[$i]["total"]["align"]="center";
 	  }
 
-	if ((!isset($order)) || ($order=="")) { $order="nom"; }
+	if ((!isset($order)) || ($order=="")) { $order="dte"; }
 	if ((!isset($trie)) || ($trie=="")) { $trie="d"; }
 
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie));

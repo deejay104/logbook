@@ -7,71 +7,72 @@
 
 
 <!-- BEGIN: corps -->
+<script type="text/javascript">
+	$(function() {
+		$("#callsign").autocomplete({
+			source: "api.php?mod=avions&rub=getplane",
+			select: function(event, ui) { oFormObject = document.forms['logs']; oFormObject.elements["form_data[callsign]"].value=ui.item.value; },
+			delay: 0
+		});
+	});  
+</script>
 
-<div id="dialog-form" title="Ajouter un vol" class="formulaire">
-  <p class="validateTips">Les temps peuvent être écrit sous la forme HHMM, HH:MM, HHhMM ou MM</p>
- 
-  <form id="logs" method="post" action="index.php" enctype="multipart/form-data">
-	<INPUT type="hidden" name="checktime" value="{form_checktime}">
-	<input type="hidden" name="mod" value="logs">
-	<input type="hidden" name="rub" value="search">
-	<input type="hidden" name="lid" value="{form_lid}">
-	<input type="hidden" name="fonc" value="ajouter">
-    <fieldset>
-		<p>
-			<label for="form_dte_flight">Date</label>
-			<input type="date" name="form_dte_flight" id="form_dte_flight"  value="{form_dte_flight}">
+<style>
+.ui-autocomplete { z-index:100; position: absolute; border: 1px solid #aaaaaa; font-size: 12px; background-color: #ffffff; display: inline-block; list-style: none; padding-left: 5px; }
+.ui-helper-hidden-accessible { display: none; }
+</style>
+
+  <p class="validateTips">Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM</p>
+
+	<form id="logs" method="post" action="index.php" enctype="multipart/form-data">
+
+	<div id="dialog-form" title="Ajouter un vol" class="formulaire"> 
+		<INPUT type="hidden" name="checktime" value="{form_checktime}">
+		<input type="hidden" name="mod" value="logs">
+		<input type="hidden" name="rub" value="{form_rub}">
+		<input type="hidden" name="lid" value="{form_id}">
+		<input type="hidden" name="fonc" value="ajouter">
+ 		<p>
+			<label for="form_dte_flight">Date</label>{form_dte_flight}
 		</p>
 		<p>
-			<label for="form_callsign">Immatriculation</label>
-			<input type="text" name="form_callsign" id="form_callsign" value="{form_callsign}">
+			<label for="form_callsign">Immatriculation</label>{form_callsign}
 		</p>
 		<p>
-			<label for="form_type">Fonction</label>
-			<select name="form_type" id="form_type"><option value="P">P</option><option value="EP">EP</option></select>
+			<label for="form_type">Fonction</label>{form_type}
 		</p>
 		<p>
-			<label for="form_comment">Nature du vol</label>
-			<input type="text" name="form_comment" id="form_comment" value="{form_comment}" maxlength="50">
+			<label for="form_comment">Nature du vol</label>{form_comment}
 		</p>
 		<p>
-			<label for="form_time_dc_day">DC Jour</label>
-			<input type="text" name="form_time_dc_day" id="form_time_dc_day" value="{form_time_dc_day}" maxlength="5">
+			<label for="form_time_dc_day">DC Jour</label>{form_time_dc_day}
 		</p>
 		<p>
-			<label for="form_time_cdb_day">CDB Jour</label>
-			<input type="text" name="form_time_cdb_day" id="form_time_cdb_day" value="{form_time_cdb_day}" maxlength="5">
+			<label for="form_time_cdb_day">CDB Jour</label>{form_time_cdb_day}
 		</p>
 		<p>  
-			<label for="form_time_dc_night">DC Nuit</label>
-			<input type="text" name="form_time_dc_night" id="form_time_dc_night" value="{form_time_dc_night}" maxlength="5">
+			<label for="form_time_dc_night">DC Nuit</label>{form_time_dc_night}
 		</p>
 		<p>   
-			<label for="form_time_cdb_night">CDB Nuit</label>
-			<input type="text" name="form_time_cdb_night" id="form_time_cdb_night" value="{form_time_cdb_night}" maxlength="5">
+			<label for="form_time_cdb_night">CDB Nuit</label>{form_time_cdb_night}
 		</p>
 		<p>
-			<label for="form_time_simu">Simulateur</label>
-			<input type="text" name="form_time_simu" id="form_time_simu" value="{form_time_simu}" maxlength="5">
+			<label for="form_time_simu">Simulateur</label>{form_time_simu}
 		</p>
 		<p>
-			<label for="form_nb_ifr">Approche IFR</label>
-			<input type="number" name="form_nb_ifr"  value="{form_nb_ifr}" maxlength="3">
+			<label for="form_nb_ifr">Approche IFR</label>{form_nb_ifr}
 		</p>
 		<p>
-			<label for="form_nb_att">Nb Atterrissage</label>
-			<input type="number" name="form_nb_att" value="{form_nb_att}" maxlength="3">
+			<label for="form_nb_att">Nb Atterrissage</label>{form_nb_att}
 		</p>
 		<p>
-			<label for="form_nb_amerr">Nb Amerrissage</label>
-			<input type="number" name="form_nb_amerr" value="{form_nb_amerr}" maxlength="3"">
+			<label for="form_nb_amerr">Nb Amerrissage</label>{form_nb_amerr}
 		</p>
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" name="fonc" value="Enregistrer">
-      <input type="submit" name="fonc" value="Annuler">
-    </fieldset>
-  </form>
-</div>
+	</div>
+	<!-- Allow form submission with keyboard without duplicating the dialog button -->
+	<input type="submit" name="fonc" value="Enregistrer">
+	<input type="submit" name="fonc" value="Annuler">
 
+</form>
 
 <!-- END: corps -->

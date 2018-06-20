@@ -24,6 +24,8 @@
 	$tmpl_x = new XTemplate (MyRep("search.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
 
+	require_once($appfolder."/class/vol.inc.php");
+	require_once($appfolder."/class/avion.inc.php");
 
 // ---- Affiche le menu
 	$aff_menu="";
@@ -36,37 +38,25 @@
 // ---- Save Flight
 	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
 	{
-		if (!is_numeric($_REQUEST["lid"]))
+		$lid=checkVar("lid","numeric");
+		$fl=new flight_class($lid,$sql);
+		if (count($form_data)>0)
 		{
-			$lid=0;
-		}
-		else
-		{
-			$lid=$_REQUEST["lid"];
+			foreach($form_data as $k=>$v)
+		  	{
+		  		$msg_erreur.=$fl->Valid($k,$v);
+		  	}
 		}
 
-		if ($_REQUEST["form_callsign"]!="")
+		$fl->Save();
+		if ($lid==0)
 		{
-			$t=array(
-				"uid" => $id,
-				"dte_flight" => $_REQUEST["form_dte_flight"],
-				"callsign" => trim(strtoupper($_REQUEST["form_callsign"])),
-				"type" => trim(strtoupper($_REQUEST["form_type"])),
-				"comment" => $_REQUEST["form_comment"],
-				"time_dc_day" => CalcTemps($_REQUEST["form_time_dc_day"]),
-				"time_cdb_day" => CalcTemps($_REQUEST["form_time_cdb_day"]),
-				"time_dc_night" => CalcTemps($_REQUEST["form_time_dc_night"]),
-				"time_cdb_night" => CalcTemps($_REQUEST["time_cdb_night"]),
-				"time_simu" => CalcTemps($_REQUEST["form_time_simu"]),
-				"nb_ifr" => $_REQUEST["form_nb_ifr"],
-				"nb_att" => $_REQUEST["form_nb_att"],
-				"nb_amerr" => $_REQUEST["form_nb_amerr"],
-			);
-			$sql->Edit("flight",$MyOpt["tbl"]."_flight",$lid,$t);
-
-			$_SESSION['tab_checkpost'][$checktime]=$checktime;
-
+			$lid=$fl->id;
 		}
+		$msg_confirmation.="Vos données ont été enregistrées.<BR>";
+		
+		$_SESSION['tab_checkpost'][$checktime]=$checktime;
+
 	}
 
 	
@@ -91,24 +81,22 @@
 	  { $ts = 0; }
 
 // ---- Fill Fields
-	if (isset($_REQUEST["form_dte_flight"]))
+	$fl=new flight_class(0,$sql);
+
+	$dte_flight=checkVar("form_dte_flight","date");
+	$callsigh=checkVar("form_calsign","varchar",10);
+	
+	if ($dte_flight!="0000-00-00")
 	{
-		$tmpl_x->assign("form_dte_flight",$_REQUEST['form_dte_flight']);
+		$fl->data["dte_flight"]=$dte_flight;
 	}
-	else
+	if ($callsign!="")
 	{
-		$tmpl_x->assign("form_dte_flight",date("Y-m-d"));
+		// $fl->data["callsign"]=$callsign;
 	}
 
-	if (isset($_REQUEST["form_callsign"]))
-	{
-		$tmpl_x->assign("form_callsign",$_REQUEST['form_callsign']);
-	}
+	$fl->Render("form","form");
 
-if ($gl_uid==1)
-{
-$id=5;
-}
 // ---- Calculate total line
 	$query = "SELECT COUNT(*) AS nb,
 		SUM(time_dc_day) AS time_dc_day,

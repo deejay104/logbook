@@ -6,10 +6,6 @@
 {aff_menu}
 <!-- END: infos -->
 
-
-<!-- BEGIN: corps -->
-
-
 <script>
   $( function() {
     var dialog, form,
@@ -120,6 +116,9 @@
   } );
 </script>
 
+
+<!-- BEGIN: corps -->
+
 <div id="dialog-form" title="Ajouter un vol" class="formulaire">
   <p class="validateTips">Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM</p>
  
@@ -168,42 +167,18 @@
 	</td>
 	</tr>
 	<tr>
-		<td>
-			<input type="date" name="form_dte_flight" id="form_dte_flight"  value="{form_dte_flight}">
-		</td>
-		<td>
-			<input type="text" name="form_callsign" id="form_callsign" value="" style='width:75px!important;'>
-		</td>
-		<td>
-			<select name="form_type" id="form_type" style='width:60px!important;'><option value="P">P</option><option value="EP">EP</option></select>
-		</td>
-		<td>
-			<input type="text" name="form_comment" id="form_comment" value="" maxlength="50" style='width:245px!important;'>
-		</td>
-		<td>
-			<input type="text" name="form_time_dc_day" id="form_time_dc_day" value="0" maxlength="5" style='width:70px!important;'>
-		</td>
-		<td>
-			<input type="text" name="form_time_cdb_day" id="form_time_cdb_day" value="0" maxlength="5" style='width:70px!important;'>
-		</td>
-		<td>
-			<input type="text" name="form_time_dc_night" id="form_time_dc_night" value="0" maxlength="5" style='width:70px!important;'>
-		</td>
-		<td>
-			<input type="text" name="form_time_cdb_night" id="form_time_cdb_night" value="0" maxlength="5" style='width:70px!important;'>
-		</td>
-		<td>
-			<input type="text" name="form_time_simu" id="form_time_simu" value="0" maxlength="5" style='width:70px!important;'>
-		</td>
-		<td>
-			<input type="number" name="form_nb_ifr"  value="0" maxlength="3" style='width:55px!important;'>
-		</td>
-		<td>
-			<input type="number" name="form_nb_att" value="1" maxlength="3" style='width:55px!important;'>
-		</td>
-		<td>
-			<input type="number" name="form_nb_amerr" value="0" maxlength="3" style='width:55px!important;'>
-		</td>
+		<td>{form_dte_flight}</td>
+		<td>{form_callsign}</td>
+		<td>{form_type}</td>
+		<td>{form_comment}</td>
+		<td>{form_time_dc_day}</td>
+		<td>{form_time_cdb_day}</td>
+		<td>{form_time_dc_night}</td>
+		<td>{form_time_cdb_night}</td>
+		<td>{form_time_simu}</td>
+		<td>{form_nb_ifr}</td>
+		<td>{form_nb_att}</td>
+		<td>{form_nb_amerr}</td>
 	</tr>
 	</table>	
       <!-- Allow form submission with keyboard without duplicating the dialog button -->

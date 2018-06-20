@@ -23,6 +23,10 @@
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("index.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
+	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
+
+	require_once($appfolder."/class/user.inc.php");
+	require_once($appfolder."/class/vol.inc.php");
 
 // ---- Affiche le menu
 	$aff_menu="";
@@ -32,11 +36,31 @@
 // ---- Get my id	
 	$id=$myuser->id;
 
-	require_once ($appfolder."/class/user.inc.php");
-	$usr = new user_class($id,$sql,true);
+// ---- Save Flight
+	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
+	{
+		$lid=checkVar("lid","numeric");
+		$fl=new flight_class($lid,$sql);
+		if (count($form_data)>0)
+		{
+			foreach($form_data as $k=>$v)
+		  	{
+		  		$msg_erreur.=$fl->Valid($k,$v);
+		  	}
+		}
 
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
+		$fl->Save();
+		if ($lid==0)
+		{
+			$lid=$fl->id;
+		}
+		$msg_confirmation.="Vos données ont été enregistrées.<BR>";
+		
+		$_SESSION['tab_checkpost'][$checktime]=$checktime;
 
+	}
+
+	
 // ---- Show pages
 	$query = "SELECT COUNT(*) AS nb FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id";
 	$res=$sql->QueryRow($query);
@@ -71,6 +95,7 @@
 	$res=$sql->QueryRow($query);
 
 	$tabTotal=array();
+	$usr = new user_class($id,$sql,true);
 	$tabTotal["time_dc_day"]=$usr->data["time_dc_day"]+$res["tot_dc_day"];
 	$tabTotal["time_cdb_day"]=$usr->data["time_cdb_day"]+$res["tot_cdb_day"];
 	$tabTotal["time_dc_night"]=$usr->data["time_dc_night"]+$res["tot_dc_night"];
