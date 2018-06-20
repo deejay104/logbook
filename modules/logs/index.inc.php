@@ -91,7 +91,9 @@
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id ORDER BY dte_flight,id LIMIT $p,1";
 	$res=$sql->QueryRow($query);
 
-	$query = "SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id AND dte_flight<'".$res["dte_flight"]."'";
+	$query = "SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu ";
+	$query.="FROM ".$MyOpt["tbl"]."_flight ";
+	$query.="WHERE uid='".$id."' AND dte_flight<'".$res["dte_flight"]."'";
 	$res=$sql->QueryRow($query);
 
 	$tabTotal=array();
@@ -108,7 +110,10 @@
 	$tmpl_x->assign("report_cdb_night",($tabTotal["time_cdb_night"]>0) ? AffTemps($tabTotal["time_cdb_night"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
 	
-	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id ORDER BY dte_flight,id LIMIT $p,14";
+	$query = "SELECT flight.*,plane.type AS ptype FROM ".$MyOpt["tbl"]."_flight AS flight ";
+	$query.="LEFT JOIN ".$MyOpt["tbl"]."_plane AS plane ON flight.callsign=plane.callsign ";
+	$query.="WHERE flight.uid='".$id."' ";
+	$query.="ORDER BY flight.dte_flight,flight.id LIMIT $p,14";
 	$sql->Query($query);
 
 	for($i=0; $i<$sql->rows; $i++)
@@ -117,6 +122,7 @@
 		$tmpl_x->assign("aff_id",$sql->data["id"]);
 		$tmpl_x->assign("aff_date",sql2date($sql->data["dte_flight"]));
 		$tmpl_x->assign("aff_callsign",strtoupper($sql->data["callsign"]));
+		$tmpl_x->assign("aff_planetype",$sql->data["ptype"]);
 		$tmpl_x->assign("aff_type",strtoupper($sql->data["type"]));
 		$tmpl_x->assign("aff_comment",($sql->data["comment"]!="") ? $sql->data["comment"] : "&nbsp;" );
 		$tmpl_x->assign("aff_time_dc_day",($sql->data["time_dc_day"]>0) ? AffTemps($sql->data["time_dc_day"],"no") : "&nbsp;");
