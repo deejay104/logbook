@@ -29,6 +29,14 @@ class plane_class extends objet_core
 		parent::__construct($id,$sql);
 
 	}
+	
+	function LoadCallsign($c)
+	{
+		$sql=$this->sql;
+		$q="SELECT id FROM ".$this->tbl."_plane WHERE callsign='".$c."'";
+		$res=$sql->QueryRow($q);
+		$this->load($res["id"]);
+	}
 }
 
 

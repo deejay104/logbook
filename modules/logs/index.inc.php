@@ -27,6 +27,7 @@
 
 	require_once($appfolder."/class/user.inc.php");
 	require_once($appfolder."/class/vol.inc.php");
+	require_once($appfolder."/class/avion.inc.php");
 
 // ---- Affiche le menu
 	$aff_menu="";
@@ -110,32 +111,41 @@
 	$tmpl_x->assign("report_cdb_night",($tabTotal["time_cdb_night"]>0) ? AffTemps($tabTotal["time_cdb_night"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
 	
-	$query = "SELECT flight.*,plane.type AS ptype FROM ".$MyOpt["tbl"]."_flight AS flight ";
-	$query.="LEFT JOIN ".$MyOpt["tbl"]."_plane AS plane ON flight.callsign=plane.callsign ";
+	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight AS flight ";
+	// $query.="LEFT JOIN ".$MyOpt["tbl"]."_plane AS plane ON flight.callsign=plane.callsign ";
 	$query.="WHERE flight.uid='".$id."' ";
 	$query.="ORDER BY flight.dte_flight,flight.id LIMIT $p,14";
 	$sql->Query($query);
 
+	$tabLine=array();
 	for($i=0; $i<$sql->rows; $i++)
 	{ 
 		$sql->GetRow($i);
-		$tmpl_x->assign("aff_id",$sql->data["id"]);
-		$tmpl_x->assign("aff_date",sql2date($sql->data["dte_flight"]));
-		$tmpl_x->assign("aff_callsign",strtoupper($sql->data["callsign"]));
-		$tmpl_x->assign("aff_planetype",$sql->data["ptype"]);
-		$tmpl_x->assign("aff_type",strtoupper($sql->data["type"]));
-		$tmpl_x->assign("aff_comment",($sql->data["comment"]!="") ? $sql->data["comment"] : "&nbsp;" );
-		$tmpl_x->assign("aff_time_dc_day",($sql->data["time_dc_day"]>0) ? AffTemps($sql->data["time_dc_day"],"no") : "&nbsp;");
-		$tmpl_x->assign("aff_time_cdb_day",($sql->data["time_cdb_day"]>0) ? AffTemps($sql->data["time_cdb_day"],"no") : "&nbsp;");
-		$tmpl_x->assign("aff_time_dc_night",($sql->data["time_dc_night"]>0) ? AffTemps($sql->data["time_dc_night"],"no") : "&nbsp;");
-		$tmpl_x->assign("aff_time_cdb_night",($sql->data["time_cdb_night"]>0) ? AffTemps($sql->data["time_cdb_night"],"no") : "&nbsp;");
-		$tmpl_x->assign("aff_time_simu",($sql->data["time_simu"]>0) ? AffTemps($sql->data["time_simu"],"no") : "&nbsp;");
+		$tabLine[$i]=$sql->data;
+	}
+	
+	foreach($tabLine as $i=>$l)
+	{
+		$tmpl_x->assign("aff_id",$l["id"]);
+		$tmpl_x->assign("aff_date",sql2date($l["dte_flight"]));
+		$tmpl_x->assign("aff_callsign",strtoupper($l["callsign"]));
+		$tmpl_x->assign("aff_type",strtoupper($l["type"]));
+		$tmpl_x->assign("aff_comment",($l["comment"]!="") ? $l["comment"] : "&nbsp;" );
+		$tmpl_x->assign("aff_time_dc_day",($l["time_dc_day"]>0) ? AffTemps($l["time_dc_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_time_cdb_day",($l["time_cdb_day"]>0) ? AffTemps($l["time_cdb_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_time_dc_night",($l["time_dc_night"]>0) ? AffTemps($l["time_dc_night"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_time_cdb_night",($l["time_cdb_night"]>0) ? AffTemps($l["time_cdb_night"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_time_simu",($l["time_simu"]>0) ? AffTemps($l["time_simu"],"no") : "&nbsp;");
 
-		$tabTotal["time_dc_day"]=$tabTotal["time_dc_day"]+$sql->data["time_dc_day"];
-		$tabTotal["time_cdb_day"]=$tabTotal["time_cdb_day"]+$sql->data["time_cdb_day"];
-		$tabTotal["time_dc_night"]=$tabTotal["time_dc_night"]+$sql->data["time_dc_night"];
-		$tabTotal["time_cdb_night"]=$tabTotal["time_cdb_night"]+$sql->data["time_cdb_night"];
-		$tabTotal["time_simu"]=$tabTotal["time_simu"]+$sql->data["time_simu"];
+		$avion=new plane_class(0,$sql);
+		$avion->LoadCallsign($l["callsign"]);
+		$tmpl_x->assign("aff_planetype",$avion->val("type"));
+
+		$tabTotal["time_dc_day"]=$tabTotal["time_dc_day"]+$l["time_dc_day"];
+		$tabTotal["time_cdb_day"]=$tabTotal["time_cdb_day"]+$l["time_cdb_day"];
+		$tabTotal["time_dc_night"]=$tabTotal["time_dc_night"]+$l["time_dc_night"];
+		$tabTotal["time_cdb_night"]=$tabTotal["time_cdb_night"]+$l["time_cdb_night"];
+		$tabTotal["time_simu"]=$tabTotal["time_simu"]+$l["time_simu"];
 		
 		$tmpl_x->parse("corps.lst_line");
 	}

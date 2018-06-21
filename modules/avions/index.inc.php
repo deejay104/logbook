@@ -36,7 +36,7 @@
 	$lst=ListeAvions($sql);
 
 	$tabTitre=array();
-	$tabTitre["callsign"]["aff"]="Num";
+	$tabTitre["callsign"]["aff"]="Immat";
 	$tabTitre["callsign"]["width"]=100;
 	$tabTitre["type"]["aff"]="Type";
 	$tabTitre["type"]["width"]=100;
@@ -52,7 +52,7 @@
 		$tabValeur[$i]["type"]["aff"]=$pb->aff("type");
 	}
 
-	if ((!isset($order)) || ($order=="")) { $order="status"; }
+	if ((!isset($order)) || ($order=="")) { $order="callsign"; }
 	if ((!isset($trie)) || ($trie=="")) { $trie="d"; }
 
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie));

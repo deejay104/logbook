@@ -24,6 +24,8 @@
 	$tmpl_x = new XTemplate (MyRep("mois.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
 
+	require_once($appfolder."/class/user.inc.php");
+
 // ---- Affiche le menu
 	$aff_menu="";
 	require_once($appfolder."/modules/".$mod."/menu.inc.php");
@@ -147,11 +149,26 @@ $id=5;
 
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie));
 
-
-	$tmpl_x->assign("tot_heures",AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no"));
+	$tmpl_x->assign("tot_12mois",AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no"));
 	$tmpl_x->assign("tot_cdb",AffTemps($res["cdb_day"]+$res["cdb_night"],"no"));
 	$tmpl_x->assign("date_deb",sql2date($ddeb));
 	$tmpl_x->assign("tot_att",$res["nb_att"]);
+	$tmpl_x->assign("dte_today",date("d/m/Y"));
+	
+	$query = "SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu ";
+	$query.="FROM ".$MyOpt["tbl"]."_flight ";
+	$query.="WHERE uid='".$id."'";
+	$res=$sql->QueryRow($query);
+
+	$tabTotal=array();
+	$usr = new user_class($id,$sql,true);
+	$tabTotal["time_dc_day"]=$usr->data["time_dc_day"]+$res["tot_dc_day"];
+	$tabTotal["time_cdb_day"]=$usr->data["time_cdb_day"]+$res["tot_cdb_day"];
+	$tabTotal["time_dc_night"]=$usr->data["time_dc_night"]+$res["tot_dc_night"];
+	$tabTotal["time_cdb_night"]=$usr->data["time_cdb_night"]+$res["tot_cdb_night"];
+	$tabTotal["time_simu"]=$usr->data["time_simu"]+$res["tot_simu"];
+
+	$tmpl_x->assign("tot_heures",AffTemps($tabTotal["time_dc_day"]+$tabTotal["time_cdb_day"]+$tabTotal["time_dc_night"]+$tabTotal["time_cdb_night"]+$tabTotal["time_simu"],"no"));
 
 	
 	
