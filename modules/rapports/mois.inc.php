@@ -44,22 +44,24 @@ $id=5;
 
 // ---- Totaux
 
-	if ($dte_deb!="")
+	if ($dte_deb!="0000-00-00")
 	{
 		$ddeb=date2sql($dte_deb);
 	}
 	else
 	{
 		$ddeb=(date("Y")-1)."-".date("m-d");
+		$dte_deb=$ddeb;
 	}
 	$tmpl_x->assign("dte_deb",$dte_deb);
-	if ($dte_fin!="")
+	if ($dte_fin!="0000-00-00")
 	{
 		$dfin=date2sql($dte_fin);
 	}
 	else
 	{
 		$dfin=date("Y-m-d");
+		$dte_fin=$dfin;
 	}
 	$tmpl_x->assign("dte_fin",$dte_fin);
 
