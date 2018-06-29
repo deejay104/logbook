@@ -138,7 +138,7 @@
 		$tmpl_x->assign("aff_time_simu",($l["time_simu"]>0) ? AffTemps($l["time_simu"],"no") : "&nbsp;");
 
 		$avion=new plane_class(0,$sql);
-		$avion->LoadCallsign($l["callsign"]);
+		$avion->LoadCallsign($l["callsign"],$gl_uid);
 		$tmpl_x->assign("aff_planetype",$avion->val("type"));
 
 		$tabTotal["time_dc_day"]=$tabTotal["time_dc_day"]+$l["time_dc_day"];

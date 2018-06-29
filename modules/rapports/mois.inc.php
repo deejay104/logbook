@@ -30,12 +30,11 @@
 	$aff_menu="";
 	require_once($appfolder."/modules/".$mod."/menu.inc.php");
 	$tmpl_x->assign("aff_menu",$aff_menu);
-
-	$tmpl_x->assign("dte_deb",$dte_deb);
 	
 // ---- Get my id	
 	$id=$myuser->id;
-
+	$dte_deb=checkVar("dte_deb","date");
+	$dte_fin=checkVar("dte_fin","date");
 
 // ---- Initialize variables
 if ($gl_uid==1)
@@ -45,7 +44,7 @@ $id=5;
 
 // ---- Totaux
 
-	if (isset($dte_deb))
+	if ($dte_deb!="")
 	{
 		$ddeb=date2sql($dte_deb);
 	}
@@ -53,6 +52,16 @@ $id=5;
 	{
 		$ddeb=(date("Y")-1)."-".date("m-d");
 	}
+	$tmpl_x->assign("dte_deb",$dte_deb);
+	if ($dte_fin!="")
+	{
+		$dfin=date2sql($dte_fin);
+	}
+	else
+	{
+		$dfin=date("Y-m-d");
+	}
+	$tmpl_x->assign("dte_fin",$dte_fin);
 
 	$q="SELECT
 		SUM(time_dc_day) AS dc_day,
@@ -64,9 +73,8 @@ $id=5;
 		SUM(nb_att) AS nb_att,
 		SUM(nb_amerr) AS nb_amerr
 		FROM ".$MyOpt["tbl"]."_flight
-		WHERE uid=$id AND dte_flight>'".$ddeb."'";
+		WHERE uid=".$id." AND dte_flight>='".$ddeb."' AND dte_flight<='".$dfin."'";
 	$res=$sql->QueryRow($q);
-
 		
 // ---- Flight List
 
@@ -109,7 +117,7 @@ $id=5;
 		SUM(nb_att) AS nb_att,
 		SUM(nb_amerr) AS nb_amerr
 		FROM ".$MyOpt["tbl"]."_flight
-		WHERE uid=$id AND dte_flight>='".$ddeb."' GROUP BY DATE_FORMAT(dte_flight,'%Y-%m')";
+		WHERE uid=".$id." AND dte_flight>='".$ddeb."' AND dte_flight<='".$dfin."' GROUP BY DATE_FORMAT(dte_flight,'%Y-%m')";
 	$sql->Query($q);
 	$tabValeur=array();
 
@@ -152,10 +160,11 @@ $id=5;
 	$tmpl_x->assign("tot_12mois",AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no"));
 	$tmpl_x->assign("tot_cdb",AffTemps($res["cdb_day"]+$res["cdb_night"],"no"));
 	$tmpl_x->assign("date_deb",sql2date($ddeb));
+	$tmpl_x->assign("date_fin",sql2date($dfin));
 	$tmpl_x->assign("tot_att",$res["nb_att"]);
 	$tmpl_x->assign("dte_today",date("d/m/Y"));
 	
-	$query = "SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu ";
+	$query ="SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu ";
 	$query.="FROM ".$MyOpt["tbl"]."_flight ";
 	$query.="WHERE uid='".$id."'";
 	$res=$sql->QueryRow($query);

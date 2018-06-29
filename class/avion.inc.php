@@ -30,10 +30,10 @@ class plane_class extends objet_core
 
 	}
 	
-	function LoadCallsign($c)
+	function LoadCallsign($c,$uid)
 	{
 		$sql=$this->sql;
-		$q="SELECT id FROM ".$this->tbl."_plane WHERE callsign='".$c."'";
+		$q="SELECT id FROM ".$this->tbl."_plane WHERE callsign='".$c."' AND uid='".$uid."'";
 		$res=$sql->QueryRow($q);
 		$this->load($res["id"]);
 	}
