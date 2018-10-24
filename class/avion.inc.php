@@ -37,6 +37,26 @@ class plane_class extends objet_core
 		$res=$sql->QueryRow($q);
 		$this->load($res["id"]);
 	}
+	
+	function TotalHeures()
+	{ global $gl_uid,$MyOpt;
+		$sql=$this->sql;
+
+		$q="SELECT
+			SUM(time_dc_day) AS dc_day,
+			SUM(time_cdb_day) AS cdb_day,
+			SUM(time_dc_night) AS dc_night,
+			SUM(time_dc_night) AS dc_night,
+			SUM(time_simu) AS simu,
+			SUM(nb_ifr) AS nb_ifr,
+			SUM(nb_att) AS nb_att,
+			SUM(nb_amerr) AS nb_amerr
+			FROM ".$MyOpt["tbl"]."_flight
+			WHERE uid='".$gl_uid."' AND callsign='".$this->data["callsign"]."'";
+		$res=$sql->QueryRow($q);
+		
+		return AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
+	}
 }
 
 
