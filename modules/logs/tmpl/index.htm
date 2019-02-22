@@ -97,7 +97,10 @@ function SwitchOn(champ,id)
 <th rowspan=2 colspan=2>Aéronef</th>
 <th rowspan=4 width="80">Fonction à bord</th>
 <th rowspan=3 width='250'>Nature du vol</th>
+<th colspan=2 rowspan=2>Membre d'équipage</th>
 <th colspan=4>Pilote Monomoteurs</th>
+<th colspan=6>Pilote Multimoteurs</th>
+<th colspan=2 rowspan=2>Vols aux instruments</th>
 <th rowspan=3 width=80>Simu-lation</th>
 <th rowspan=3 width=80>Arrivée IFR</th>
 </tr>
@@ -105,23 +108,48 @@ function SwitchOn(champ,id)
 <tr>
 <th colspan=2>Jour</th>
 <th colspan=2>Nuit</th>
+<th colspan=3>Jour</th>
+<th colspan=3>Nuit</th>
 </tr>
 
 <tr>
 <th rowspan=2 width="80">Type</th>
 <th rowspan=2 width="80">Immatri-culation</th>
+<th width='90'>Jour</th>
+<th width='90'>Nuit</th>
 <th width='90'>Double</th>
 <th width='90'>Cdt de bord</th>
 <th width='90'>Double</th>
 <th width='90'>Cdt de bord</th>
+<th width='90'>Double</th>
+<th width='90'>Cdt de bord</th>
+<th width='90'>Copilote</th>
+<th width='90'>Double</th>
+<th width='90'>Cdt de bord</th>
+<th width='90'>Copilote</th>
+<th width='90'>Double</th>
+<th width='90'>Pilote</th>
 </tr>
 
 <tr>
 <th style='text-align:right;'>Reports-></th>
+<th>{report_member_day}</th>
+<th>{report_member_night}</th>
 <th>{report_dc_day}</th>
 <th>{report_cdb_day}</th>
 <th>{report_dc_night}</th>
 <th>{report_cdb_night}</th>
+
+<th>{report_multi_dc_day}</th>
+<th>{report_multi_cdb_day}</th>
+<th>{report_multi_copi_day}</th>
+<th>{report_multi_dc_night}</th>
+<th>{report_multi_cdb_night}</th>
+<th>{report_multi_copi_night}</th>
+
+<th>{report_instru_double}</th>
+<th>{report_instru_pilote}</th>
+
 <th>{report_simu}</th>
 <th>{report_nb_ifr}</th>
 </tr>
@@ -133,10 +161,25 @@ function SwitchOn(champ,id)
 <td>{aff_callsign}</td>
 <td>{aff_type}</td>
 <td><div id='comment_{aff_id}'><a id='comment_{aff_id}_a' onClick="SwitchEdit('comment','{aff_id}',240)">{aff_comment}</a></div></td>
+
+<td><div id='member_day_{aff_id}'><a id='member_day_{aff_id}_a' onClick="SwitchEdit('member_day','{aff_id}')">{aff_member_day}</a></div></td>
+<td><div id='member_night_{aff_id}'><a id='member_night_{aff_id}_a' onClick="SwitchEdit('member_night','{aff_id}')">{aff_member_night}</a></div></td>
+
 <td><div id='time_dc_day_{aff_id}'><a id='time_dc_day_{aff_id}_a' onClick="SwitchEdit('time_dc_day','{aff_id}')">{aff_time_dc_day}</a></div></td>
 <td><div id='time_cdb_day_{aff_id}'><a id='time_cdb_day_{aff_id}_a' onClick="SwitchEdit('time_cdb_day','{aff_id}')">{aff_time_cdb_day}</a></div></td>
 <td><div id='time_dc_night_{aff_id}'><a id='time_dc_night_{aff_id}_a' onClick="SwitchEdit('time_dc_night','{aff_id}')">{aff_time_dc_night}</a></div></td>
 <td><div id='time_cdb_night_{aff_id}'><a id='time_cdb_night_{aff_id}_a' onClick="SwitchEdit('time_cdb_night','{aff_id}')">{aff_time_cdb_night}</a></div></td>
+
+<td><div id='multi_dc_day_{aff_id}'><a id='multi_dc_day_{aff_id}_a' onClick="SwitchEdit('multi_dc_day','{aff_id}')">{aff_multi_dc_day}</a></div></td>
+<td><div id='multi_cdb_day_{aff_id}'><a id='multi_cdb_day_{aff_id}_a' onClick="SwitchEdit('multi_cdb_day','{aff_id}')">{aff_multi_cdb_day}</a></div></td>
+<td><div id='multi_copi_day_{aff_id}'><a id='multi_copi_day_{aff_id}_a' onClick="SwitchEdit('multi_copi_day','{aff_id}')">{aff_multi_copi_day}</a></div></td>
+<td><div id='multi_dc_night_{aff_id}'><a id='multi_dc_night_{aff_id}_a' onClick="SwitchEdit('multi_dc_night','{aff_id}')">{aff_multi_dc_night}</a></div></td>
+<td><div id='multi_cdb_night_{aff_id}'><a id='multi_cdb_night_{aff_id}_a' onClick="SwitchEdit('multi_cdb_night','{aff_id}')">{aff_multi_cdb_night}</a></div></td>
+<td><div id='multi_copi_night_{aff_id}'><a id='multi_copi_night_{aff_id}_a' onClick="SwitchEdit('multi_copi_night','{aff_id}')">{aff_multi_copi_night}</a></div></td>
+
+<td><div id='instru_double_{aff_id}'><a id='instru_double_{aff_id}_a' onClick="SwitchEdit('instru_double','{aff_id}')">{aff_instru_double}</a></div></td>
+<td><div id='instru_pilote_{aff_id}'><a id='instru_pilote_{aff_id}_a' onClick="SwitchEdit('instru_pilote','{aff_id}')">{aff_instru_pilote}</a></div></td>
+
 <td><div id='time_simu_{aff_id}'><a id='time_simu_{aff_id}_a' onClick="SwitchEdit('time_simu','{aff_id}')">{aff_time_simu}</a></div></td>
 <td>{nb_ifr}</td>
 </tr>
@@ -148,10 +191,23 @@ function SwitchOn(champ,id)
 <th></th>
 <th></th>
 <th style='text-align:right;'>Totaux à reporter-></th>
+<th>{reportend_member_day}</th>
+<th>{reportend_member_night}</th>
 <th>{reportend_dc_day}</th>
 <th>{reportend_cdb_day}</th>
 <th>{reportend_dc_night}</th>
 <th>{reportend_cdb_night}</th>
+
+<th>{reportend_multi_dc_day}</th>
+<th>{reportend_multi_cdb_day}</th>
+<th>{reportend_multi_copi_day}</th>
+<th>{reportend_multi_dc_night}</th>
+<th>{reportend_multi_cdb_night}</th>
+<th>{reportend_multi_copi_night}</th>
+
+<th>{reportend_instru_double}</th>
+<th>{reportend_instru_pilote}</th>
+
 <th>{reportend_simu}</th>
 <th>{reportend_nb_ifr}</th>
 </tr>

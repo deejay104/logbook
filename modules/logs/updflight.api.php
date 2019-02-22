@@ -29,7 +29,12 @@
 	$res["val"]=$val;
 	$res["id"]=$id;
 
-	if ( ($var=="time_dc_day") || ($var=="time_cdb_day") || ($var=="time_dc_night") || ($var=="time_cdb_night") || ($var=="time_simu") )
+	if ( ($var=="time_dc_day") || ($var=="time_cdb_day") || ($var=="time_dc_night") || ($var=="time_cdb_night") 
+			|| ($var=="multi_dc_day") || ($var=="multi_cdb_day") || ($var=="multi_copi_day") || ($var=="multi_dc_night") || ($var=="multi_cdb_night") || ($var=="multi_copi_night")
+			|| ($var=="member_day") || ($var=="member_night")
+			|| ($var=="instru_double") || ($var=="instru_pilote")
+			|| ($var=="time_simu")
+		)
 	{
 		if ( (trim(utf8_decode($val))=="") || (utf8_decode($val)=="?"))
 		{

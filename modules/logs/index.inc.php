@@ -92,23 +92,56 @@
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id ORDER BY dte_flight,id LIMIT $p,1";
 	$res=$sql->QueryRow($query);
 
-	$query = "SELECT SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, SUM(time_simu) AS tot_simu ";
-	$query.="FROM ".$MyOpt["tbl"]."_flight ";
-	$query.="WHERE uid='".$id."' AND dte_flight<'".$res["dte_flight"]."'";
+	$query = "SELECT SUM(member_day) AS member_day, SUM(member_night) AS member_night, ";
+	$query.= "SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, ";
+	$query.= "SUM(multi_dc_day) AS multi_dc_day, SUM(multi_cdb_day) AS multi_cdb_day, SUM(multi_copi_day) AS multi_copi_day, SUM(multi_dc_night) AS multi_dc_night, SUM(multi_cdb_night) AS multi_cdb_night, SUM(multi_copi_night) AS multi_copi_night,";
+	$query.= "SUM(instru_double) AS instru_double, SUM(instru_pilote) AS instru_pilote, ";
+	$query.= "SUM(time_simu) AS tot_simu ";
+	$query.= "FROM ".$MyOpt["tbl"]."_flight ";
+	$query.= "WHERE uid='".$id."' AND dte_flight<'".$res["dte_flight"]."'";
 	$res=$sql->QueryRow($query);
 
 	$tabTotal=array();
 	$usr = new user_class($id,$sql,true);
+
+	$tabTotal["member_day"]=$usr->data["member_day"]+$res["member_day"];
+	$tabTotal["member_night"]=$usr->data["member_night"]+$res["member_night"];
+
 	$tabTotal["time_dc_day"]=$usr->data["time_dc_day"]+$res["tot_dc_day"];
 	$tabTotal["time_cdb_day"]=$usr->data["time_cdb_day"]+$res["tot_cdb_day"];
 	$tabTotal["time_dc_night"]=$usr->data["time_dc_night"]+$res["tot_dc_night"];
 	$tabTotal["time_cdb_night"]=$usr->data["time_cdb_night"]+$res["tot_cdb_night"];
+
+	$tabTotal["multi_dc_day"]=$usr->data["multi_dc_day"]+$res["multi_dc_day"];
+	$tabTotal["multi_cdb_day"]=$usr->data["multi_cdb_day"]+$res["multi_cdb_day"];
+	$tabTotal["multi_copi_day"]=$usr->data["multi_copi_day"]+$res["multi_copi_day"];
+	$tabTotal["multi_dc_night"]=$usr->data["multi_dc_night"]+$res["multi_dc_night"];
+	$tabTotal["multi_cdb_night"]=$usr->data["multi_cdb_night"]+$res["multi_cdb_night"];
+	$tabTotal["multi_copi_night"]=$usr->data["multi_copi_night"]+$res["multi_copi_night"];
+
+	$tabTotal["instru_double"]=$usr->data["instru_double"]+$res["instru_double"];
+	$tabTotal["instru_pilote"]=$usr->data["instru_pilote"]+$res["instru_pilote"];
+
 	$tabTotal["time_simu"]=$usr->data["time_simu"]+$res["tot_simu"];
+
+	$tmpl_x->assign("report_member_day",($tabTotal["member_day"]>0) ? AffTemps($tabTotal["member_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_member_night",($tabTotal["member_night"]>0) ? AffTemps($tabTotal["member_night"],"no") : "&nbsp;");
 
 	$tmpl_x->assign("report_dc_day",($tabTotal["time_dc_day"]>0) ? AffTemps($tabTotal["time_dc_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_cdb_day",($tabTotal["time_cdb_day"]>0) ? AffTemps($tabTotal["time_cdb_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_dc_night",($tabTotal["time_dc_night"]>0) ? AffTemps($tabTotal["time_dc_night"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_cdb_night",($tabTotal["time_cdb_night"]>0) ? AffTemps($tabTotal["time_cdb_night"],"no") : "&nbsp;");
+
+	$tmpl_x->assign("report_multi_dc_day",($tabTotal["multi_dc_day"]>0) ? AffTemps($tabTotal["multi_dc_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_multi_cdb_day",($tabTotal["multi_cdb_day"]>0) ? AffTemps($tabTotal["multi_cdb_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_multi_copi_day",($tabTotal["multi_copi_day"]>0) ? AffTemps($tabTotal["multi_copi_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_multi_dc_night",($tabTotal["multi_dc_night"]>0) ? AffTemps($tabTotal["multi_dc_night"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_multi_cdb_night",($tabTotal["multi_cdb_night"]>0) ? AffTemps($tabTotal["multi_cdb_night"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_multi_copi_night",($tabTotal["multi_copi_night"]>0) ? AffTemps($tabTotal["multi_copi_night"],"no") : "&nbsp;");
+
+	$tmpl_x->assign("report_instru_double",($tabTotal["instru_double"]>0) ? AffTemps($tabTotal["instru_double"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_instru_pilote",($tabTotal["instru_pilote"]>0) ? AffTemps($tabTotal["instru_pilote"],"no") : "&nbsp;");
+
 	$tmpl_x->assign("report_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
 	
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight AS flight ";
@@ -131,30 +164,73 @@
 		$tmpl_x->assign("aff_callsign",strtoupper($l["callsign"]));
 		$tmpl_x->assign("aff_type",strtoupper($l["type"]));
 		$tmpl_x->assign("aff_comment",($l["comment"]!="") ? $l["comment"] : "&nbsp;" );
+
+		$tmpl_x->assign("aff_member_day",($l["member_day"]>0) ? AffTemps($l["member_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_member_night",($l["member_night"]>0) ? AffTemps($l["member_night"],"no") : "&nbsp;");
+
 		$tmpl_x->assign("aff_time_dc_day",($l["time_dc_day"]>0) ? AffTemps($l["time_dc_day"],"no") : "&nbsp;");
 		$tmpl_x->assign("aff_time_cdb_day",($l["time_cdb_day"]>0) ? AffTemps($l["time_cdb_day"],"no") : "&nbsp;");
 		$tmpl_x->assign("aff_time_dc_night",($l["time_dc_night"]>0) ? AffTemps($l["time_dc_night"],"no") : "&nbsp;");
 		$tmpl_x->assign("aff_time_cdb_night",($l["time_cdb_night"]>0) ? AffTemps($l["time_cdb_night"],"no") : "&nbsp;");
+
+		$tmpl_x->assign("aff_multi_dc_day",($l["multi_dc_day"]>0) ? AffTemps($l["multi_dc_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_multi_cdb_day",($l["multi_cdb_day"]>0) ? AffTemps($l["multi_cdb_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_multi_copi_day",($l["multi_copi_day"]>0) ? AffTemps($l["multi_copi_day"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_multi_dc_night",($l["multi_dc_night"]>0) ? AffTemps($l["multi_dc_night"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_multi_cdb_night",($l["multi_cdb_night"]>0) ? AffTemps($l["multi_cdb_night"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_multi_copi_night",($l["multi_copi_night"]>0) ? AffTemps($l["multi_copi_night"],"no") : "&nbsp;");
+
+		$tmpl_x->assign("aff_instru_double",($l["instru_double"]>0) ? AffTemps($l["instru_double"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_instru_pilote",($l["instru_pilote"]>0) ? AffTemps($l["instru_pilote"],"no") : "&nbsp;");
+
 		$tmpl_x->assign("aff_time_simu",($l["time_simu"]>0) ? AffTemps($l["time_simu"],"no") : "&nbsp;");
 
 		$avion=new plane_class(0,$sql);
 		$avion->LoadCallsign($l["callsign"],$gl_uid);
 		$tmpl_x->assign("aff_planetype",$avion->val("type"));
 
+		$tabTotal["member_day"]=$tabTotal["member_day"]+$l["member_day"];
+		$tabTotal["member_night"]=$tabTotal["member_night"]+$l["member_night"];
+
 		$tabTotal["time_dc_day"]=$tabTotal["time_dc_day"]+$l["time_dc_day"];
 		$tabTotal["time_cdb_day"]=$tabTotal["time_cdb_day"]+$l["time_cdb_day"];
 		$tabTotal["time_dc_night"]=$tabTotal["time_dc_night"]+$l["time_dc_night"];
 		$tabTotal["time_cdb_night"]=$tabTotal["time_cdb_night"]+$l["time_cdb_night"];
+
+		$tabTotal["multi_dc_day"]=$tabTotal["multi_dc_day"]+$l["multi_dc_day"];
+		$tabTotal["multi_cdb_day"]=$tabTotal["multi_cdb_day"]+$l["multi_cdb_day"];
+		$tabTotal["multi_copi_day"]=$tabTotal["multi_copi_day"]+$l["multi_copi_day"];
+		$tabTotal["multi_dc_night"]=$tabTotal["multi_dc_night"]+$l["multi_dc_night"];
+		$tabTotal["multi_cdb_night"]=$tabTotal["multi_cdb_night"]+$l["multi_cdb_night"];
+		$tabTotal["multi_copi_night"]=$tabTotal["multi_copi_night"]+$l["multi_copi_night"];
+
+		$tabTotal["instru_double"]=$tabTotal["instru_double"]+$l["instru_double"];
+		$tabTotal["instru_pilote"]=$tabTotal["instru_pilote"]+$l["instru_pilote"];
+
 		$tabTotal["time_simu"]=$tabTotal["time_simu"]+$l["time_simu"];
 		
 		$tmpl_x->parse("corps.lst_line");
 	}
 
 
+	$tmpl_x->assign("reportend_member_day",($tabTotal["member_day"]>0) ? AffTemps($tabTotal["member_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_member_night",($tabTotal["member_night"]>0) ? AffTemps($tabTotal["member_night"],"no") : "&nbsp;");
+
 	$tmpl_x->assign("reportend_dc_day",($tabTotal["time_dc_day"]>0) ? AffTemps($tabTotal["time_dc_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("reportend_cdb_day",($tabTotal["time_cdb_day"]>0) ? AffTemps($tabTotal["time_cdb_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("reportend_dc_night",($tabTotal["time_dc_night"]>0) ? AffTemps($tabTotal["time_dc_night"],"no") : "&nbsp;");
 	$tmpl_x->assign("reportend_cdb_night",($tabTotal["time_cdb_night"]>0) ? AffTemps($tabTotal["time_cdb_night"],"no") : "&nbsp;");
+
+	$tmpl_x->assign("reportend_multi_dc_day",($tabTotal["multi_dc_day"]>0) ? AffTemps($tabTotal["multi_dc_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_multi_cdb_day",($tabTotal["multi_cdb_day"]>0) ? AffTemps($tabTotal["multi_cdb_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_multi_copi_day",($tabTotal["multi_copi_day"]>0) ? AffTemps($tabTotal["multi_copi_day"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_multi_dc_night",($tabTotal["multi_dc_night"]>0) ? AffTemps($tabTotal["multi_dc_night"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_multi_cdb_night",($tabTotal["multi_cdb_night"]>0) ? AffTemps($tabTotal["multi_cdb_night"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_multi_copi_night",($tabTotal["multi_copi_night"]>0) ? AffTemps($tabTotal["multi_copi_night"],"no") : "&nbsp;");
+
+	$tmpl_x->assign("reportend_instru_double",($tabTotal["instru_double"]>0) ? AffTemps($tabTotal["instru_double"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_instru_pilote",($tabTotal["instru_pilote"]>0) ? AffTemps($tabTotal["instru_pilote"],"no") : "&nbsp;");
+	
 	$tmpl_x->assign("reportend_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
 
 	$tot=$tabTotal["time_dc_day"]+$tabTotal["time_cdb_day"]+$tabTotal["time_dc_night"]+$tabTotal["time_cdb_night"]+$tabTotal["time_simu"];
