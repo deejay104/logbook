@@ -91,7 +91,7 @@ function SwitchOn(champ,id)
 </script>
 
 
-<table class="tableauAff tableauBook">
+<table class="tableauAff tableauBook" style="min-width:1400px;">
 <tr>
 <th rowspan=4 width="120">Date</th>
 <th rowspan=2 colspan=2>Aéronef</th>
@@ -181,7 +181,7 @@ function SwitchOn(champ,id)
 <td><div id='instru_pilote_{aff_id}'><a id='instru_pilote_{aff_id}_a' onClick="SwitchEdit('instru_pilote','{aff_id}')">{aff_instru_pilote}</a></div></td>
 
 <td><div id='time_simu_{aff_id}'><a id='time_simu_{aff_id}_a' onClick="SwitchEdit('time_simu','{aff_id}')">{aff_time_simu}</a></div></td>
-<td>{nb_ifr}</td>
+<td><div id='nb_ifr_{aff_id}'><a id='nb_ifr_{aff_id}_a' onClick="SwitchEdit('nb_ifr','{aff_id}')">{aff_nb_ifr}</a></div></td>
 </tr>
 <!-- END: lst_line -->
 

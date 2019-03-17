@@ -48,6 +48,14 @@
 		$res["result"]=utf8_encode("OK");
 		$res["value"]=utf8_encode(AffTemps($tps,"no"));
 	}
+	else if ($var=="nb_ifr")
+	{
+		$val=substr(trim($val),0,4);
+		$q="UPDATE ".$MyOpt["tbl"]."_flight SET nb_ifr='".$val."' WHERE id='".$id."'";
+		$sql->Update($q);
+		$res["result"]=utf8_encode("OK");
+		$res["value"]=utf8_encode(addslashes($val));
+	}
 	else if ($var=="comment")
 	{
 		$val=substr(trim($val),0,50);

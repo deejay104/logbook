@@ -96,7 +96,8 @@
 	$query.= "SUM(time_dc_day) AS tot_dc_day, SUM(time_cdb_day) AS tot_cdb_day, SUM(time_dc_night) AS tot_dc_night, SUM(time_cdb_night) AS tot_cdb_night, ";
 	$query.= "SUM(multi_dc_day) AS multi_dc_day, SUM(multi_cdb_day) AS multi_cdb_day, SUM(multi_copi_day) AS multi_copi_day, SUM(multi_dc_night) AS multi_dc_night, SUM(multi_cdb_night) AS multi_cdb_night, SUM(multi_copi_night) AS multi_copi_night,";
 	$query.= "SUM(instru_double) AS instru_double, SUM(instru_pilote) AS instru_pilote, ";
-	$query.= "SUM(time_simu) AS tot_simu ";
+	$query.= "SUM(time_simu) AS tot_simu, ";
+	$query.= "SUM(nb_ifr) AS tot_nbifr ";
 	$query.= "FROM ".$MyOpt["tbl"]."_flight ";
 	$query.= "WHERE uid='".$id."' AND dte_flight<'".$res["dte_flight"]."'";
 	$res=$sql->QueryRow($query);
@@ -123,6 +124,7 @@
 	$tabTotal["instru_pilote"]=$usr->data["instru_pilote"]+$res["instru_pilote"];
 
 	$tabTotal["time_simu"]=$usr->data["time_simu"]+$res["tot_simu"];
+	$tabTotal["nb_ifr"]=$usr->data["nb_ifr"]+$res["tot_nbifr"];
 
 	$tmpl_x->assign("report_member_day",($tabTotal["member_day"]>0) ? AffTemps($tabTotal["member_day"],"no") : "&nbsp;");
 	$tmpl_x->assign("report_member_night",($tabTotal["member_night"]>0) ? AffTemps($tabTotal["member_night"],"no") : "&nbsp;");
@@ -143,6 +145,7 @@
 	$tmpl_x->assign("report_instru_pilote",($tabTotal["instru_pilote"]>0) ? AffTemps($tabTotal["instru_pilote"],"no") : "&nbsp;");
 
 	$tmpl_x->assign("report_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
+	$tmpl_x->assign("report_nb_ifr",($tabTotal["nb_ifr"]>0) ? $tabTotal["nb_ifr"] : "&nbsp;");
 	
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight AS flight ";
 	// $query.="LEFT JOIN ".$MyOpt["tbl"]."_plane AS plane ON flight.callsign=plane.callsign ";
@@ -184,6 +187,7 @@
 		$tmpl_x->assign("aff_instru_pilote",($l["instru_pilote"]>0) ? AffTemps($l["instru_pilote"],"no") : "&nbsp;");
 
 		$tmpl_x->assign("aff_time_simu",($l["time_simu"]>0) ? AffTemps($l["time_simu"],"no") : "&nbsp;");
+		$tmpl_x->assign("aff_nb_ifr",($l["nb_ifr"]>0) ? $l["nb_ifr"] : "&nbsp;");
 
 		$avion=new plane_class(0,$sql);
 		$avion->LoadCallsign($l["callsign"],$gl_uid);
@@ -208,6 +212,7 @@
 		$tabTotal["instru_pilote"]=$tabTotal["instru_pilote"]+$l["instru_pilote"];
 
 		$tabTotal["time_simu"]=$tabTotal["time_simu"]+$l["time_simu"];
+		$tabTotal["nb_ifr"]=$tabTotal["nb_ifr"]+$l["nb_ifr"];
 		
 		$tmpl_x->parse("corps.lst_line");
 	}
@@ -232,8 +237,12 @@
 	$tmpl_x->assign("reportend_instru_pilote",($tabTotal["instru_pilote"]>0) ? AffTemps($tabTotal["instru_pilote"],"no") : "&nbsp;");
 	
 	$tmpl_x->assign("reportend_simu",($tabTotal["time_simu"]>0) ? AffTemps($tabTotal["time_simu"],"no") : "&nbsp;");
+	$tmpl_x->assign("reportend_nb_ifr",($tabTotal["nb_ifr"]>0) ? $tabTotal["nb_ifr"] : "&nbsp;");
 
-	$tot=$tabTotal["time_dc_day"]+$tabTotal["time_cdb_day"]+$tabTotal["time_dc_night"]+$tabTotal["time_cdb_night"]+$tabTotal["time_simu"];
+	$tot=$tabTotal["time_dc_day"]+$tabTotal["time_cdb_day"]+$tabTotal["time_dc_night"]+$tabTotal["time_cdb_night"];
+	$tot=$tot+$tabTotal["multi_dc_day"]+$tabTotal["multi_cdb_day"]+$tabTotal["multi_copi_day"]+$tabTotal["multi_dc_night"]+$tabTotal["multi_cdb_night"]+$tabTotal["multi_copi_night"];
+	$tot=$tot+$tabTotal["time_simu"];
+
 	$tmpl_x->assign("reportend_total",AffTemps($tot,"no"));
 	
 // ---- Affecte les variables d'affichage
