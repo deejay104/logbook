@@ -41,21 +41,21 @@ class flight_class extends objet_core
 		"comment" => Array("type" => "varchar","len"=>50),
 		"member_day" => Array("type" => "number"),
 		"member_night" => Array("type" => "number"),
-		"time_dc_day" => Array("type" => "number"),
-		"time_cdb_day" => Array("type" => "number"),
-		"time_dc_night" => Array("type" => "number"),
-		"time_cdb_night" => Array("type" => "number"),
-		"multi_dc_day" => Array("type" => "number"),
-		"multi_cdb_day" => Array("type" => "number"),
-		"multi_copi_day" => Array("type" => "number"),
-		"multi_dc_night" => Array("type" => "number"),
-		"multi_cdb_night" => Array("type" => "number"),
-		"multi_copi_night" => Array("type" => "number"),
-		"instru_double" => Array("type" => "number"),
-		"instru_pilote" => Array("type" => "number"),
-		"time_simu" => Array("type" => "number"),
+		"time_dc_day" => Array("type" => "duration"),
+		"time_cdb_day" => Array("type" => "duration"),
+		"time_dc_night" => Array("type" => "duration"),
+		"time_cdb_night" => Array("type" => "duration"),
+		"multi_dc_day" => Array("type" => "duration"),
+		"multi_cdb_day" => Array("type" => "duration"),
+		"multi_copi_day" => Array("type" => "duration"),
+		"multi_dc_night" => Array("type" => "duration"),
+		"multi_cdb_night" => Array("type" => "duration"),
+		"multi_copi_night" => Array("type" => "duration"),
+		"instru_double" => Array("type" => "duration"),
+		"instru_pilote" => Array("type" => "duration"),
+		"time_simu" => Array("type" => "duration"),
 		"nb_ifr" => Array("type" => "number"),
-		"nb_att" => Array("type" => "number"),
+		"nb_att" => Array("type" => "number","defautl"=>1),
 		"nb_amerr" => Array("type" => "number"),
 	);
 
@@ -67,33 +67,12 @@ class flight_class extends objet_core
 	function __construct($id=0,$sql)
 	{
 		global $gl_uid;
-		$this->data["uid"]=$gl_uid;
-		$this->data["dte_flight"]=date("Y-m-d");
-		$this->data["callsign"]="";
-		$this->data["type"]="P";
-		$this->data["comment"]="";
-		$this->data["member_day"]="";
-		$this->data["member_night"]="";
-		$this->data["time_dc_day"]="";
-		$this->data["time_cdb_day"]="";
-		$this->data["time_dc_night"]="";
-		$this->data["time_cdb_night"]="";
-		$this->data["multi_dc_day"]="";
-		$this->data["multi_cdb_day"]="";
-		$this->data["multi_copi_day"]="";
-		$this->data["multi_dc_night"]="";
-		$this->data["multi_cdb_night"]="";
-		$this->data["multi_copi_night"]="";
-		$this->data["instru_double"]="";
-		$this->data["instru_pilote"]="";
-		$this->data["time_simu"]="";
-		$this->data["nb_ifr"]=0;
-		$this->data["nb_att"]=1;
-		$this->data["nb_amerr"]=0;
-
 	
 		parent::__construct($id,$sql);
 
+		$this->data["uid"]=$gl_uid;
+		$this->data["dte_flight"]=date("Y-m-d");
+		$this->data["nb_att"]=1;
 	}
 	
 	function Save()

@@ -38,7 +38,7 @@
 	$id=$myuser->id;
 
 // ---- Save Flight
-	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
+	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
 	{
 		$lid=checkVar("lid","numeric");
 		$fl=new flight_class($lid,$sql);
@@ -55,8 +55,8 @@
 		{
 			$lid=$fl->id;
 		}
-		$msg_confirmation.="Vos donnÃ©es ont Ã©tÃ© enregistrÃ©es.<BR>";
-		
+		affInformation("Vos données ont été enregistrées","ok");
+
 		$_SESSION['tab_checkpost'][$checktime]=$checktime;
 
 	}
