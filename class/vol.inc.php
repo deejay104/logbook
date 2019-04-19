@@ -35,7 +35,7 @@ class flight_class extends objet_core
 	protected $fields = array
 	(
 		"uid" => Array("type" => "number", "index"=>"1"),
-		"dte_flight" => Array("type" => "date", "default" => "0000-00-00"),
+		"dte_flight" => Array("type" => "date", "default" => "now"),
 		"callsign" => Array("type" => "varchar","len"=>8, "index"=>"1"),
 		"type" => Array("type" => "varchar","len"=>4),
 		"comment" => Array("type" => "varchar","len"=>50),
@@ -55,7 +55,7 @@ class flight_class extends objet_core
 		"instru_pilote" => Array("type" => "duration"),
 		"time_simu" => Array("type" => "duration"),
 		"nb_ifr" => Array("type" => "number"),
-		"nb_att" => Array("type" => "number","defautl"=>1),
+		"nb_att" => Array("type" => "number","default"=>1),
 		"nb_amerr" => Array("type" => "number"),
 	);
 
@@ -68,11 +68,14 @@ class flight_class extends objet_core
 	{
 		global $gl_uid;
 	
-		parent::__construct($id,$sql);
+		// $this->data["nb_att"]=1;
 
+		parent::__construct($id,$sql);
+		// if ($this->data["dte_flight"]=="0000-00-00")
+		// {
+			// $this->data["dte_flight"]=date("Y-m-d");
+		// }
 		$this->data["uid"]=$gl_uid;
-		$this->data["dte_flight"]=date("Y-m-d");
-		$this->data["nb_att"]=1;
 	}
 	
 	function Save()

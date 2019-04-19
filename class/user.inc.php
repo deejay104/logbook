@@ -19,7 +19,8 @@ class user_class extends objet_core
 		"multi_copi_night" => "duration",
 		"instru_double" => "duration",
 		"instru_pilote" => "duration",
-		"time_simu"=>"duration"
+		"time_simu"=>"duration",
+		"nb_ifr"=>"number"
 	);
 
 	# Constructor
@@ -40,6 +41,7 @@ class user_class extends objet_core
 		$this->data["instru_double"]="";
 		$this->data["instru_pilote"]="";
 		$this->data["time_simu"]=0;
+		$this->data["nb_ifr"]=0;
 	
 		parent::__construct($id,$sql);
 

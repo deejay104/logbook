@@ -24,6 +24,7 @@
 	$tmpl_x = new XTemplate (MyRep("search.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
 
+	require_once($appfolder."/class/user.inc.php");
 	require_once($appfolder."/class/vol.inc.php");
 	require_once($appfolder."/class/avion.inc.php");
 
@@ -36,7 +37,7 @@
 	$id=$myuser->id;
 
 // ---- Save Flight
-	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
+	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
 	{
 		$lid=checkVar("lid","numeric");
 		$fl=new flight_class($lid,$sql);
@@ -61,7 +62,7 @@
 
 	
 // ---- Delete flight
-	if (($_REQUEST["fonc"]=="delete") && (is_numeric($_REQUEST["lid"])))
+	if (($fonc=="delete") && (is_numeric($_REQUEST["lid"])))
 	{
 		$q="DELETE FROM ".$MyOpt["tbl"]."_flight WHERE id='".$_REQUEST["lid"]."'";
 		$sql->Delete($q);
@@ -84,7 +85,7 @@
 	$fl=new flight_class(0,$sql);
 
 	$dte_flight=checkVar("form_dte_flight","date");
-	$callsigh=checkVar("form_calsign","varchar",10);
+	$callsign=checkVar("form_calsign","varchar",10);
 	
 	if ($dte_flight!="0000-00-00")
 	{
@@ -98,6 +99,8 @@
 	$fl->Render("form","form");
 
 // ---- Calculate total line
+	$usr = new user_class($id,$sql,true);
+
 	$query = "SELECT COUNT(*) AS nb,
 		SUM(time_dc_day) AS time_dc_day,
 		SUM(time_cdb_day) AS time_cdb_day,
@@ -109,11 +112,11 @@
 
 	$tmpl_x->assign("tot_time_dc_day",AffTemps($res['time_dc_day'],"no"));
 
-	$res['time_dc_day']=$res['time_dc_day']+$myuser->data['time_dc_day'];
-	$res['time_cdb_day']=$res['time_cdb_day']+$myuser->data['time_cdb_day'];
-	$res['time_dc_night']=$res['time_dc_night']+$myuser->data['time_dc_night'];
-	$res['time_cdb_night']=$res['time_cdb_night']+$myuser->data['time_cdb_night'];
-	$res['time_simu']=$res['time_simu']+$myuser->data['time_simu'];
+	$res['time_dc_day']=$res['time_dc_day']+$usr->data['time_dc_day'];
+	$res['time_cdb_day']=$res['time_cdb_day']+$usr->data['time_cdb_day'];
+	$res['time_dc_night']=$res['time_dc_night']+$usr->data['time_dc_night'];
+	$res['time_cdb_night']=$res['time_cdb_night']+$usr->data['time_cdb_night'];
+	$res['time_simu']=$res['time_simu']+$usr->data['time_simu'];
 	
 // ---- Set table header
 
@@ -156,7 +159,7 @@ if ($theme!="phone") {
 // ---- Load flights
 
 	$s="";
-	if (is_array($tabsearch))
+	if ((isset($tabsearch)) && (is_array($tabsearch)))
 	{
 		foreach($tabsearch as $v=>$d)
 		{

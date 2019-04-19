@@ -38,15 +38,18 @@
 	$id=$myuser->id;
 
 // ---- Save Flight
+	$msg_erreur="";
 	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
 	{
+		$form_data=checkVar("form_data","array");
+		
 		$lid=checkVar("lid","numeric");
 		$fl=new flight_class($lid,$sql);
 		if (count($form_data)>0)
 		{
 			foreach($form_data as $k=>$v)
 		  	{
-		  		$msg_erreur.=$fl->Valid($k,$v);
+		  		$msg_erreur=$fl->Valid($k,$v);
 		  	}
 		}
 
@@ -63,14 +66,11 @@
 
 	
 // ---- Show pages
+	$p=checkVar("p","numeric",0,-1);
+
 	$query = "SELECT COUNT(*) AS nb FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id";
 	$res=$sql->QueryRow($query);
 	$nbtot=$res["nb"];
-
-	if (!isset($p))
-	{
-		$p=-1;
-	}
 	
 	$ii=1;
 	$pp=0;

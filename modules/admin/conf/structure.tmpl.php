@@ -30,6 +30,7 @@ $tabCustom=Array
 		"instru_double" => Array("Type" => "int(10) unsigned"),
 		"instru_pilote" => Array("Type" => "int(10) unsigned"),
 		"time_simu" => Array("Type" => "int(10) unsigned"),
+		"nb_ifr" => Array("Type" => "int(10) unsigned"),
 	)
 
 );
