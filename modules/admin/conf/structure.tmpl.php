@@ -1,18 +1,19 @@
 <?
 $tabCustom=Array
 (
-	"plane" => Array
-	(
-		"id" => Array("Type" => "int(10) unsigned", "Index" => "PRIMARY", ),
-		"uid" => Array("Type" => "int(10) unsigned", "Index"=>"1"),
-		"callsign" => Array("Type" => "varchar(8)", "Index"=>"1"),
-		"type" => Array("Type" => "varchar(10)"),
-		"comment" => Array("Type" => "varchar(50)"),
-		"uid_creat" => Array("Type" => "int(10) unsigned", "Default" => "0"),
-		"dte_creat" => Array("Type" => "datetime", "Default" => "0000-00-00 00:00:00"),
-		"uid_maj" => Array("Type" => "int(10) unsigned", "Default" => "0", ),
-		"dte_maj" => Array("Type" => "datetime", "Default" => "0000-00-00 00:00:00", ),
-	),
+	// "plane" => Array
+	// (
+		// "id" => Array("Type" => "int(10) unsigned", "Index" => "PRIMARY", ),
+		// "uid" => Array("Type" => "int(10) unsigned", "Index"=>"1"),
+		// "callsign" => Array("Type" => "varchar(8)", "Index"=>"1"),
+		// "type" => Array("Type" => "varchar(10)"),
+		// "comment" => Array("Type" => "varchar(50)"),
+		// "uid_creat" => Array("Type" => "int(10) unsigned", "Default" => "0"),
+		// "dte_creat" => Array("Type" => "datetime", "Default" => "0000-00-00 00:00:00"),
+		// "uid_maj" => Array("Type" => "int(10) unsigned", "Default" => "0", ),
+		// "dte_maj" => Array("Type" => "datetime", "Default" => "0000-00-00 00:00:00", ),
+	// ),
+	
 	"utilisateurs" => Array
 	(
 		"member_day" => Array("Type" => "int(10) unsigned"),
@@ -71,5 +72,8 @@ $tabCustom=Array
 	$obj=new flight_class(0,$sql);
 	$obj->genSqlTab($tabCustom);
 
+	require_once ($appfolder."/class/avion.inc.php");
+	$obj=new plane_class(0,$sql);
+	$obj->genSqlTab($tabTmpl);
 
 ?>

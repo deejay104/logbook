@@ -33,7 +33,7 @@
 	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 
 // ---- Enregistre
-	if (($_REQUEST["fonc"]=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
+	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
 	{
 		$avion=new plane_class($id,$sql);
 		if (count($form_data)>0)
@@ -55,7 +55,7 @@
 
 		$affrub="index";
 	}
-	else if ($_REQUEST["fonc"]=="Annuler")
+	else if ($fonc=="Annuler")
 	{
 		$affrub="index";
 	}
@@ -71,7 +71,7 @@
 			SUM(time_dc_day) AS dc_day,
 			SUM(time_cdb_day) AS cdb_day,
 			SUM(time_dc_night) AS dc_night,
-			SUM(time_dc_night) AS dc_night,
+			SUM(time_cdb_night) AS cdb_night,
 			SUM(time_simu) AS simu,
 			SUM(nb_ifr) AS nb_ifr,
 			SUM(nb_att) AS nb_att,
@@ -110,7 +110,7 @@
 			SUM(time_dc_day) AS dc_day,
 			SUM(time_cdb_day) AS cdb_day,
 			SUM(time_dc_night) AS dc_night,
-			SUM(time_dc_night) AS dc_night,
+			SUM(time_cdb_night) AS cdb_night,
 			SUM(time_simu) AS simu,
 			SUM(nb_ifr) AS nb_ifr,
 			SUM(nb_att) AS nb_att,

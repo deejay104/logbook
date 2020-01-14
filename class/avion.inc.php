@@ -7,10 +7,25 @@ class plane_class extends objet_core
 	protected $mod="avions";
 	protected $rub="detail";
 
-	protected $type=array(
-		"callsign"=>"uppercase",
-		"type"=>"varchar",
-		"comment"=>"text",
+	// protected $type=array(
+		// "callsign"=>"uppercase",
+		// "type"=>"varchar",
+		// "comment"=>"text",
+	// );
+
+		// "id" => Array("Type" => "int(10) unsigned", "Index" => "PRIMARY", ),
+		// "uid" => Array("Type" => "int(10) unsigned", "Index"=>"1"),
+		// "callsign" => Array("Type" => "varchar(8)", "Index"=>"1"),
+		// "type" => Array("Type" => "varchar(10)"),
+		// "comment" => Array("Type" => "varchar(50)"),
+
+
+	protected $fields=array
+	(
+		"uid" => Array("type" => "number", "index"=>"1"),
+		"callsign"=>Array("type"=>"uppercase", "len"=>8, "index"=>1),
+		"type"=>Array("type"=>"varchar", "len"=>10),
+		"comment"=>Array("type"=>"text"),
 	);
 
 	protected $tabList=array(
