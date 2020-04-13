@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     LogBook
     Copyright (C) 2018 Matthieu Isorez
@@ -19,11 +19,11 @@
 */
 ?>
 
-<?
+<?php
 	require_once($appfolder."/class/avion.inc.php");
-	if (!GetDroit("AccesAvions")) { FatalError("Accès non autorisé (AccesAvions)"); }
+	if (!GetDroit("AccesAvions")) { FatalError("AccÃ¨s non autorisÃ© (AccesAvions)"); }
 
-// ---- Vérifie les variables
+// ---- VÃ©rifie les variables
 	$order=checkVar("order","varchar");
 	$trie=checkVar("trie","varchar");
 

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     LogBook
     Copyright (C) 2018 Matthieu Isorez
@@ -19,10 +19,10 @@
 */
 ?>
 
-<?
+<?php
 	require_once($appfolder."/class/avion.inc.php");
 
-// ---- Vérifie les variables
+// ---- VÃ©rifie les variables
 	$id=checkVar("id","numeric");
 	$order=checkVar("order","varchar");
 	$trie=checkVar("order","varchar");
@@ -49,7 +49,7 @@
 		{
 			$id=$avion->id;
 		}
-		$msg_confirmation.="Vos données ont été enregistrées.<BR>";
+		$msg_confirmation.="Vos donnÃ©es ont Ã©tÃ© enregistrÃ©es.<BR>";
 		
 		$_SESSION['tab_checkpost'][$checktime]=$checktime;
 
@@ -60,7 +60,7 @@
 		$affrub="index";
 	}
 	
-// ---- Charge les données
+// ---- Charge les donnÃ©es
 	$avion=new plane_class($id,$sql);
 	$avion->Render("form","form");
 
@@ -82,7 +82,7 @@
 
 	// ---- Tableau
 		$tabTitre=array();
-		$tabTitre["dte"]["aff"]="Année";
+		$tabTitre["dte"]["aff"]="AnnÃ©e";
 		$tabTitre["dte"]["bottom"]="Total";
 		$tabTitre["dte"]["width"]=80;
 		$tabTitre["line1"]["aff"]="<line>";

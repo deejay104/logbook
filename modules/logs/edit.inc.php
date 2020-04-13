@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     LogBook
     Copyright (C) 2018 Matthieu Isorez
@@ -19,7 +19,7 @@
 */
 ?>
 
-<?
+<?php
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("edit.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");

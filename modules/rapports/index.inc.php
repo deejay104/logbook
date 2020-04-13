@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     LogBook
     Copyright (C) 2018 Matthieu Isorez
@@ -19,7 +19,7 @@
 */
 ?>
 
-<?
+<?php
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("index.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
@@ -57,10 +57,10 @@ $id=5;
 
 // ---- Tableau
 	$tabTitre=array();
-	$tabTitre["dte"]["aff"]="Année";
+	$tabTitre["dte"]["aff"]="AnnÃ©e";
 	$tabTitre["dte"]["bottom"]="Total";
 	$tabTitre["dte"]["width"]=80;
-	$tabTitre["line1"]["aff"]="<line>";
+	// $tabTitre["line1"]["aff"]="<line>";
 	$tabTitre["dc_day"]["aff"]="DC Jour";
 	$tabTitre["dc_day"]["bottom"]=AffTemps($res["dc_day"],"no");
 	$tabTitre["dc_day"]["width"]=80;
@@ -76,7 +76,7 @@ $id=5;
 	$tabTitre["simu"]["aff"]="Simu";
 	$tabTitre["simu"]["bottom"]=AffTemps($res["simu"],"no");
 	$tabTitre["simu"]["width"]=80;
-	$tabTitre["line2"]["aff"]="<line>";
+	// $tabTitre["line2"]["aff"]="<line>";
 	$tabTitre["total"]["aff"]="Total";
 	$tabTitre["total"]["bottom"]=AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
 	$tabTitre["total"]["width"]=80;

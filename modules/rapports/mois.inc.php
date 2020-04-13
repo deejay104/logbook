@@ -69,7 +69,7 @@ $id=5;
 		SUM(time_dc_day) AS dc_day,
 		SUM(time_cdb_day) AS cdb_day,
 		SUM(time_dc_night) AS dc_night,
-		SUM(time_dc_night) AS dc_night,
+		SUM(time_cdb_night) AS cdb_night,
 		SUM(time_simu) AS simu,
 		SUM(nb_ifr) AS nb_ifr,
 		SUM(nb_att) AS nb_att,
@@ -84,7 +84,7 @@ $id=5;
 	$tabTitre["dte"]["aff"]="Date";
 	$tabTitre["dte"]["bottom"]="Total";
 	$tabTitre["dte"]["width"]=80;
-	$tabTitre["line1"]["aff"]="<line>";
+	// $tabTitre["line1"]["aff"]="<line>";
 	$tabTitre["dc_day"]["aff"]="DC Jour";
 	$tabTitre["dc_day"]["bottom"]=AffTemps($res["dc_day"],"no");
 	$tabTitre["dc_day"]["width"]=80;
@@ -100,11 +100,11 @@ $id=5;
 	$tabTitre["simu"]["aff"]="Simu";
 	$tabTitre["simu"]["bottom"]=AffTemps($res["simu"],"no");
 	$tabTitre["simu"]["width"]=80;
-	$tabTitre["line2"]["aff"]="<line>";
+	// $tabTitre["line2"]["aff"]="<line>";
 	$tabTitre["total"]["aff"]="Total";
 	$tabTitre["total"]["bottom"]=AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
 	$tabTitre["total"]["width"]=80;
-	$tabTitre["line3"]["aff"]="<line>";
+	// $tabTitre["line3"]["aff"]="<line>";
 	$tabTitre["nb_att"]["aff"]="Atterrissage";
 	$tabTitre["nb_att"]["bottom"]=$res["nb_att"];
 	$tabTitre["nb_att"]["width"]=80;
@@ -113,7 +113,7 @@ $id=5;
 		SUM(time_dc_day) AS dc_day,
 		SUM(time_cdb_day) AS cdb_day,
 		SUM(time_dc_night) AS dc_night,
-		SUM(time_dc_night) AS dc_night,
+		SUM(time_cdb_night) AS cdb_night,
 		SUM(time_simu) AS simu,
 		SUM(nb_ifr) AS nb_ifr,
 		SUM(nb_att) AS nb_att,

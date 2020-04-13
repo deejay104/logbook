@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     LogBook
     Copyright (C) 2018 Matthieu Isorez
@@ -19,7 +19,7 @@
 */
 ?>
 
-<?
+<?php
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("index.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
@@ -58,7 +58,7 @@
 		{
 			$lid=$fl->id;
 		}
-		affInformation("Vos données ont été enregistrées","ok");
+		affInformation("Vos donnÃ©es ont Ã©tÃ© enregistrÃ©es","ok");
 
 		$_SESSION['tab_checkpost'][$checktime]=$checktime;
 
