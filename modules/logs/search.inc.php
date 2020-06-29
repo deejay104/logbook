@@ -69,11 +69,6 @@
 	}
 
 // ---- Initialize variables
-	if ((!isset($order)) || ($order==""))
-	{ $order="dte_flight"; }
-
-	if (!isset($trie))
-	{ $trie=""; }
 
 	// Line number
 	$tl=30;
@@ -86,6 +81,14 @@
 
 	$dte_flight=checkVar("form_dte_flight","date");
 	$callsign=checkVar("form_calsign","varchar",10);
+	$trie=checkVar("trie","varchar",1);
+	$order=checkVar("order","varchar",10);
+	$tabsearch=checkVar("tabsearch","array");
+
+	if ($order=="")
+	{
+		$order="dte_flight";
+	}
 	
 	if ($dte_flight!="0000-00-00")
 	{
