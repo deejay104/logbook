@@ -42,6 +42,8 @@
 	$tabTitre["type"]["width"]=100;
 	$tabTitre["hdv"]["aff"]="HdV";
 	$tabTitre["hdv"]["width"]=100;
+	$tabTitre["att"]["aff"]="ATT";
+	$tabTitre["att"]["width"]=100;
 
 	$tabValeur=array();
 	foreach($lst as $i=>$d)
@@ -54,6 +56,8 @@
 		$tabValeur[$i]["type"]["aff"]=$pb->aff("type");
 		$tabValeur[$i]["hdv"]["val"]=$pb->TotalHeures();
 		$tabValeur[$i]["hdv"]["aff"]=$pb->TotalHeures();
+		$tabValeur[$i]["att"]["val"]=$pb->TotalAtt();
+		$tabValeur[$i]["att"]["aff"]=$pb->TotalAtt();
 	}
 
 	if ((!isset($order)) || ($order=="")) { $order="callsign"; }
