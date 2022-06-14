@@ -28,6 +28,9 @@
 	require_once($appfolder."/class/vol.inc.php");
 	require_once($appfolder."/class/avion.inc.php");
 
+	$tl=checkVar("tl","numeric",0,30);
+	$ts=checkVar("ts","numeric");
+
 // ---- Affiche le menu
 	$aff_menu="";
 	require_once($appfolder."/modules/".$mod."/menu.inc.php");
@@ -70,11 +73,6 @@
 
 // ---- Initialize variables
 
-	// Line number
-	$tl=30;
-
-	if ((!isset($ts)) || (!is_numeric($ts)))
-	  { $ts = 0; }
 
 // ---- Fill Fields
 	$fl=new flight_class(0,$sql);
@@ -183,7 +181,7 @@ if ($theme!="phone") {
 
 	$sql->Query($query);
 
-	
+
 	$tabValeur=array();
 	$totligne=$res["nb"];
 

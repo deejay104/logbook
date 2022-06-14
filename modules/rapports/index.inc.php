@@ -109,6 +109,9 @@ $id=5;
 	$tabTitre["total"]["aff"]="Total";
 	$tabTitre["total"]["bottom"]=AffTemps($res["dc_day"]+$res["cdb_day"]+$res["dc_night"]+$res["cdb_night"]+$res["simu"],"no");
 	$tabTitre["total"]["width"]=80;
+	$tabTitre["nbatt"]["aff"]="Nb Att";
+	$tabTitre["nbatt"]["bottom"]=$res["nb_att"];
+	$tabTitre["nbatt"]["width"]=80;
 
 	$q="SELECT YEAR(dte_flight) AS dte,
 		SUM(time_dc_day) AS dc_day,
@@ -174,8 +177,11 @@ $id=5;
 		$tabValeur[$i]["line2"]["val"]="<line>";
 		$tabValeur[$i]["total"]["val"]=$sql->data["dc_day"]+$sql->data["cdb_day"]+$sql->data["dc_night"]+$sql->data["cdb_night"]+$sql->data["simu"]+$sql->data["multi_dc_day"]+$sql->data["multi_cdb_day"]+$sql->data["multi_copi_day"]+$sql->data["multi_dc_night"]+$sql->data["multi_cdb_night"]+$sql->data["multi_copi_night"];
 		$tabValeur[$i]["total"]["aff"]=AffTemps($sql->data["dc_day"]+$sql->data["cdb_day"]+$sql->data["dc_night"]+$sql->data["cdb_night"]+$sql->data["simu"]+$sql->data["multi_dc_day"]+$sql->data["multi_cdb_day"]+$sql->data["multi_copi_day"]+$sql->data["multi_dc_night"]+$sql->data["multi_cdb_night"]+$sql->data["multi_copi_night"],"no");
-
 		$tabValeur[$i]["total"]["align"]="center";
+
+		$tabValeur[$i]["nbatt"]["val"]=$sql->data["nb_att"];
+		$tabValeur[$i]["nbatt"]["aff"]=$sql->data["nb_att"];
+		$tabValeur[$i]["nbatt"]["align"]="center";
 	  }
 
 	if ((!isset($order)) || ($order=="")) { $order="dte"; }
