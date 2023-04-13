@@ -31,8 +31,7 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once($appfolder."/modules/".$mod."/menu.inc.php");
-	$tmpl_x->assign("aff_menu",$aff_menu);
+	// addPageMenu("","logs","Ajouter",geturl("logs","edit",""),"");
 
 // ---- Get my id	
 	$id=$myuser->id;

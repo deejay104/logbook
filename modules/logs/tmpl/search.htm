@@ -119,81 +119,90 @@
 <div id="dialog-form" title="Ajouter un vol" class="formulaire">
   <p class="validateTips">Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM</p>
  
-  <form id="logs" method="post" action="index.php" enctype="multipart/form-data">
+  <form id="logs" method="post" action="/logs/search" enctype="multipart/form-data">
 	<INPUT type="hidden" name="checktime" value="{form_checktime}">
-	<input type="hidden" name="mod" value="logs">
-	<input type="hidden" name="rub" value="search">
 	<input type="hidden" name="fonc" value="Enregistrer">
-    <table>
-	<tr>
-	<th width='130'>
-		Date
-	</td>
-	<th width='80'>
-		Immat
-	</td>
-	<th width='80'>
-		Fonction
-	</td>
-	<th width='250'>
-		Commentaire
-	</td>
-	<th width='80'>
-		DC Jour
-	</td>
-	<th width='80'>
-		CDB Jour
-	</td>
-	<th width='80'>
-		DC Nuit
-	</td>
-	<th width='80'>
-		CDB Nuit
-	</td>
-	<th width='80'>
-		Simulateur
-	</td>
-	<th width='60'>
-		APP IFR
-	</td>
-	<th width='60'>
-		NB ATT
-	</td>
-	<th width='60'>
-		NB AMERR
-	</td>
-	</tr>
-	<tr>
-		<td>{form_dte_flight}</td>
-		<td>{form_callsign}</td>
-		<td>{form_type}</td>
-		<td>{form_comment}</td>
-		<td>{form_time_dc_day}</td>
-		<td>{form_time_cdb_day}</td>
-		<td>{form_time_dc_night}</td>
-		<td>{form_time_cdb_night}</td>
-		<td>{form_time_simu}</td>
-		<td>{form_nb_ifr}</td>
-		<td>{form_nb_att}</td>
-		<td>{form_nb_amerr}</td>
-	</tr>
-	</table>	
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" name="fonc" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
+
+		<table>
+		<tr>
+		<th width='130'>
+			Date
+		</td>
+		<th width='80'>
+			Immat
+		</td>
+		<th width='80'>
+			Fonction
+		</td>
+		<th width='250'>
+			Commentaire
+		</td>
+		<th width='80'>
+			DC Jour
+		</td>
+		<th width='80'>
+			CDB Jour
+		</td>
+		<th width='80'>
+			DC Nuit
+		</td>
+		<th width='80'>
+			CDB Nuit
+		</td>
+		<th width='80'>
+			Simulateur
+		</td>
+		<th width='60'>
+			APP IFR
+		</td>
+		<th width='60'>
+			NB ATT
+		</td>
+		<th width='60'>
+			NB AMERR
+		</td>
+		</tr>
+		<tr>
+			<td>{form_dte_flight}</td>
+			<td>{form_callsign}</td>
+			<td>{form_type}</td>
+			<td>{form_comment}</td>
+			<td>{form_time_dc_day}</td>
+			<td>{form_time_cdb_day}</td>
+			<td>{form_time_dc_night}</td>
+			<td>{form_time_cdb_night}</td>
+			<td>{form_time_simu}</td>
+			<td>{form_nb_ifr}</td>
+			<td>{form_nb_att}</td>
+			<td>{form_nb_amerr}</td>
+		</tr>
+		</table>	
+		  <!-- Allow form submission with keyboard without duplicating the dialog button -->
+		  <input type="submit" name="fonc" tabindex="-1" style="position:absolute; top:-1000px">
+		</fieldset>
+
   </form>
 </div>
 
 
 <!-- BEGIN: corps -->
+<div class="row">
+	<div class="grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
 
-<form id="tab" method="post" action="index.php" enctype="multipart/form-data">
-	<INPUT type="hidden" name="checktime" value="{form_checktime}">
-	<input type="hidden" name="mod" value="logs">
-	<input type="hidden" name="rub" value="search">
-	<input type="hidden" name="fonc" value="Search">
-{aff_tableau}
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-</form>
+			<form id="tab" method="post" action="index.php" enctype="multipart/form-data">
+				<INPUT type="hidden" name="checktime" value="{form_checktime}">
+				<input type="hidden" name="mod" value="logs">
+				<input type="hidden" name="rub" value="search">
+				<input type="hidden" name="fonc" value="Search">
+			{aff_tableau}
+				  <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</form>
+
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- END: corps -->

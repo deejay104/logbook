@@ -51,7 +51,10 @@ class plane_class extends objet_core
 		$sql=$this->sql;
 		$q="SELECT id FROM ".$this->tbl."_plane WHERE callsign='".$c."' AND uid='".$uid."'";
 		$res=$sql->QueryRow($q);
-		$this->load($res["id"]);
+		if (isset($res["id"]))
+		{
+			$this->load($res["id"]);
+		}
 	}
 	
 	function TotalHeures()

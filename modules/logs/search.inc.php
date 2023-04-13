@@ -33,9 +33,8 @@
 
 // ---- Affiche le menu
 	$aff_menu="";
-	require_once($appfolder."/modules/".$mod."/menu.inc.php");
-	$tmpl_x->assign("aff_menu",$aff_menu);
-	
+	// addPageMenu("","logs","Ajouter",geturl("logs","edit",""),"");
+
 // ---- Get my id	
 	$id=$myuser->id;
 
@@ -225,8 +224,8 @@ if ($theme!="phone") {
 		$tabValeur[$i]["nb_amerr"]["aff"]=$sql->data["nb_amerr"];
 		$tabValeur[$i]["nb_amerr"]["align"]="center";
 		$tabValeur[$i]["delete"]["val"]="x";
-		$tabValeur[$i]["delete"]["aff"]="<a class='imgDelete' href='index.php?mod=logs&rub=edit&lid=".$sql->data["id"]."'><img src='$module/$mod/img/icn16_editer.png'></a>";
-		$tabValeur[$i]["delete"]["aff"].="<a href='index.php?mod=logs&rub=search&fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."' class='imgDelete'><img src='$module/$mod/img/icn16_supprimer.png'></a>";
+		$tabValeur[$i]["delete"]["aff"]="<a class='imgDelete' href='/logs/edit?lid=".$sql->data["id"]."'><i class='mdi mdi-pencil'></i></a>";
+		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/search?fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."' class='imgDelete'><i class='mdi mdi-delete'></i></a>";
 	}
 
 
