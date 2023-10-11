@@ -44,7 +44,7 @@ class user_class extends user_core
 	);
 
 	# Constructor
-	function __construct($id=0,$sql,$me=false,$setdata=true)
+	function __construct($id=0,$sql="",$me=false,$setdata=true)
 	{
 		// $this->data["member_day"]=0;
 		// $this->data["member_night"]=0;

@@ -34,7 +34,7 @@ class plane_class extends objet_core
 	);
 	
 	# Constructor
-	function __construct($id=0,$sql,$me=false,$setdata=true)
+	function __construct($id=0,$sql="",$me=false,$setdata=true)
 	{
 		global $gl_uid;
 		$this->data["uid"]=$gl_uid;
