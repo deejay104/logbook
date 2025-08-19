@@ -6,7 +6,7 @@
 // ---- Vérifie les paramètres
 	if (!isset($_GET["id"]))
 	{
-		$res["result"]=utf8_encode("NOK");
+		$res["result"]="NOK";
 		$res["error"]="id not provided.";
 		echo json_encode($res);
 	  	exit;
@@ -15,7 +15,7 @@
 
 	if (!isset($_GET["var"]))
 	{
-		$res["result"]=utf8_encode("NOK");
+		$res["result"]="NOK";
 		$res["error"]="var not provided.";
 		echo json_encode($res);
 	  	exit;
@@ -24,7 +24,7 @@
 
 	$val=checkVar("val","varchar");
 
-	$res["result"]=utf8_encode("NOK");
+	$res["result"]="NOK";
 	$res["var"]=$var;
 	$res["val"]=$val;
 	$res["id"]=$id;
@@ -36,7 +36,7 @@
 			|| ($var=="time_simu")
 		)
 	{
-		if ( (trim(utf8_decode($val))=="") || (utf8_decode($val)=="?"))
+		if ( (trim($val)=="") || ($val=="?") )
 		{
 			$val=0;
 		}
@@ -45,24 +45,24 @@
 		$q="UPDATE ".$MyOpt["tbl"]."_flight SET ".$var."='".$tps."' WHERE id='".$id."'";
 		$sql->Update($q);
 		
-		$res["result"]=utf8_encode("OK");
-		$res["value"]=utf8_encode(AffTemps($tps,"no"));
+		$res["result"]="OK";
+		$res["value"]=AffTemps($tps,"no");
 	}
 	else if ($var=="nb_ifr")
 	{
 		$val=substr(trim($val),0,4);
 		$q="UPDATE ".$MyOpt["tbl"]."_flight SET nb_ifr='".$val."' WHERE id='".$id."'";
 		$sql->Update($q);
-		$res["result"]=utf8_encode("OK");
-		$res["value"]=utf8_encode(addslashes($val));
+		$res["result"]="OK";
+		$res["value"]=addslashes($val);
 	}
-	else if ($var=="comment")
+	else if (($var=="comment") || ($var=="field_from") || ($var=="field_to"))
 	{
 		$val=substr(trim($val),0,50);
-		$q="UPDATE ".$MyOpt["tbl"]."_flight SET comment='".$val."' WHERE id='".$id."'";
+		$q="UPDATE ".$MyOpt["tbl"]."_flight SET ".$var."='".$val."' WHERE id='".$id."'";
 		$sql->Update($q);
-		$res["result"]=utf8_encode("OK");
-		$res["value"]=utf8_encode(addslashes($val));
+		$res["result"]="OK";
+		$res["value"]=addslashes($val);
 	}
 	
 	echo json_encode($res);

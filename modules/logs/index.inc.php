@@ -169,15 +169,18 @@
 		$sql->GetRow($i);
 		$tabLine[$i]=$sql->data;
 	}
-	
+
 	foreach($tabLine as $i=>$l)
 	{
+
 		$tmpl_x->assign("aff_id",$l["id"]);
 		$tmpl_x->assign("aff_date",sql2date($l["dte_flight"]));
 		$tmpl_x->assign("aff_callsign",strtoupper($l["callsign"]));
 		$tmpl_x->assign("aff_type",strtoupper($l["type"]));
-		$tmpl_x->assign("aff_comment",($l["comment"]!="") ? $l["comment"] : "&nbsp;" );
-
+		$tmpl_x->assign("aff_field_from",(($l["field_from"]!="") ? $l["field_from"] : ""));
+		$tmpl_x->assign("aff_field_sep",((($l["field_from"]!="") && ($l["field_to"]!="")) ? "-" : "" ));
+		$tmpl_x->assign("aff_field_to",(($l["field_to"]!="") ? $l["field_to"] :""));
+		$tmpl_x->assign("aff_comment",($l["comment"]!="") ? $l["comment"] : "" );
 		$tmpl_x->assign("aff_member_day",($l["member_day"]>0) ? AffTemps($l["member_day"],"no") : "&nbsp;");
 		$tmpl_x->assign("aff_member_night",($l["member_night"]>0) ? AffTemps($l["member_night"],"no") : "&nbsp;");
 

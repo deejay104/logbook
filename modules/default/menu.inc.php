@@ -2,7 +2,7 @@
 // ---- Desktop
 
 	$tabMenu["logs"]=array(
-		"icone"=>"mdi-history",
+		"icone"=>"mdi-notebook",
 		"nom"=>"Log des vols",
 		"droit"=>"AccesVols",
 		"url"=>geturl("logs","index",""),
@@ -24,16 +24,16 @@
 		),
 	);
 
-	$tabMenu["rapports"]["icone"]="mdi-table";
-	$tabMenu["rapports"]["nom"]="Rapports";
-	$tabMenu["rapports"]["droit"]="AccesRapports";
-	$tabMenu["rapports"]["url"]=geturl("rapports","index","");
-
 	$tabMenu["avions"]["icone"]="mdi-airplane";
 	$tabMenu["avions"]["nom"]="Avions";
 	$tabMenu["avions"]["droit"]="AccesAvions";
 	$tabMenu["avions"]["url"]=geturl("avions","index","");
-	
+
+	$tabMenu["navigation"]["icone"]="mdi-airport";
+	$tabMenu["navigation"]["nom"]="Terrains";
+	$tabMenu["navigation"]["droit"]="AccessTerrains";
+	$tabMenu["navigation"]["url"]=geturl("navigation","terrains	","");
+
 // ---- Phone
 	$tabMenuPhone["ajouter"]=array(
 		"icone"=>"mdi-plus-box",

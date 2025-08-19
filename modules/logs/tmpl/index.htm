@@ -8,6 +8,9 @@
 
 
 <!-- BEGIN: corps -->
+<style>
+	.display-min a { min-width:40px; min-height:20px; }
+</style>
 <script>
 function SwitchEdit(champ,id,size=70)
 {
@@ -17,7 +20,7 @@ function SwitchEdit(champ,id,size=70)
 	}
 	else
 	{
-		document.getElementById(champ+"_"+id).innerHTML = "<input id='"+champ+"_"+id+"_val' onblur=\"SwitchHtml('"+champ+"',"+id+","+size+")\" type='text' value='"+document.getElementById(champ+"_"+id+"_a").innerHTML+"' style='width:"+size+"px;'>";
+		document.getElementById(champ+"_"+id).innerHTML = "<input id='"+champ+"_"+id+"_val' onchange=\"SwitchHtml('"+champ+"',"+id+","+size+")\" onblur=\"SwitchHtml('"+champ+"',"+id+","+size+")\" type='text' value='"+document.getElementById(champ+"_"+id+"_a").innerHTML+"' style='width:"+size+"px;'>";
 		document.getElementById(champ+"_"+id+"_val").focus();
 		document.getElementById(champ+"_"+id+"_val").select();
 	}
@@ -62,7 +65,7 @@ function SwitchHtml(champ,id,size=70)
 .table th { white-space: normal; }
 </style>
 
-<div class="row">
+<div class="row display-min">
 	<div class="grid-margin stretch-card">
 		<div class="card">
 			<div class="card-body">
@@ -133,11 +136,16 @@ function SwitchHtml(champ,id,size=70)
 
 	<!-- BEGIN: lst_line -->
 	<tr>
-	<td>{aff_date}</td>
+	<td><a href="/logs/edit?lid={aff_id}">{aff_date}</a></td>
 	<td>{aff_planetype}</td>
 	<td>{aff_callsign}</td>
 	<td>{aff_type}</td>
-	<td><div id='comment_{aff_id}'><a id='comment_{aff_id}_a' onClick="SwitchEdit('comment','{aff_id}',240)">{aff_comment}</a></div></td>
+	<td>
+		<div id='field_from_{aff_id}' style="display:inline-block;"><a id='field_from_{aff_id}_a' onClick="SwitchEdit('field_from','{aff_id}')">{aff_field_from}</a></div>
+		<div style="display:inline-block;">{aff_field_sep}</div>
+		<div id='field_to_{aff_id}' style="display:inline-block;"><a id='field_to_{aff_id}_a' onClick="SwitchEdit('field_to','{aff_id}')">{aff_field_to}</a></div>
+		<div id='comment_{aff_id}' style="display:inline-block;"><a id='comment_{aff_id}_a' onClick="SwitchEdit('comment','{aff_id}',240)">{aff_comment}</a></div>
+	</td>
 
 	<td><div id='member_day_{aff_id}'><a id='member_day_{aff_id}_a' onClick="SwitchEdit('member_day','{aff_id}')">{aff_member_day}</a></div></td>
 	<td><div id='member_night_{aff_id}'><a id='member_night_{aff_id}_a' onClick="SwitchEdit('member_night','{aff_id}')">{aff_member_night}</a></div></td>

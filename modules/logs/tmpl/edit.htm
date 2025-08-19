@@ -7,16 +7,6 @@
 
 
 <!-- BEGIN: corps -->
-<script type="text/javascript">
-	$(function() {
-		$("#callsign").autocomplete({
-			source: "/api/v1/avions/getplane",
-			select: function(event, ui) { oFormObject = document.forms['logs']; oFormObject.elements["form_data[callsign]"].value=ui.item.value; },
-			delay: 0
-		});
-	});  
-</script>
-
 <style>
 .ui-autocomplete { z-index:100; position: absolute; border: 1px solid #aaaaaa; font-size: 12px; background-color: #ffffff; display: inline-block; list-style: none; padding-left: 5px; }
 .ui-helper-hidden-accessible { display: none; }
@@ -49,7 +39,15 @@
 							<div class="col-lg-7">{form_type}</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">Nature du vol</label>
+							<label class="col-lg-2  col-form-label">Terrain d'origine</label>
+							<div class="col-lg-7">{form_field_from}</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-2  col-form-label">Terrain destination</label>
+							<div class="col-lg-7">{form_field_to}</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-2  col-form-label">Commentaire</label>
 							<div class="col-lg-7">{form_comment}</div>
 						</div>
 			</div>
@@ -157,4 +155,32 @@
 </div>
 
 </form>
+
+<script type="text/javascript">
+	$("#callsign").autocomplete({
+		source: "/api/v1/avions/getplane",
+		select: function(event, ui) { 
+			//oFormObject = document.forms['logs']; oFormObject.elements["form_data[callsign]"].value=ui.item.value; 
+			$("#callsign").val(ui.item.value);
+		},
+		delay: 0
+	});
+	$("#field_from").autocomplete({
+		source: "/api/v1/navigation/navpoint?type=Airport",
+		select: function(event, ui) { 
+			$("#field_from").val(ui.item.value);
+		},
+		delay: 0
+	});
+	$("#field_to").autocomplete({
+		source: "/api/v1/navigation/navpoint?type=Airport",
+		select: function(event, ui) { 
+			$("#field_to").val(ui.item.value);
+		},
+		delay: 0
+	});
+
+</script>
+
+
 <!-- END: corps -->

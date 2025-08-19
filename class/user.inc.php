@@ -67,6 +67,73 @@ class user_class extends user_core
 		parent::__construct($id,$sql);
 
 	}
+
+	function ListeTerrains()
+	{
+		$sql=$this->sql;
+
+		$tabValeur=array();
+
+		$query = "SELECT flight.field_from AS nom,COUNT(*) AS nb,MAX(flight.dte_flight) AS last, wp.description,wp.lat AS latitude,wp.lon AS longitude FROM ".$this->tbl."_flight AS flight ";
+		$query.= "LEFT JOIN ".$this->tbl."_navpoints AS wp ON flight.field_from=wp.nom ";
+		$query.= "WHERE uid='".$this->id."' GROUP BY flight.field_from";
+		$sql->Query($query);
+
+		for($i=0; $i<$sql->rows; $i++)
+		{ 
+			$sql->GetRow($i);
+			$tabValeur[$sql->data["nom"]]["nom"]=$sql->data["nom"];
+			$tabValeur[$sql->data["nom"]]["description"]=$sql->data["description"];
+			$tabValeur[$sql->data["nom"]]["nb"]=$sql->data["nb"];
+			$tabValeur[$sql->data["nom"]]["last"]=$sql->data["last"];
+			$tabValeur[$sql->data["nom"]]["latitude"]=$sql->data["latitude"];
+			$tabValeur[$sql->data["nom"]]["longitude"]=$sql->data["longitude"];
+		}
+
+
+		$query = "SELECT flight.field_to AS nom,COUNT(*) AS nb,MAX(flight.dte_flight) AS last, wp.description,wp.lat AS latitude,wp.lon AS longitude FROM ".$this->tbl."_flight AS flight ";
+		$query.= "LEFT JOIN ".$this->tbl."_navpoints AS wp ON flight.field_to=wp.nom ";
+		$query.= "WHERE uid='".$this->id."' GROUP BY flight.field_to";
+		$sql->Query($query);
+
+		for($i=0; $i<$sql->rows; $i++)
+		{ 
+			$sql->GetRow($i);
+
+			if (isset($tabValeur[$sql->data["nom"]]))
+			{
+				$tabValeur[$sql->data["nom"]]["nb"]=$tabValeur[$sql->data["nom"]]["nb"]+$sql->data["nb"];
+			}
+			else
+			{
+				$tabValeur[$sql->data["nom"]]["nom"]=$sql->data["nom"];
+				$tabValeur[$sql->data["nom"]]["description"]=$sql->data["description"];
+				$tabValeur[$sql->data["nom"]]["nb"]=$sql->data["nb"];
+				$tabValeur[$sql->data["nom"]]["last"]=$sql->data["last"];
+				$tabValeur[$sql->data["nom"]]["latitude"]=$sql->data["latitude"];
+				$tabValeur[$sql->data["nom"]]["longitude"]=$sql->data["longitude"];
+			}
+		}
+
+		return $tabValeur;
+	}
+
+	function OrigineTerrains()
+	{
+		$sql=$this->sql;
+
+		$query = "SELECT field_from AS nom,COUNT(*) AS nb, wp.description,wp.lat AS latitude,wp.lon AS longitude FROM ".$this->tbl."_flight AS flight ";
+		$query.= "LEFT JOIN ".$this->tbl."_navpoints AS wp ON flight.field_from=wp.nom ";
+		$query.= "WHERE uid='".$this->id."' AND flight.field_from<>'' GROUP BY flight.field_from ORDER BY nb DESC LIMIT 0,1";
+		$res=$sql->QueryRow($query);
+
+		$tabValeur=array();
+		$tabValeur["nom"]=$res["nom"];
+		$tabValeur["latitude"]=$res["latitude"];
+		$tabValeur["longitude"]=$res["longitude"];
+
+		return $tabValeur;
+	}
 }
 
 ?>

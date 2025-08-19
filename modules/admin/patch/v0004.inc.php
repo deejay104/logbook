@@ -1,4 +1,4 @@
-<?
+<?php
 	$q="SELECT uid,callsign FROM ".$MyOpt["tbl"]."_flight GROUP BY uid,callsign";
 	$sql->Query($q);
 

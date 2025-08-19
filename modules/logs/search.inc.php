@@ -176,7 +176,8 @@ if ($theme!="phone") {
 
 	$query = "SELECT * FROM ".$MyOpt["tbl"]."_flight WHERE uid=$id ";
 	$query.=$s;
-	$query.="ORDER BY $order ".((($trie=="i") || ($trie=="")) ? "DESC" : "").", id DESC LIMIT $ts,$tl";
+	$query.="ORDER BY $order ".((($trie=="i") || ($trie=="")) ? "DESC" : "").", id DESC ";
+	//LIMIT $ts,$tl";
 
 	$sql->Query($query);
 
@@ -196,7 +197,7 @@ if ($theme!="phone") {
 		$tabValeur[$i]["type"]["aff"]=$sql->data["type"];
 		$tabValeur[$i]["type"]["align"]="center";
 		$tabValeur[$i]["comment"]["val"]=$sql->data["comment"];
-		$tabValeur[$i]["comment"]["aff"]="<div style='width:245px;'>".$sql->data["comment"]."</div>";
+		$tabValeur[$i]["comment"]["aff"]="<div style='width:245px;'>".(($sql->data["field_from"]!="") ? $sql->data["field_from"] : "").((($sql->data["field_from"]!="") && ($sql->data["field_to"]!="")) ? "-" : "" ).(($sql->data["field_to"]!="") ? $sql->data["field_to"] :"").((($sql->data["field_from"]!="") || ($sql->data["field_to"]!="")) ? " " : "" ).$sql->data["comment"]."</div>";
 		$tabValeur[$i]["line1"]["val"]="<line>";
 		$tabValeur[$i]["time_dc_day"]["val"]=$sql->data["time_dc_day"];
 		$tabValeur[$i]["time_dc_day"]["aff"]=($sql->data["time_dc_day"]>0) ? AffTemps($sql->data["time_dc_day"],"no") : "&nbsp;";
@@ -230,7 +231,10 @@ if ($theme!="phone") {
 
 
 	if ($order=="") { $order="date"; }
-	$tmpl_x->assign("aff_tableau",AfficheTableauFiltre($tabValeur,$tabTitre,$order,$trie,$url="id=$id",$ts,$tl,$totligne,true));
+//	$tmpl_x->assign("aff_tableau",AfficheTableauFiltre($tabValeur,$tabTitre,$order,$trie,$url="id=$id",$ts,$tl,$totligne,true));
+
+	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie,"",0,30));
+
 
 	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 

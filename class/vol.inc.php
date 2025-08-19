@@ -37,8 +37,11 @@ class flight_class extends objet_core
 		"uid" => Array("type" => "number", "index"=>"1"),
 		"dte_flight" => Array("type" => "date", "default" => "now"),
 		"callsign" => Array("type" => "varchar","len"=>8, "index"=>"1"),
-		"type" => Array("type" => "varchar","len"=>4),
+		"type" => Array("type" => "varchar","len"=>4,"Default"=>"P"),
+		"field_from" => Array("type" => "varchar","len"=>4, "index"=>"1"),
+		"field_to" => Array("type" => "varchar","len"=>4, "index"=>"1"),
 		"comment" => Array("type" => "varchar","len"=>50),
+		"description" => Array("type" => "varchar","len"=>50),
 		"member_day" => Array("type" => "number","placeholder"=>1),
 		"member_night" => Array("type" => "number","placeholder"=>1),
 		"time_dc_day" => Array("type" => "duration","placeholder"=>1),
@@ -60,7 +63,7 @@ class flight_class extends objet_core
 	);
 
 	protected $tabList=array(
-		"type"=>array('P'=>'Pilote','EP'=>'ElËve'),
+		"type"=>array('P'=>'Pilote','EP'=>'El√®ve'),
 	);
 	
 	# Constructor
