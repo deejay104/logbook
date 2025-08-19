@@ -65,14 +65,11 @@
     $tmpl_x->assign("tab_liste",AfficheTableau($tabValeur,$tabTitre,$order,$trie));
 
     $origine=$usr->OrigineTerrains();
-print_r($origine);
 
 	$tmpl_x->assign("tileLayer_url",'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png');
 	$tmpl_x->assign("map_lat",$origine["latitude"]);
 	$tmpl_x->assign("map_lon",$origine["longitude"]);
-	
 
-print_r($origine);
 
 // ---- Affecte les variables d'affichage
 	$tmpl_x->parse("icone");
