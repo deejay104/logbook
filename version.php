@@ -1,6 +1,6 @@
 <?
 
-$myrev = 21;
+$myrev = 22;
 $version = "1.0 build ".$myrev;
 
 ?>

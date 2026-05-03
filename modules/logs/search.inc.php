@@ -193,6 +193,7 @@ if ($theme!="phone") {
 		$tabValeur[$i]["dte_flight"]["aff"]=date("d/m/Y",strtotime($sql->data["dte_flight"]));
 		$tabValeur[$i]["callsign"]["val"]=$sql->data["callsign"];
 		$tabValeur[$i]["callsign"]["aff"]=strtoupper($sql->data["callsign"]);
+		$tabValeur[$i]["callsign"]["align"]="center";
 		$tabValeur[$i]["type"]["val"]=$sql->data["type"];
 		$tabValeur[$i]["type"]["aff"]=$sql->data["type"];
 		$tabValeur[$i]["type"]["align"]="center";
@@ -225,15 +226,19 @@ if ($theme!="phone") {
 		$tabValeur[$i]["nb_amerr"]["aff"]=$sql->data["nb_amerr"];
 		$tabValeur[$i]["nb_amerr"]["align"]="center";
 		$tabValeur[$i]["delete"]["val"]="x";
-		$tabValeur[$i]["delete"]["aff"]="<a class='imgDelete' href='/logs/edit?lid=".$sql->data["id"]."'><i class='mdi mdi-pencil'></i></a>";
-		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/search?fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."' class='imgDelete'><i class='mdi mdi-delete'></i></a>";
+		$tabValeur[$i]["delete"]["align"]="action";
+		$tabValeur[$i]["delete"]["aff"]='<span class="feed-actions">';
+		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/edit?lid=".$sql->data["id"]."'><i class='mdi mdi-pencil'></i></a>";
+		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/search?fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."'><i class='mdi mdi-delete'></i></a>";
+		$tabValeur[$i]["delete"]["aff"].='</span>';
+
 	}
 
 
 	if ($order=="") { $order="date"; }
 //	$tmpl_x->assign("aff_tableau",AfficheTableauFiltre($tabValeur,$tabTitre,$order,$trie,$url="id=$id",$ts,$tl,$totligne,true));
-
-	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie,"",0,30));
+// 						 		 AfficheTableau($tabValeur,$tabTitre=array(),$order="",$trie="",$url="",$start=0,$limit=-1,$nbline=0,$showicon="")
+	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie,"",0,30,0,"yes"));
 
 
 	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);

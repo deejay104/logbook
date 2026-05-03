@@ -20,12 +20,10 @@
 
 
 <div class="row">
-	<div class="grid-margin flex-grow">
+	<div class="col grid-margin flex-grow">
 		<div class="card">
+			<div class="card-header">Nouveau vol</div>
 			<div class="card-body">
-
-					<p class="validateTips">Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM</p>
-
 						<div class="form-group row">
 							<label class="col-lg-2  col-form-label">Date</label>
 							<div class="col-lg-7">{form_dte_flight}</div>
@@ -51,9 +49,6 @@
 							<div class="col-lg-7">{form_comment}</div>
 						</div>
 			</div>
-		</div>
-
-		<div class="card">
 			<div class="card-body">
 						<div class="form-group row">
 							<label class="col-lg-2  col-form-label">Equipage Jour</label>
@@ -64,64 +59,66 @@
 							<div class="col-lg-7">{form_member_night}</div>
 						</div>
 			</div>
-		</div>
-		<div class="card">
+			<div class="card-header">Pilote Monomoteurs</div>
 			<div class="card-body">
-						<b>Pilote Monomoteurs</b>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">DC Jour</label>
-							<div class="col-lg-7">{form_time_dc_day}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">CDB Jour</label>
-							<div class="col-lg-7">{form_time_cdb_day}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">DC Nuit</label>
-							<div class="col-lg-7">{form_time_dc_night}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">CDB Nuit</label>
-							<div class="col-lg-7">{form_time_cdb_night}</div>
-						</div>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-						<b>Pilote Multimoteurs</b>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">DC Jour</label>
-							<div class="col-lg-7">{form_multi_dc_day}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">CDB Jour</label>
-							<div class="col-lg-7">{form_multi_cdb_day}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">DC Nuit</label>
-							<div class="col-lg-7">{form_multi_dc_night}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">CDB Nuit</label>
-							<div class="col-lg-7">{form_multi_cdb_night}</div>
-						</div>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-body">
-						<b>Vols aux instruments</b>
-						<div class="form-group row">  
-							<label class="col-lg-2  col-form-label">Double</label>
-							<div class="col-lg-7">{form_instru_double}</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-2  col-form-label">Pilote</label>
-							<div class="col-lg-7">{form_instru_pilote}</div>
-						</div>
 
+				<div class="info-potentiel">
+					<div>
+					<span class="potentiel">
+						<i class="mdi mdi-information-outline"></i>
+						Les temps peuvent être écrit sous la forme HH:MM, HHhMM ou MM. 
+					</span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">DC Jour</label>
+					<div class="col-lg-7">{form_time_dc_day}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">CDB Jour</label>
+					<div class="col-lg-7">{form_time_cdb_day}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">DC Nuit</label>
+					<div class="col-lg-7">{form_time_dc_night}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">CDB Nuit</label>
+					<div class="col-lg-7">{form_time_cdb_night}</div>
+				</div>
 			</div>
-		</div>
-		<div class="card">
+			<div class="card-header">Pilote Multimoteurs</div>
+			<div class="card-body">
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">DC Jour</label>
+					<div class="col-lg-7">{form_multi_dc_day}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">CDB Jour</label>
+					<div class="col-lg-7">{form_multi_cdb_day}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">DC Nuit</label>
+					<div class="col-lg-7">{form_multi_dc_night}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">CDB Nuit</label>
+					<div class="col-lg-7">{form_multi_cdb_night}</div>
+				</div>
+			</div>
+			<div class="card-header">Vols aux instruments</div>
+			<div class="card-body">
+				<div class="form-group row">  
+					<label class="col-lg-2  col-form-label">Double</label>
+					<div class="col-lg-7">{form_instru_double}</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-2  col-form-label">Pilote</label>
+					<div class="col-lg-7">{form_instru_pilote}</div>
+				</div>
+			</div>
+			<div class="card-header">Autres</div>
 			<div class="card-body">
 						<div class="form-group row">
 							<label class="col-lg-2  col-form-label">Simulateur</label>
@@ -140,10 +137,7 @@
 							<div class="col-lg-7">{form_nb_amerr}</div>
 						</div>
 			</div>
-		</div>
-
-		<div class="card">
-			<div class="card-body">
+			<div class="card-footer">
 					<!-- Allow form submission with keyboard without duplicating the dialog button -->
 					<input type="submit" name="fonc" value="Enregistrer" class="btn btn-primary">
 					<input type="submit" name="fonc" value="Annuler" class="btn btn-light">

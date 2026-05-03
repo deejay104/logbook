@@ -10,23 +10,27 @@
 <!-- BEGIN: corps -->
 
 <div class="row">
-	<div class="grid-margin stretch-card">
+	<div class="col grid-margin stretch-card">
 		<div class="card">	
+			<div class="card-header">	
+
+				Date de début (incluse) : <input id="dte_deb" name="dte_deb" value="{dte_deb}" type="date" class="form-control ui-datepicker" OnChange="document.location='/rapports/mois?dte_deb='+document.getElementById('dte_deb').value+'&dte_fin='+document.getElementById('dte_fin').value;"> 
+				Date d'arrêté (incluse) : <input id="dte_fin" name="dte_fin" value="{dte_fin}" type="date" class="form-control ui-datepicker" OnChange="document.location='/rapports/mois?dte_deb='+document.getElementById('dte_deb').value+'&dte_fin='+document.getElementById('dte_fin').value;"><br />
+			</div>
+
 			<div class="card-body">	
-
-				Date de début (incluse) : <input id="dte_deb" name="dte_deb" value="{dte_deb}" type="date" OnChange="document.location='/rapports/mois?dte_deb='+document.getElementById('dte_deb').value+'&dte_fin='+document.getElementById('dte_fin').value;"> 
-				Date d'arrêté (incluse) : <input id="dte_fin" name="dte_fin" value="{dte_fin}" type="date" OnChange="document.location='/rapports/mois?dte_deb='+document.getElementById('dte_deb').value+'&dte_fin='+document.getElementById('dte_fin').value;"><br />
-
 				{aff_tableau}
 			</div>
 		</div>
 	</div>
 </div>
 <div class="row">
-	<div class="grid-margin stretch-card">
+	<div class="col grid-margin stretch-card">
 		<div class="card">	
+			<div class="card-header">	
+				Décompte des heures pour une prorogation
+			</div>
 			<div class="card-body">	
-				Décompte des heures pour une prorogation :<br /><br />
 				<div class="formulaire" style="max-width: 180mm">
 					Carnet de vol arrêté le {date_fin} au total général de {tot_heures} de vol dont {tot_12mois} depuis le {date_deb}, 
 					y compris {tot_cdb} en tant que commandant de bord avec {tot_att} décollages et {tot_att} atterrissages.
