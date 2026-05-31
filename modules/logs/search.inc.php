@@ -37,31 +37,6 @@
 
 // ---- Get my id	
 	$id=$myuser->id;
-
-// ---- Save Flight
-	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
-	{
-		$lid=checkVar("lid","numeric");
-		$fl=new flight_class($lid,$sql);
-		if (count($form_data)>0)
-		{
-			foreach($form_data as $k=>$v)
-		  	{
-		  		$msg_erreur.=$fl->Valid($k,$v);
-		  	}
-		}
-
-		$fl->Save();
-		if ($lid==0)
-		{
-			$lid=$fl->id;
-		}
-		$msg_confirmation.="Vos données ont été enregistrées.<BR>";
-		
-		$_SESSION['tab_checkpost'][$checktime]=$checktime;
-
-	}
-
 	
 // ---- Delete flight
 	if (($fonc=="delete") && (is_numeric($_REQUEST["lid"])))
@@ -228,7 +203,7 @@ if ($theme!="phone") {
 		$tabValeur[$i]["delete"]["val"]="x";
 		$tabValeur[$i]["delete"]["align"]="action";
 		$tabValeur[$i]["delete"]["aff"]='<span class="feed-actions">';
-		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/edit?lid=".$sql->data["id"]."'><i class='mdi mdi-pencil'></i></a>";
+		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/edit?lid=".$sql->data["id"]."&prev=search'><i class='mdi mdi-pencil'></i></a>";
 		$tabValeur[$i]["delete"]["aff"].="<a href='/logs/search?fonc=delete&lid=".$sql->data["id"]."&ts=".$ts."'><i class='mdi mdi-delete'></i></a>";
 		$tabValeur[$i]["delete"]["aff"].='</span>';
 
@@ -239,10 +214,6 @@ if ($theme!="phone") {
 //	$tmpl_x->assign("aff_tableau",AfficheTableauFiltre($tabValeur,$tabTitre,$order,$trie,$url="id=$id",$ts,$tl,$totligne,true));
 // 						 		 AfficheTableau($tabValeur,$tabTitre=array(),$order="",$trie="",$url="",$start=0,$limit=-1,$nbline=0,$showicon="")
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie,"",0,30,0,"yes"));
-
-
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
-
 	
 
 // ---- Affecte les variables d'affichage

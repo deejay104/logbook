@@ -188,10 +188,6 @@ $id=5;
 	if ((!isset($trie)) || ($trie=="")) { $trie="d"; }
 
 	$tmpl_x->assign("aff_tableau",AfficheTableau($tabValeur,$tabTitre,$order,$trie));
-
-
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
-
 	
 // ---- Affecte les variables d'affichage
 	$tmpl_x->parse("icone");

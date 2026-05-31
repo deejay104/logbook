@@ -23,23 +23,48 @@
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("edit.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 
 	require($appfolder."/class/vol.inc.php");
 
 // ---- Get my id	
 	$id=$gl_uid;
 
-// ---- Load data
+// ---- Affiche les variables
+	$prev=checkVar("prev","varchar");
 	$lid=checkVar("lid","numeric");
+
+// ---- Save data
+	if ($fonc=="Enregistrer")
+	{
+		$form_data=checkVar("form_data","array");
+		
+		$fl=new flight_class($lid,$sql);
+		if (count($form_data)>0)
+		{
+			foreach($form_data as $k=>$v)
+		  	{
+		  		$msg_erreur=$fl->Valid($k,$v);
+		  	}
+		}
+
+		$fl->Save();
+		if ($lid==0)
+		{
+			$lid=$fl->id;
+		}
+		affInformation("Vos données ont été enregistrées","ok");
+		header('Location: /logs/'.$prev, true, 303);
+		exit;
+	}
+
+// ---- Load data
 	$fl=new flight_class($lid,$sql);
 	$fl->Render("form","form");
 
-// ---- Affiche les variables
-	$prev=checkVar("prev","varchar");
-	$tmpl_x->assign("form_rub",$prev);
 
 // ---- Affecte les variables d'affichage
+	$tmpl_x->assign("form_prev",$prev);
+
 	$tmpl_x->parse("icone");
 	$icone=$tmpl_x->text("icone");
 	$tmpl_x->parse("infos");

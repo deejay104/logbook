@@ -23,7 +23,6 @@
 // ---- Load template
 	$tmpl_x = new XTemplate (MyRep("index.htm"));
 	$tmpl_x->assign("path_module","$module/$mod");
-	$tmpl_x->assign("form_checktime",$_SESSION['checkpost']);
 
 	require_once($appfolder."/class/user.inc.php");
 	require_once($appfolder."/class/vol.inc.php");
@@ -38,30 +37,7 @@
 
 // ---- Save Flight
 	$msg_erreur="";
-	if (($fonc=="Enregistrer") && (!isset($_SESSION['tab_checkpost'][$_REQUEST["checktime"]])))
-	{
-		$form_data=checkVar("form_data","array");
-		
-		$lid=checkVar("lid","numeric");
-		$fl=new flight_class($lid,$sql);
-		if (count($form_data)>0)
-		{
-			foreach($form_data as $k=>$v)
-		  	{
-		  		$msg_erreur=$fl->Valid($k,$v);
-		  	}
-		}
 
-		$fl->Save();
-		if ($lid==0)
-		{
-			$lid=$fl->id;
-		}
-		affInformation("Vos données ont été enregistrées","ok");
-
-		$_SESSION['tab_checkpost'][$checktime]=$checktime;
-
-	}
 
 	
 // ---- Show pages
